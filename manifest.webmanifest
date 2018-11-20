@@ -2,11 +2,17 @@
   "name": "Reminder PWA",
   "short_name": "Reminder PWA",
   "start_url": "/reminder-pwa/index.html",
+  "scope": "/reminder-pwa/",
   "display": "standalone",
   "background_color": "#fff",
   "theme_color": "#fff",
   "description": "A progressive web app to keep track of upcoming events",
   "icons": [
+    {
+      "src": "/reminder-pwa/img/logo-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
     {
       "src": "/reminder-pwa/img/logo-512.png",
       "type": "image/png",
