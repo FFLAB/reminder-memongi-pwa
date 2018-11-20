@@ -11,5 +11,11 @@
   <body>
     <h1>Reminder PWA</h1>
     <p>version 0.1</p>
+    <script>
+      if("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/reminder-pwa/sw.js")
+          .then(function() { console.log("Registered service worker"); });
+      }
+    </script>
   </body>
 </html>
