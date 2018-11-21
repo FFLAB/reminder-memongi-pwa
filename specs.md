@@ -1,22 +1,22 @@
 ## Reminder PWA
-#### To Do
-###### Create, load, save
+### To Do
+#### Create, load, save
 - [ ] Add basic html with reminders-box
 - [ ] Add factory with createReminderFactory()
 - [ ] Add factory createReminder() and prototype with getData()
 - [ ] Add loadLocalRemindersData
 - [ ] Add drawReminders(reminders, remindersBox)
 - [ ] Add saveLocalRemindersData(remindersData)
-###### Console log, add service worker logs
+#### Console log, add service worker logs
 - [ ] Capture console log
 - [ ] Create console output on footer
 - [ ] Add style sheet
-###### Scrolling
+#### Scrolling
 - [ ] Add basic layout
 - [ ] Add sroll events
 - [ ] Add scroll fcns and rewrite touch events using them
 - [ ] Add mouse events using scroll fcns
-###### Other
+#### Other
 - [ ] Add create reminder fcn and add fake reminders in an array
 - [ ] Add a data overlay pane to enter/change data
 - [ ] Add an add button to the header, bring up data pane with add/cancel buttons
@@ -37,4 +37,4 @@
 - [ ] Back up reminders in a text file in json
 - [ ] Add better icons
 - [ ] Figure out how to update on phone
-#### Done
+### Done
