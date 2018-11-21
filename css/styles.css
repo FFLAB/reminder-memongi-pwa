@@ -1,0 +1,35 @@
+html {
+  font-family: Tahoma, sans-serif;
+  font-size: 10px;
+}
+
+body {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+main {
+  height: 100vh;
+  background-color: #fc8;
+}
+
+header {
+  padding: 1em;
+  height: 15%;
+  background-color: #aac;
+}
+
+footer {
+  height: 25%;
+  background-color: #aac;
+}
+
+h1 {
+  margin: 0.1em;
+}
+
+#reminders-box {
+  height: 60%;
+  background-color: #eee;
+}
+

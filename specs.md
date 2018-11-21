@@ -1,11 +1,12 @@
 ## Reminder PWA
 ### To Do
 #### Create, load, save
-- [ ] Add basic html with reminders-box
-- [ ] Add factory with createReminderFactory()
-- [ ] Add factory createReminder() and prototype with getData()
+- [x] Add basic html with reminders-box
 - [ ] Add loadLocalRemindersData
+- [ ] Create reminders in a loop
 - [ ] Add drawReminders(reminders, remindersBox)
+- [ ] Add factory createReminder() and prototype with getData()
+- [ ] Add factory with createReminderFactory()
 - [ ] Add saveLocalRemindersData(remindersData)
 #### Console log, add service worker logs
 - [ ] Capture console log
