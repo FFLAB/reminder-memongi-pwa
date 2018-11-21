@@ -1,10 +1,14 @@
 const cacheName = "reminder-cache";
+const cacheFiles = [
+  "/reminder-pwa/index.html"
+];
 
 self.addEventListener("install", function(event) {
   event.waitUntil(
     caches.open(cacheName).then(function(cache) {
       console.log("add to cache");
-      return cache.add("/reminder-pwa/index.html");
+      //return cache.add("/reminder-pwa/index.html");
+      return cache.addAll(cacheFiles);
     })
   );
 });
