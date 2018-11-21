@@ -1,6 +1,6 @@
 registerServiceWorker() {
   if("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/reminder-pwa/sw.js")
+    navigator.serviceWorker.register("../sw.js")
       .then(function() { console.log("Registered service worker"); });
   }
 }
