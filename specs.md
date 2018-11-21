@@ -1,13 +1,26 @@
-## Reminder PWA To Do
-- [ ] Basic layout with divs and scrolling
-- [ ] Add console log output to a tall footer using spans
-- [ ] Add create reminder fcn and add fake reminders in an array
+## Reminder PWA
+#### To Do
+###### Create, load, save
+- [ ] Add basic html with reminders-box
+- [ ] Add factory with createReminderFactory()
+- [ ] Add factory createReminder() and prototype with getData()
+- [ ] Add loadLocalRemindersData
+- [ ] Add drawReminders(reminders, remindersBox)
+- [ ] Add saveLocalRemindersData(remindersData)
+###### Console log, add service worker logs
+- [ ] Capture console log
+- [ ] Create console output on footer
+- [ ] Add style sheet
+###### Scrolling
+- [ ] Add basic layout
+- [ ] Add sroll events
 - [ ] Add scroll fcns and rewrite touch events using them
 - [ ] Add mouse events using scroll fcns
+###### Other
+- [ ] Add create reminder fcn and add fake reminders in an array
 - [ ] Add a data overlay pane to enter/change data
 - [ ] Add an add button to the header, bring up data pane with add/cancel buttons
 - [ ] Make reminders immutable, add data id, create with data object
-- [ ] Add a reminder factory with prototype, add create reminder fcn with data object
 - [ ] Update reminders to be tree nodes
 - [ ] Add tree with insert, remove, increment, and find fcns
 - [ ] Add an update function (remove from tree, remove from parent, add to tree, add to parent)
@@ -24,3 +37,4 @@
 - [ ] Back up reminders in a text file in json
 - [ ] Add better icons
 - [ ] Figure out how to update on phone
+#### Done
