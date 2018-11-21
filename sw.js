@@ -2,11 +2,11 @@ const cacheName = "reminder-cache";
 const cacheFiles = [
   "/reminder-pwa/",
   "/reminder-pwa/manifest.webmanifest",
-  "/reminder-pwa/js/app.js"
-  "/reminder-pwa/js/reminder.js"
-  "/reminder-pwa/css/styles.css"
-  "/reminder-pwa/img/favicon.ico"
-  "/reminder-pwa/img/logo-512.png"
+  "/reminder-pwa/js/app.js",
+  "/reminder-pwa/js/reminder.js",
+  "/reminder-pwa/css/styles.css",
+  "/reminder-pwa/img/favicon.ico",
+  "/reminder-pwa/img/logo-512.png",
   "/reminder-pwa/img/logo-512.png"
 ];
 
