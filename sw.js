@@ -1,6 +1,8 @@
 const cacheName = "reminder-cache";
 const cacheFiles = [
-  "/reminder-pwa/index.html"
+  "/reminder-pwa/index.html",
+  "/reminder-pwa/manifest.webmanifest",
+  "/reminder-pwa/css/styles.css"
 ];
 
 self.addEventListener("install", function(event) {
