@@ -5,6 +5,7 @@
 - [ ] Add loadLocalRemindersData
 - [ ] Create reminders in a loop
 - [ ] Add drawReminders(reminders, remindersBox)
+- [ ] Add all files to cache
 - [ ] Add factory createReminder() and prototype with getData()
 - [ ] Add factory with createReminderFactory()
 - [ ] Add saveLocalRemindersData(remindersData)
