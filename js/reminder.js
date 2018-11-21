@@ -13,6 +13,5 @@ function createReminder(data) {
   reminder.date = data.date;
   reminder.note = data.note;
 
-  console.log("createReminder", reminder);
   return reminder;
 }

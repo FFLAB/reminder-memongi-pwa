@@ -10,7 +10,8 @@ self.addEventListener("install", function(event) {
 self.addEventListener("fetch", function(event) {
   event.respondWith(
     caches.match(event.request).then(function(response) {
-      console.log("get from cache: ", event.request.url);
+      let found = (response ? "found" : "MISSING");
+      console.log("cache-get " + found + ":", event.request.url);
       return response || fetch(event.request);
     })
   );
