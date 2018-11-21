@@ -7,9 +7,7 @@ function loadLocalRemindersData() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  console.log("dom loaded");
   let remindersData = loadLocalRemindersData();
-  console.log("remindersData", remindersData);
-  reminders = remindersData.map(function(data) { createReminder(data) });
+  reminders = remindersData.map(function(data) { return createReminder(data) });
   console.log("reminders", reminders);
 });

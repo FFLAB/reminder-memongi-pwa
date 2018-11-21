@@ -2,12 +2,12 @@
 ### To Do
 #### Create, load, save
 - [x] Add basic html with reminders-box
-- [ ] Add loadLocalRemindersData
-- [ ] Create reminders in a loop
+- [x] Add loadLocalRemindersData
+- [x] Create reminders in a loop
 - [ ] Add drawReminders(reminders, remindersBox)
 - [ ] Add all files to cache
-- [ ] Add factory createReminder() and prototype with getData()
 - [ ] Add factory with createReminderFactory()
+- [ ] Add factory createReminder() and prototype with getData()
 - [ ] Add saveLocalRemindersData(remindersData)
 #### Console log, add service worker logs
 - [ ] Capture console log

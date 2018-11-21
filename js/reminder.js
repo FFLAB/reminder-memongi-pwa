@@ -1,11 +1,10 @@
-console.log("reminder");
 function createReminderFactory() {
   console.log("createReminderFactory");
 }
 
 var reminderPrototype = Object.create(Object.prototype);
 reminderPrototype.doStuff = function() {
-  console.log("stuff")
+  console.log("stuff note=" + this.note)
 }
 
 function createReminder(data) {
