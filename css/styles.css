@@ -21,6 +21,7 @@ header {
 
 footer {
   height: 25%;
+  padding: 1em;
   background-color: #aac;
 }
 
@@ -33,3 +34,12 @@ h1 {
   background-color: #eee;
 }
 
+#console-box {
+  height: 10em;
+  padding: 0.5em 1em;
+  border: 1px solid #686868;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-family: monosspace;
+  overflow-y: scroll;
+}

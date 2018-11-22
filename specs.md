@@ -1,15 +1,7 @@
 ## Reminder PWA
 ### To Do
-- [x] Add basic html with reminders-box
-- [x] Add loadLocalRemindersData
-- [x] Create reminders in a loop
-- [x] Add style sheet
-
-- [ ] Capture console log
-- [ ] Create console output on footer
-- [ ] Add more files to cache
-
 - [ ] Add drawReminders(reminders, remindersBox)
+- [ ] Add enough reminders to scroll
 
 - [ ] Add sroll events
 - [ ] Add scroll fcns and rewrite touch events using them
@@ -40,4 +32,12 @@
 - [ ] Back up reminders in a text file in json
 - [ ] Add better icons
 - [ ] Figure out how to update on phone
+- [ ] Fix vertical height to not scroll
 ### Done
+- [x] Add basic html with reminders-box
+- [x] Add loadLocalRemindersData
+- [x] Create reminders in a loop
+- [x] Add style sheet
+- [x] Capture console log
+- [x] Create console output on footer
+- [x] Add more files to cache
