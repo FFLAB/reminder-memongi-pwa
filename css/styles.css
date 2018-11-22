@@ -34,6 +34,23 @@ h1 {
   background-color: #eee;
 }
 
+.reminder {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  align-items: center;
+  height: 8em;
+  background-color: #461;
+  border: 1px solid #888;
+  color: #eee;
+}
+
+.reminder .date {
+  color: #bbb;
+}
+
+.reminder .note {
+}
+
 #console-box {
   height: 10em;
   padding: 0.5em 1em;

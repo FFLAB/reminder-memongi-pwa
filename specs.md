@@ -1,8 +1,5 @@
 ## Reminder PWA
 ### To Do
-- [ ] Add drawReminders(reminders, remindersBox)
-- [ ] Add enough reminders to scroll
-
 - [ ] Add sroll events
 - [ ] Add scroll fcns and rewrite touch events using them
 - [ ] Add mouse events using scroll fcns
@@ -12,7 +9,6 @@
 - [ ] Add saveLocalRemindersData(remindersData)
 - [ ] Add all files to cache
 
-- [ ] Add create reminder fcn and add fake reminders in an array
 - [ ] Add a data overlay pane to enter/change data
 - [ ] Add an add button to the header, bring up data pane with add/cancel buttons
 - [ ] Make reminders immutable, add data id, create with data object
@@ -41,3 +37,5 @@
 - [x] Capture console log
 - [x] Create console output on footer
 - [x] Add more files to cache
+- [x] Add drawReminders(reminders, remindersBox)
+- [x] Add enough reminders to scroll
