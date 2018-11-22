@@ -9,7 +9,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(useDebug) {
-  const version = 0.22;
+  const version = 0.24;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -62,3 +62,36 @@ document.addEventListener("DOMContentLoaded", function() {
   drawReminders(reminders, remindersBox);
   console.log("reminders", reminders);
 });
+
+/*
+  events.ontouchstart = function(event) {
+    event.preventDefault();
+    var touch = event.touches[0];
+    lastY = touch.pageY;
+    isDown = true;
+  }
+
+  events.ontouchend = function(event) {
+    event.preventDefault();
+    isDown = false;
+  }
+
+  events.ontouchmove = function(event) {
+    event.preventDefault();
+    if(isDown) {
+      var touch = event.touches[0];
+      let diff = touch.pageY - lastY;
+      lastY = touch.pageY;
+      offsetY += diff;
+
+      const offsetMin = eventsBox.clientHeight - events.clientHeight;
+      if((offsetMin > 0) || (offsetY > 0)) {
+        offsetY = 0;
+      } else if (offsetY < offsetMin) {
+        offsetY = offsetMin;
+      }
+      events.style.top = offsetY + "px";
+    }
+  }
+});
+ */

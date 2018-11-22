@@ -4,8 +4,8 @@
   "start_url": "/reminder-pwa/index.html",
   "scope": "/reminder-pwa/",
   "display": "standalone",
-  "background_color": "#fff",
-  "theme_color": "#fff",
+  "background_color": "#f080c0",
+  "theme_color": "#a0a0c0",
   "description": "A progressive web app to keep track of upcoming events",
   "icons": [
     {
