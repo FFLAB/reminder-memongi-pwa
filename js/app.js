@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(useDebug) {
-  const version = 0.25;
+  const version = 0.26;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -35,6 +35,9 @@ function loadLocalRemindersData() {
   data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
   data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
   data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
+  data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
+  data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
+  data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
   return data;
 }
 
@@ -46,21 +49,23 @@ function addScrollEvents(box, all) {
   function enableScroll(enabled, y = 0) {
     scrollEnabled = enabled;
     scrollY = y;
-    console.log(scrollEnabled ? "START" : "END");
   }
 
   function moveScroll(y) {
-    const yDiff = y - scrollY;
+    yOffset += (y - scrollY);
     scrollY = y;
-    yOffset += yDiff;
+    const yOffsetMin = box.clientHeight - box.scrollHeight;
+    if((yOffsetMin > 0) || (yOffset > 0)) {
+      yOffset = 0;
+    } else if (yOffset < yOffsetMin) {
+      yOffset = yOffsetMin;
+    }
     all.style.top = yOffset + "px";
-    console.log(" [" + yDiff + "] " +  yOffset +  "  sh" + box.scrollHeight + " ch" + box.clientHeight);
   }
 
   all.ontouchstart = function(event) {
     event.preventDefault();
-    const y = event.touches[0] && event.touches[0].pageY;
-    enableScroll(true, y);
+    enableScroll(true, event.touches[0] && event.touches[0].pageY);
   };
 
   all.ontouchend = function(event) {
@@ -70,8 +75,7 @@ function addScrollEvents(box, all) {
 
   all.ontouchmove = function(event) {
     event.preventDefault();
-    const y = event.touches[0] && event.touches[0].pageY;
-    moveScroll(y);
+    moveScroll(event.touches[0] && event.touches[0].pageY);
   };
 }
 
