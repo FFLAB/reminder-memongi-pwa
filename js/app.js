@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(useDebug) {
-  const version = 0.27;
+  const version = 0.28;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -25,6 +25,26 @@ function addDebug(useDebug) {
     footer.appendChild(consoleBox);
     captureConsoleLog(consoleBox);
   }
+}
+
+
+function addVerticalHeightEvents(body) {
+  //function setVerticalHeight() {
+    //document.body.height = Math.max(window.innerHeight, document.documentElement.clientHeight);
+    //document.body.height = document.documentElement.clientHeight;
+  //}
+
+  window.onresize = function() {
+    console.log("resize  wih" + window.innerHeight + " dch" +  document.documentElement.clientHeight);
+    document.body.height = document.documentElement.clientHeight;
+    //setVerticalHeight();
+  };
+
+  window.onorientationchange = function() {
+    console.log("orien  wih" + window.innerHeight + " dch" +  document.documentElement.clientHeight);
+    document.body.height = document.documentElement.clientHeight;
+    //setVerticalHeight();
+  };
 }
 
 function loadLocalRemindersData() {
@@ -122,17 +142,13 @@ function drawReminders(reminders, all) {
 
 document.addEventListener("DOMContentLoaded", function() {
   addDebug(true);
+  addVerticalHeightEvents();
 
-  const remindersData = loadLocalRemindersData();
-  reminders = remindersData.map(function(data) { return createReminder(data) });
   const remindersBox = document.getElementById("reminders-box");
   const allReminders= document.getElementById("all-reminders");
   addScrollEvents(remindersBox, allReminders);
+
+  const remindersData = loadLocalRemindersData();
+  reminders = remindersData.map(function(data) { return createReminder(data) });
   drawReminders(reminders, allReminders);
 });
-
-/*
-  let vh = Math.max(window.innerHeight, document.documentElement.clientHeight);
-  document.body.height = vh;
-  console.log("setvh=", vh);
- */
