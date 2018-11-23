@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(useDebug) {
-  const version = 0.30;
+  const version = 0.31;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -35,7 +35,8 @@ function addVerticalHeightEvents(body) {
   //main.style.height = document.documentElement.clientHeight + "px";
 
   function setVerticalHeight() {
-    let vh = window.innerHeight * 0.01;
+    const navBar = 56;
+    let vh = (window.innerHeight - 56) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
     console.log("resize  wih" + window.innerHeight.toFixed() + " dch" +  document.documentElement.clientHeight.toFixed() + " 100vh" + (100 * vh).toFixed());
   }
