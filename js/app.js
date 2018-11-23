@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(useDebug) {
-  const version = 0.26;
+  const version = 0.27;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -52,20 +52,27 @@ function addScrollEvents(box, all) {
   }
 
   function moveScroll(y) {
-    yOffset += (y - scrollY);
-    scrollY = y;
-    const yOffsetMin = box.clientHeight - box.scrollHeight;
-    if((yOffsetMin > 0) || (yOffset > 0)) {
-      yOffset = 0;
-    } else if (yOffset < yOffsetMin) {
-      yOffset = yOffsetMin;
+    if(scrollEnabled) {
+      yOffset += (y - scrollY);
+      scrollY = y;
+      const yOffsetMin = box.clientHeight - box.scrollHeight;
+      if((yOffsetMin > 0) || (yOffset > 0)) {
+        yOffset = 0;
+      } else if (yOffset < yOffsetMin) {
+        yOffset = yOffsetMin;
+      }
+      all.style.top = yOffset + "px";
     }
-    all.style.top = yOffset + "px";
   }
 
   all.ontouchstart = function(event) {
     event.preventDefault();
-    enableScroll(true, event.touches[0] && event.touches[0].pageY);
+    enableScroll(true, event.touches[0] && event.touches[0].clientY);
+  };
+
+  all.ontouchmove = function(event) {
+    event.preventDefault();
+    moveScroll(event.touches[0] && event.touches[0].clientY);
   };
 
   all.ontouchend = function(event) {
@@ -73,9 +80,24 @@ function addScrollEvents(box, all) {
     enableScroll(false);
   };
 
-  all.ontouchmove = function(event) {
+  all.onmousedown = function(event) {
     event.preventDefault();
-    moveScroll(event.touches[0] && event.touches[0].pageY);
+    enableScroll(true, event.clientY);
+  };
+
+  all.onmouseup = function(event) {
+    event.preventDefault();
+    enableScroll(false);
+  };
+
+  all.onmouseleave = function(event) {
+    event.preventDefault();
+    enableScroll(false);
+  };
+
+  all.onmousemove = function(event) {
+    event.preventDefault();
+    moveScroll(event.clientY);
   };
 }
 
@@ -113,36 +135,4 @@ document.addEventListener("DOMContentLoaded", function() {
   let vh = Math.max(window.innerHeight, document.documentElement.clientHeight);
   document.body.height = vh;
   console.log("setvh=", vh);
-
-
-  events.ontouchstart = function(event) {
-    event.preventDefault();
-    var touch = event.touches[0];
-    lastY = touch.pageY;
-    isDown = true;
-  }
-
-  events.ontouchend = function(event) {
-    event.preventDefault();
-    isDown = false;
-  }
-
-  events.ontouchmove = function(event) {
-    event.preventDefault();
-    if(isDown) {
-      var touch = event.touches[0];
-      let diff = touch.pageY - lastY;
-      lastY = touch.pageY;
-      offsetY += diff;
-
-      const offsetMin = eventsBox.clientHeight - events.clientHeight;
-      if((offsetMin > 0) || (offsetY > 0)) {
-        offsetY = 0;
-      } else if (offsetY < offsetMin) {
-        offsetY = offsetMin;
-      }
-      events.style.top = offsetY + "px";
-    }
-  }
-});
  */

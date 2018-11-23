@@ -1,15 +1,14 @@
 ## Reminder PWA
 ### To Do
-- [ ] Add sroll events
-- [ ] Add scroll fcns and rewrite touch events using them
-- [ ] Add mouse events using scroll fcns
-
+- [ ] Fix vertical height to not scroll
+- [ ] Add a data overlay pane to enter/change data
+- [ ] Add saveLocalRemindersData(remindersData)
+- [ ] Store reminders in local storage as json
+- [ ] Add update load to retrieve from local storage
+- [ ] Add a remove button to overlay pane
+- [ ] Connect long press to edit pane
 - [ ] Add factory with createReminderFactory()
 - [ ] Add factory createReminder() and prototype with getData()
-- [ ] Add saveLocalRemindersData(remindersData)
-- [ ] Add all files to cache
-
-- [ ] Add a data overlay pane to enter/change data
 - [ ] Add an add button to the header, bring up data pane with add/cancel buttons
 - [ ] Make reminders immutable, add data id, create with data object
 - [ ] Update reminders to be tree nodes
@@ -19,8 +18,6 @@
 - [ ] Add create reminder element function, add basic display properties (day, mo, date, time, message)
 - [ ] Add an add element fcn to iterate through the tree, compare data ids
 - [ ] Add an edit button to bring up data pane with update/remove/cancel buttons
-- [ ] Store reminders in local storage as json
-- [ ] Connect long press to edit pane
 - [ ] Connect double click to edit pane
 - [ ] Add time until reminder (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)
 - [ ] Fix layout for landscape and portrait using header and footer
@@ -28,7 +25,6 @@
 - [ ] Back up reminders in a text file in json
 - [ ] Add better icons
 - [ ] Figure out how to update on phone
-- [ ] Fix vertical height to not scroll
 ### Done
 - [x] Add basic html with reminders-box
 - [x] Add loadLocalRemindersData
@@ -37,5 +33,9 @@
 - [x] Capture console log
 - [x] Create console output on footer
 - [x] Add more files to cache
+- [x] Add all files to cache
 - [x] Add drawReminders(reminders, remindersBox)
 - [x] Add enough reminders to scroll
+- [x] Add scroll events
+- [x] Add scroll fcns and rewrite touch events using them
+- [x] Add mouse events using scroll fcns
