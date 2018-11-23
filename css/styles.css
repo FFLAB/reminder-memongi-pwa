@@ -1,3 +1,7 @@
+:root {
+  --vh: vh;
+}
+
 html {
   font-family: Tahoma, sans-serif;
   font-size: 10px;
@@ -9,7 +13,7 @@ body {
 }
 
 main {
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   background-color: #fc8;
 }
 
@@ -57,7 +61,7 @@ h1 {
 }
 
 #console-box {
-  height: 10em;
+  height: calc(100% - 2em - 2px);
   padding: 0.5em 1em;
   border: 1px solid #686868;
   border-radius: 4px;

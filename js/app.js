@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(useDebug) {
-  const version = 0.28;
+  const version = 0.30;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -29,22 +29,22 @@ function addDebug(useDebug) {
 
 
 function addVerticalHeightEvents(body) {
-  //function setVerticalHeight() {
-    //document.body.height = Math.max(window.innerHeight, document.documentElement.clientHeight);
-    //document.body.height = document.documentElement.clientHeight;
-  //}
+  //let main = document.querySelector("main");
+  //document.body.height = Math.max(window.innerHeight, document.documentElement.clientHeight);
+  //document.body.height = document.documentElement.clientHeight;
+  //main.style.height = document.documentElement.clientHeight + "px";
+
+  function setVerticalHeight() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    console.log("resize  wih" + window.innerHeight.toFixed() + " dch" +  document.documentElement.clientHeight.toFixed() + " 100vh" + (100 * vh).toFixed());
+  }
 
   window.onresize = function() {
-    console.log("resize  wih" + window.innerHeight + " dch" +  document.documentElement.clientHeight);
-    document.body.height = document.documentElement.clientHeight;
-    //setVerticalHeight();
+    setVerticalHeight();
   };
 
-  window.onorientationchange = function() {
-    console.log("orien  wih" + window.innerHeight + " dch" +  document.documentElement.clientHeight);
-    document.body.height = document.documentElement.clientHeight;
-    //setVerticalHeight();
-  };
+  setVerticalHeight();
 }
 
 function loadLocalRemindersData() {
