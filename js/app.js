@@ -1,15 +1,19 @@
 function captureConsoleLog(captureElem) {
   let oldConsoleLog = console.log;
 
-  console.log = function(message) {
-    captureElem.innerHTML += "<div>" + message + "</div>";
+  console.log = function() {
+    message = document.createElement("div");
+    for(let i = 0; i < arguments.length; i++) {
+      message.innerHTML += arguments[i];
+    }
+    captureElem.appendChild(message);
     captureElem.scrollTop = captureElem.scrollHeight;
     oldConsoleLog.apply(console, arguments);
   };
 }
 
 function addDebug(useDebug) {
-  const version = 0.24;
+  const version = 0.25;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -34,7 +38,44 @@ function loadLocalRemindersData() {
   return data;
 }
 
-function drawReminders(reminders, box) {
+function addScrollEvents(box, all) {
+  let scrollEnabled = false;
+  let scrollY = 0;
+  let yOffset = 0;
+
+  function enableScroll(enabled, y = 0) {
+    scrollEnabled = enabled;
+    scrollY = y;
+    console.log(scrollEnabled ? "START" : "END");
+  }
+
+  function moveScroll(y) {
+    const yDiff = y - scrollY;
+    scrollY = y;
+    yOffset += yDiff;
+    all.style.top = yOffset + "px";
+    console.log(" [" + yDiff + "] " +  yOffset +  "  sh" + box.scrollHeight + " ch" + box.clientHeight);
+  }
+
+  all.ontouchstart = function(event) {
+    event.preventDefault();
+    const y = event.touches[0] && event.touches[0].pageY;
+    enableScroll(true, y);
+  };
+
+  all.ontouchend = function(event) {
+    event.preventDefault();
+    enableScroll(false);
+  };
+
+  all.ontouchmove = function(event) {
+    event.preventDefault();
+    const y = event.touches[0] && event.touches[0].pageY;
+    moveScroll(y);
+  };
+}
+
+function drawReminders(reminders, all) {
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
 
   reminders.forEach(function(reminder) {
@@ -47,7 +88,7 @@ function drawReminders(reminders, box) {
     noteElem.setAttribute("class", "note");
     noteElem.innerHTML = reminder.note;
 
-    box.appendChild(reminderElem);
+    all.appendChild(reminderElem);
     reminderElem.appendChild(dateElem);
     reminderElem.appendChild(noteElem);
   });
@@ -59,11 +100,17 @@ document.addEventListener("DOMContentLoaded", function() {
   const remindersData = loadLocalRemindersData();
   reminders = remindersData.map(function(data) { return createReminder(data) });
   const remindersBox = document.getElementById("reminders-box");
-  drawReminders(reminders, remindersBox);
-  console.log("reminders", reminders);
+  const allReminders= document.getElementById("all-reminders");
+  addScrollEvents(remindersBox, allReminders);
+  drawReminders(reminders, allReminders);
 });
 
 /*
+  let vh = Math.max(window.innerHeight, document.documentElement.clientHeight);
+  document.body.height = vh;
+  console.log("setvh=", vh);
+
+
   events.ontouchstart = function(event) {
     event.preventDefault();
     var touch = event.touches[0];

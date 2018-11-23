@@ -35,6 +35,10 @@ h1 {
   overflow: hidden;
 }
 
+#all-reminders {
+  position: relative;
+}
+
 .reminder {
   display: grid;
   grid-template-columns: 2fr 3fr;
