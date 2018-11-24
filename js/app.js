@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.35;
+  const version = 0.36;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);

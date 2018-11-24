@@ -5,13 +5,14 @@
 html {
   font-family: Tahoma, sans-serif;
   font-size: 10px;
+  background-color: #f00;
 }
 
 body {
   margin: 0;
   font-size: 1.4rem;
-  background-color: #585858;
   color: #e8e8e8;
+  background-color: #0f0;
 }
 
 main {
@@ -23,6 +24,7 @@ header {
   box-sizing: border-box;
   height: 4em;
   padding: 0.5em;
+  background-color: #585858;
 }
 
 header h1 {
@@ -75,11 +77,13 @@ footer {
   box-sizing: border-box;
   height: 2em;
   padding: 0.5em;
+  background-color: #585858;
 }
 
 #version {
   float: right;
-  color: #808080;
+  /*color: #808080;*/
+  color: #ff0;
 }
 
 #console-box {
@@ -93,11 +97,6 @@ footer {
   color: #303030;
   font-family: monosspace;
   overflow-y: scroll;
-}
-
-#gutter {
-  height: 56px;
-  background-color: #f08;
 }
 
 #data-box {
