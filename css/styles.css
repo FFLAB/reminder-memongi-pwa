@@ -10,31 +10,29 @@ html {
 body {
   margin: 0;
   font-size: 1.4rem;
+  background-color: #585858;
+  color: #e8e8e8;
 }
 
 main {
   height: calc(var(--vh, 1vh) * 100);
-  background-color: #fc8;
 }
 
 header {
   padding: 1em;
-  height: 15%;
-  background-color: #a0a0c0;
+  height: 10%;
 }
 
-footer {
-  height: 25%;
-  padding: 1em;
-  background-color: #a0a0c0;
-}
-
-h1 {
+header h1,p {
   margin: 0.1em;
 }
 
+footer {
+  height: 10%;
+}
+
 #reminders-box {
-  height: 60%;
+  height: 80%;
   background-color: #eee;
   overflow: hidden;
 }
@@ -48,24 +46,28 @@ h1 {
   grid-template-columns: 2fr 3fr;
   align-items: center;
   height: 8em;
-  background-color: #461;
-  border: 1px solid #888;
-  color: #eee;
+  padding: 0.5em;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #686868;
 }
 
 .reminder .date {
-  color: #bbb;
+  color: #202020;
 }
 
 .reminder .note {
+  color: #585858;
 }
 
 #console-box {
-  height: calc(100% - 2em - 2px);
+  box-sizing: border-box;
+  height: calc(100% - 1em);
   padding: 0.5em 1em;
   border: 1px solid #686868;
   border-radius: 4px;
-  background-color: #f8f8f8;
+  margin: 0.5em;
+  background-color: #e8e8e8;
+  color: #303030;
   font-family: monosspace;
   overflow-y: scroll;
 }

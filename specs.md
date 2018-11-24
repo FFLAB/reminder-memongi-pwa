@@ -1,6 +1,5 @@
 ## Reminder PWA
 ### To Do
-- [ ] Fix vertical height to not scroll
 - [ ] Add a data overlay pane to enter/change data
 - [ ] Add saveLocalRemindersData(remindersData)
 - [ ] Store reminders in local storage as json
@@ -39,3 +38,4 @@
 - [x] Add scroll events
 - [x] Add scroll fcns and rewrite touch events using them
 - [x] Add mouse events using scroll fcns
+- [x] Fix vertical height to not scroll

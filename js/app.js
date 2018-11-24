@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(useDebug) {
-  const version = 0.32;
+  const version = 0.34;
 
   if(useDebug) {
     const versionElem = document.getElementById("version");
@@ -28,13 +28,11 @@ function addDebug(useDebug) {
 }
 
 
-function addVerticalHeightEvents(body) {
+function fixVerticalHeight() {
   function setVerticalHeight() {
-    //const navBarHeight = 56;
-    const navBarHeight = 106;
+    const navBarHeight = 56;
     let vh = (window.innerHeight - navBarHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
-    console.log("resize  wih" + window.innerHeight.toFixed() + " dch" +  document.documentElement.clientHeight.toFixed() + " 100vh" + (100 * vh).toFixed());
   }
 
   window.onresize = function() {
@@ -139,7 +137,7 @@ function drawReminders(reminders, all) {
 
 document.addEventListener("DOMContentLoaded", function() {
   addDebug(true);
-  addVerticalHeightEvents();
+  fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
   const allReminders= document.getElementById("all-reminders");
