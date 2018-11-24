@@ -29,10 +29,11 @@ function addDebug(showConsole) {
 
 
 function fixVerticalHeight() {
-  const gutter = document.getElementById("gutter");
+  //const gutter = document.getElementById("gutter");
 
   function setVerticalHeight() {
-    let vh = (window.innerHeight - gutter.clientHeight) * 0.01;
+    let vh = window.innerHeight * 0.01;
+    //let vh = (window.innerHeight - gutter.clientHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
 
