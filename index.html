@@ -17,16 +17,21 @@
   <body>
     <main>
       <header>
-        <h1>Reminder PWA</h1>
-        <p id="version"></p>
+        <h1>Reminders</h1>
+        <input id="plus" type="button" value="+">
       </header>
       <div id="reminders-box">
         <div id="all-reminders">
         </div>
       </div>
       <footer>
+        <span id="version"></span>
       </footer>
+      <div id="data-box">
+      </div>
     </main>
+    <div id="gutter">
+    </div>
     <script>
       if("serviceWorker" in navigator) {
         navigator.serviceWorker.register("/reminder-pwa/sw.js")

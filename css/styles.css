@@ -15,26 +15,34 @@ body {
 }
 
 main {
-  height: calc(var(--vh, 1vh) * 100);
+  position: relative;
+  height: calc(var(--vh, 0.7vh) * 100);
 }
 
 header {
-  padding: 1em;
-  height: 10%;
+  box-sizing: border-box;
+  height: 4em;
+  padding: 0.5em;
 }
 
-header h1,p {
-  margin: 0.1em;
+header h1 {
+  display: inline-block;
+  margin: 0;
+  font-size: 2em;
 }
 
-footer {
-  height: 10%;
+header #plus {
+  float: right;
+  border: 1px solid #808080;
+  border-radius: 2px;
+  background-color: #e8e8e8;
+  font-size: 1.5em;
 }
 
 #reminders-box {
-  height: 80%;
-  background-color: #eee;
+  height: calc(100% - 6em);
   overflow: hidden;
+  color: #000000;
 }
 
 #all-reminders {
@@ -43,12 +51,16 @@ footer {
 
 .reminder {
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 1fr 2fr 3fr;
   align-items: center;
   height: 8em;
   padding: 0.5em;
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   border-bottom: 1px solid #686868;
+}
+
+.reminder .until {
+  color: #585858;
 }
 
 .reminder .date {
@@ -57,6 +69,17 @@ footer {
 
 .reminder .note {
   color: #585858;
+}
+
+footer {
+  box-sizing: border-box;
+  height: 2em;
+  padding: 0.5em;
+}
+
+#version {
+  float: right;
+  color: #808080;
 }
 
 #console-box {
@@ -70,4 +93,18 @@ footer {
   color: #303030;
   font-family: monosspace;
   overflow-y: scroll;
+}
+
+#gutter {
+  height: 56px;
+  background-color: #f08;
+}
+
+#data-box {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  width: 96%;
+  height: 96%;
+  background-color: rgba(128, 192, 255, 85%);
 }

@@ -12,13 +12,13 @@ function captureConsoleLog(captureElem) {
   };
 }
 
-function addDebug(useDebug) {
-  const version = 0.34;
+function addDebug(showConsole) {
+  const version = 0.35;
 
-  if(useDebug) {
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
 
+  if(showConsole) {
     const footer = document.querySelector("footer");
     var consoleBox = document.createElement("div");
     consoleBox.setAttribute("id", "console-box");
@@ -29,9 +29,10 @@ function addDebug(useDebug) {
 
 
 function fixVerticalHeight() {
+  const gutter = document.getElementById("gutter");
+
   function setVerticalHeight() {
-    const navBarHeight = 56;
-    let vh = (window.innerHeight - navBarHeight) * 0.01;
+    let vh = (window.innerHeight - gutter.clientHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
 
@@ -122,6 +123,9 @@ function drawReminders(reminders, all) {
   reminders.forEach(function(reminder) {
     var reminderElem = document.createElement("div");
     reminderElem.setAttribute("class", "reminder");
+    var untilElem = document.createElement("div");
+    untilElem.setAttribute("class", "until");
+    untilElem.innerHTML = "2 w\n3 d";
     var dateElem = document.createElement("div");
     dateElem.setAttribute("class", "date");
     dateElem.innerHTML = reminder.date.toLocaleString("en-us", options);
@@ -130,13 +134,14 @@ function drawReminders(reminders, all) {
     noteElem.innerHTML = reminder.note;
 
     all.appendChild(reminderElem);
+    reminderElem.appendChild(untilElem);
     reminderElem.appendChild(dateElem);
     reminderElem.appendChild(noteElem);
   });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(true);
+  addDebug(false);
   fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
