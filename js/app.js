@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.36;
+  const version = 0.39;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
@@ -29,11 +29,8 @@ function addDebug(showConsole) {
 
 
 function fixVerticalHeight() {
-  //const gutter = document.getElementById("gutter");
-
   function setVerticalHeight() {
     let vh = window.innerHeight * 0.01;
-    //let vh = (window.innerHeight - gutter.clientHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
 
@@ -46,12 +43,6 @@ function fixVerticalHeight() {
 
 function loadLocalRemindersData() {
   let data = [];
-  data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
-  data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
-  data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
-  data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
-  data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
-  data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
   data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
   data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
   data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
@@ -118,9 +109,14 @@ function addScrollEvents(box, all) {
   };
 }
 
+function clearReminders(all) {
+  all.innerHTML = "";
+}
+
 function drawReminders(reminders, all) {
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
 
+  clearReminders(all);
   reminders.forEach(function(reminder) {
     var reminderElem = document.createElement("div");
     reminderElem.setAttribute("class", "reminder");
@@ -141,6 +137,29 @@ function drawReminders(reminders, all) {
   });
 }
 
+function addDataEvents(reminders, all) {
+  let dataBox = document.getElementById("data-box");
+  let plusButton = document.getElementById("plus");
+  let addButton = document.getElementById("add");
+  let cancelButton = document.getElementById("cancel");
+
+  plusButton.onclick = function() {
+    dataBox.style.display = "block";
+  }
+
+  addButton.onclick = function() {
+    const day = 1 + Math.floor(Math.random() * 31)
+    data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
+    reminders.push(createReminder(data));
+    drawReminders(reminders, all);
+    dataBox.style.display = "none";
+  }
+
+  cancelButton.onclick = function() {
+    dataBox.style.display = "none";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
   addDebug(false);
   fixVerticalHeight();
@@ -152,4 +171,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const remindersData = loadLocalRemindersData();
   reminders = remindersData.map(function(data) { return createReminder(data) });
   drawReminders(reminders, allReminders);
+
+  addDataEvents(reminders, allReminders);
 });
