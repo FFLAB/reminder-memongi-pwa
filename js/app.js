@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.44;
+  const version = 0.45;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
@@ -132,11 +132,18 @@ function drawReminders(reminders, all) {
 
   function longPressStart(event) {
     event.preventDefault();
+    console.log("start");
     timer = setTimeout(editReminder.bind(this), longPressMs);
+  }
+
+  function longPressMove(event) {
+    event.preventDefault();
+    console.log(" move");
   }
 
   function longPressEnd(event) {
     event.preventDefault();
+    console.log("  end");
     if(timer) clearTimeout(timer);
   }
 
@@ -162,7 +169,7 @@ function drawReminders(reminders, all) {
     reminderElem.ondblclick = editReminder;
     reminderElem.ontouchstart = longPressStart;
     reminderElem.ontouchend = longPressEnd;
-    reminderElem.ontouchmove = longPressEnd;
+    reminderElem.ontouchmove = longPressMove;
   });
 }
 
@@ -206,17 +213,15 @@ function addReminderDataEvents(reminders, all) {
 }
 
 function addDataEvents(reminders) {
-  /*
   window.onbeforeunload = function(event) {
-    event.returnValue = "bye then";
+    //event.returnValue = "bye then";
     console.log("bye len=", reminders.length);
-    alert("bye, then! len=", reminders.length);
+    //alert("bye, then! len=", reminders.length);
   }
-  */
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(false);
+  addDebug(true);
   fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
