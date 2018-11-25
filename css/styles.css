@@ -1,5 +1,6 @@
 :root {
   --vh: vh;
+  --footer-height: 2em;
 }
 
 html {
@@ -49,7 +50,7 @@ header #plus {
 }
 
 #reminders-box {
-  height: calc(100% - 10em);
+  height: calc(100% - 4em - var(--footer-height));
   overflow: hidden;
   color: #000000;
 }
@@ -82,7 +83,7 @@ header #plus {
 
 footer {
   box-sizing: border-box;
-  height: 6em;
+  height: var(--footer-height);
   padding: 0.5em;
   background-color: #585858;
 }

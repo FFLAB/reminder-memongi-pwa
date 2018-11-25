@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.46;
+  const version = 0.47;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
@@ -116,17 +116,19 @@ function clearReminders(all) {
 function drawReminders(reminders, all) {
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
   const longPressMs = 750;
+  const longPressMoveMax = 10;
   let dataBox = document.getElementById("data-box");
   let addButton = document.getElementById("add");
-  let editButton = document.getElementById("edit");
+  let saveButton = document.getElementById("save");
   let removeButton = document.getElementById("remove");
   let startY = 0;
   let timer;
 
   function editReminder() {
-    console.log("data " + this.getAttribute("data_time"));
+    dataTime = parseInt(this.getAttribute("data_time"));
+    console.log("open " + (new Date(dataTime)).toDateString());
     addButton.style.display = "none";
-    editButton.style.display = "inline-block";
+    saveButton.style.display = "inline-block";
     removeButton.style.display = "inline-block";
     dataBox.style.display = "block";
   }
@@ -134,19 +136,19 @@ function drawReminders(reminders, all) {
   function longPressStart(event) {
     event.preventDefault();
     startY = event.touches[0] && event.touches[0].clientY;
-    console.log("start ", startY);
     timer = setTimeout(editReminder.bind(this), longPressMs);
   }
 
   function longPressMove(event) {
     event.preventDefault();
-    let diff = Math.abs((event.touches[0] && event.touches[0].clientY) - startY);
-    console.log(" move ", diff);
+    let move = Math.abs((event.touches[0] && event.touches[0].clientY) - startY);
+    if(move > longPressMoveMax) {
+      if(timer) clearTimeout(timer);
+    }
   }
 
   function longPressEnd(event) {
     event.preventDefault();
-    console.log("  end");
     if(timer) clearTimeout(timer);
   }
 
@@ -180,13 +182,13 @@ function addReminderDataEvents(reminders, all) {
   let dataBox = document.getElementById("data-box");
   let plusButton = document.getElementById("plus");
   let addButton = document.getElementById("add");
-  let editButton = document.getElementById("edit");
+  let saveButton = document.getElementById("save");
   let removeButton = document.getElementById("remove");
   let cancelButton = document.getElementById("cancel");
 
   plusButton.onclick = function() {
     addButton.style.display = "inline-block";
-    editButton.style.display = "none";
+    saveButton.style.display = "none";
     removeButton.style.display = "none";
     dataBox.style.display = "block";
   }
@@ -199,13 +201,14 @@ function addReminderDataEvents(reminders, all) {
     dataBox.style.display = "none";
   }
 
-  editButton.onclick = function() {
+  saveButton.onclick = function() {
     //??? remove current, create new and add
-    console.log("edit");
+    console.log("save");
     dataBox.style.display = "none";
   }
 
   removeButton.onclick = function() {
+    //??? remove current
     console.log("remove");
     dataBox.style.display = "none";
   }
@@ -217,14 +220,13 @@ function addReminderDataEvents(reminders, all) {
 
 function addDataEvents(reminders) {
   window.onbeforeunload = function(event) {
-    //event.returnValue = "bye then";
+    event.preventDefault();
     console.log("bye len=", reminders.length);
-    //alert("bye, then! len=", reminders.length);
   }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(true);
+  addDebug(false);
   fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
