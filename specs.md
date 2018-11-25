@@ -1,28 +1,29 @@
 ## Reminder PWA
 ### To Do
-- [ ] Add saveLocalRemindersData(remindersData) onbeforeunload
-- [ ] Store reminders in local storage as json
-- [ ] Add update load to retrieve from local storage
-- [ ] Add data controls to enter/change data
+- [ ] Add toData() to reminder prototype, return json data
+- [ ] Implement saveLocalReminders()
+- [ ] Implement saveLocalRemindersData(), store in local storage 
+- [ ] Implement loadLocalRemindersData(), read from local storage 
+- [ ] Add sorting of reminders
+- [ ] Add simple insert(), remove(), and find() for reminders, hide sorting here
+- [ ] Create a text backup if local storage is cleared
 - [ ] Increase reminder font size and make 2.5em height
+- [ ] Add data controls to enter and change data
+- [ ] Store hasTime as seconds > 0, store duration minutes as milliseconds
+- [ ] Fix 2-line reminder until (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)
+- [ ] Fix 2-line reminder date/time on two lines, note on two lines
+- [ ] Fix 2-line reminder note
+- [ ] Set background color of reminders according to until
 - [ ] Add factory with createReminderFactory()
 - [ ] Add factory createReminder() and prototype with getData()
-- [ ] Add an add button to the header, bring up data pane with add/cancel buttons
-- [ ] Make reminders immutable, add data id, create with data object
+- [ ] Make reminders immutable, add data id
 - [ ] Update reminders to be tree nodes
-- [ ] Add tree with insert, remove, increment, and find fcns
-- [ ] Add an update function (remove from tree, remove from parent, add to tree, add to parent)
-- [ ] Add a remove element fcn to iterate through the tree, compare data ids
-- [ ] Add create reminder element function, add basic display properties (day, mo, date, time, message)
-- [ ] Add an add element fcn to iterate through the tree, compare data ids
-- [ ] Add an edit button to bring up data pane with update/remove/cancel buttons
-- [ ] Connect double click to edit pane
-- [ ] Add time until reminder (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)
-- [ ] Fix layout for landscape and portrait using header and footer
+- [ ] Add tree with insert(), remove(), find(), and increment()
+- [ ] Add removeReminder(), iterate through tree, remove any missing from all
+- [ ] Add addReminder(), iterate through tree, add any missing to all
 - [ ] Persist scroll velocity and decay slowly
-- [ ] Back up reminders in a text file in json
+- [ ] Fix layout for landscape, moving header/footer/controls to left
 - [ ] Add better icons
-- [ ] Figure out how to update on phone
 ### Done
 - [x] Add basic html with reminders-box
 - [x] Add loadLocalRemindersData
@@ -33,9 +34,12 @@
 - [x] Add more files to cache
 - [x] Add all files to cache
 - [x] Add drawReminders(reminders, remindersBox)
+- [x] Figure out how to update on phone
 - [x] Add enough reminders to scroll
 - [x] Add scroll events
 - [x] Add scroll fcns and rewrite touch events using them
 - [x] Add mouse events using scroll fcns
 - [x] Fix vertical height to not scroll
 - [x] Connect long press to edit pane (w/ edit & remove buttons)
+- [x] Add an edit button to bring up data pane with update/remove/cancel buttons
+- [x] Connect double click to edit pane

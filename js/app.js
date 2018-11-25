@@ -13,10 +13,9 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.47;
-
-    const versionElem = document.getElementById("version");
-    versionElem.innerHTML = "version " + version.toFixed(2);
+  const version = 0.48;
+  const versionElem = document.getElementById("version");
+  versionElem.innerHTML = "version " + version.toFixed(2);
 
   if(showConsole) {
     const footer = document.querySelector("footer");
@@ -26,7 +25,6 @@ function addDebug(showConsole) {
     captureConsoleLog(consoleBox);
   }
 }
-
 
 function fixVerticalHeight() {
   function setVerticalHeight() {
@@ -41,12 +39,28 @@ function fixVerticalHeight() {
   setVerticalHeight();
 }
 
+function saveLocalRemindersData(data) {
+  //??? save in local storage
+}
+
 function loadLocalRemindersData() {
+  //??? load from local storage
   let data = [];
   data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
   data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
   data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
   return data;
+}
+
+function saveLocalReminders(reminders) {
+  console.log("save len=", reminders.length); 
+  //??? map reminders to remindersData
+  //saveLocalRemindersData(remindersData);
+}
+
+function loadLocalReminders() {
+  const remindersData = loadLocalRemindersData();
+  return remindersData.map(function(data) { return createReminder(data) });
 }
 
 function addScrollEvents(box, all) {
@@ -114,6 +128,7 @@ function clearReminders(all) {
 }
 
 function drawReminders(reminders, all) {
+  //??? refactor to separate draw from edit events
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
   const longPressMs = 750;
   const longPressMoveMax = 10;
@@ -191,31 +206,39 @@ function addReminderDataEvents(reminders, all) {
     saveButton.style.display = "none";
     removeButton.style.display = "none";
     dataBox.style.display = "block";
-  }
+  };
 
   addButton.onclick = function() {
+    dataBox.style.display = "none";
+    //??? get data from dataBox
     const day = 1 + Math.floor(Math.random() * 31)
     data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
     reminders.push(createReminder(data));
+    //??? sort reminders
     drawReminders(reminders, all);
-    dataBox.style.display = "none";
-  }
+    console.log("add");
+    saveLocalReminders(reminders);
+  };
 
   saveButton.onclick = function() {
-    //??? remove current, create new and add
-    console.log("save");
     dataBox.style.display = "none";
-  }
+    //??? remove current
+    //??? create new from data and push
+    //??? sort reminders
+    console.log("save");
+    saveLocalReminders(reminders);
+  };
 
   removeButton.onclick = function() {
+    dataBox.style.display = "none";
     //??? remove current
     console.log("remove");
-    dataBox.style.display = "none";
-  }
+    saveLocalReminders(reminders);
+  };
 
   cancelButton.onclick = function() {
     dataBox.style.display = "none";
-  }
+  };
 }
 
 function addDataEvents(reminders) {
@@ -233,8 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const allReminders= document.getElementById("all-reminders");
   addScrollEvents(remindersBox, allReminders);
 
-  const remindersData = loadLocalRemindersData();
-  reminders = remindersData.map(function(data) { return createReminder(data) });
+  reminders = loadLocalReminders();
   drawReminders(reminders, allReminders);
 
   addReminderDataEvents(reminders, allReminders);
