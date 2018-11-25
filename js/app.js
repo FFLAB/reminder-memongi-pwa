@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.41;
+  const version = 0.42;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
@@ -133,12 +133,14 @@ function drawReminders(reminders, all) {
   function longPressStart(event) {
     event.preventDefault();
     //??? no long press if moving
+    console.log("start");
     timer = setTimeout(editReminder.bind(this), longPressMs);
   }
 
   function longPressEnd(event) {
     event.preventDefault();
     if(timer) clearTimeout(timer);
+    console.log("  END");
   }
 
   clearReminders(all);
@@ -208,7 +210,7 @@ function addDataEvents(reminders, all) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(false);
+  addDebug(true);
   fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
