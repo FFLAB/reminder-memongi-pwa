@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.42;
+  const version = 0.44;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
@@ -132,15 +132,12 @@ function drawReminders(reminders, all) {
 
   function longPressStart(event) {
     event.preventDefault();
-    //??? no long press if moving
-    console.log("start");
     timer = setTimeout(editReminder.bind(this), longPressMs);
   }
 
   function longPressEnd(event) {
     event.preventDefault();
     if(timer) clearTimeout(timer);
-    console.log("  END");
   }
 
   clearReminders(all);
@@ -165,12 +162,11 @@ function drawReminders(reminders, all) {
     reminderElem.ondblclick = editReminder;
     reminderElem.ontouchstart = longPressStart;
     reminderElem.ontouchend = longPressEnd;
-    //??? restore, check not much movement
-    //reminderElem.ontouchmove = longPressEnd;
+    reminderElem.ontouchmove = longPressEnd;
   });
 }
 
-function addDataEvents(reminders, all) {
+function addReminderDataEvents(reminders, all) {
   let dataBox = document.getElementById("data-box");
   let plusButton = document.getElementById("plus");
   let addButton = document.getElementById("add");
@@ -209,8 +205,18 @@ function addDataEvents(reminders, all) {
   }
 }
 
+function addDataEvents(reminders) {
+  /*
+  window.onbeforeunload = function(event) {
+    event.returnValue = "bye then";
+    console.log("bye len=", reminders.length);
+    alert("bye, then! len=", reminders.length);
+  }
+  */
+}
+
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(true);
+  addDebug(false);
   fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
@@ -221,5 +227,6 @@ document.addEventListener("DOMContentLoaded", function() {
   reminders = remindersData.map(function(data) { return createReminder(data) });
   drawReminders(reminders, allReminders);
 
-  addDataEvents(reminders, allReminders);
+  addReminderDataEvents(reminders, allReminders);
+  addDataEvents(reminders);
 });

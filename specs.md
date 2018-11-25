@@ -4,6 +4,7 @@
 - [ ] Store reminders in local storage as json
 - [ ] Add update load to retrieve from local storage
 - [ ] Add data controls to enter/change data
+- [ ] Increase reminder font size and make 2.5em height
 - [ ] Add factory with createReminderFactory()
 - [ ] Add factory createReminder() and prototype with getData()
 - [ ] Add an add button to the header, bring up data pane with add/cancel buttons
