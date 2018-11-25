@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.45;
+  const version = 0.46;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
@@ -120,6 +120,7 @@ function drawReminders(reminders, all) {
   let addButton = document.getElementById("add");
   let editButton = document.getElementById("edit");
   let removeButton = document.getElementById("remove");
+  let startY = 0;
   let timer;
 
   function editReminder() {
@@ -132,13 +133,15 @@ function drawReminders(reminders, all) {
 
   function longPressStart(event) {
     event.preventDefault();
-    console.log("start");
+    startY = event.touches[0] && event.touches[0].clientY;
+    console.log("start ", startY);
     timer = setTimeout(editReminder.bind(this), longPressMs);
   }
 
   function longPressMove(event) {
     event.preventDefault();
-    console.log(" move");
+    let diff = Math.abs((event.touches[0] && event.touches[0].clientY) - startY);
+    console.log(" move ", diff);
   }
 
   function longPressEnd(event) {
