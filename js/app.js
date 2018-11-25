@@ -163,7 +163,8 @@ function drawReminders(reminders, all) {
     reminderElem.ondblclick = editReminder;
     reminderElem.ontouchstart = longPressStart;
     reminderElem.ontouchend = longPressEnd;
-    reminderElem.ontouchmove = longPressEnd;
+    //??? restore, check not much movement
+    //reminderElem.ontouchmove = longPressEnd;
   });
 }
 
