@@ -1,11 +1,9 @@
 ## Reminder PWA
 ### To Do
-- [ ] Add a data overlay pane to enter/change data
-- [ ] Add saveLocalRemindersData(remindersData)
+- [ ] Add saveLocalRemindersData(remindersData) onbeforeunload
 - [ ] Store reminders in local storage as json
 - [ ] Add update load to retrieve from local storage
-- [ ] Add a remove button to overlay pane
-- [ ] Connect long press to edit pane
+- [ ] Add data controls to enter/change data
 - [ ] Add factory with createReminderFactory()
 - [ ] Add factory createReminder() and prototype with getData()
 - [ ] Add an add button to the header, bring up data pane with add/cancel buttons
@@ -39,3 +37,4 @@
 - [x] Add scroll fcns and rewrite touch events using them
 - [x] Add mouse events using scroll fcns
 - [x] Fix vertical height to not scroll
+- [x] Connect long press to edit pane (w/ edit & remove buttons)

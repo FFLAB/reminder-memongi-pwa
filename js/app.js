@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.39;
+  const version = 0.41;
 
     const versionElem = document.getElementById("version");
     versionElem.innerHTML = "version " + version.toFixed(2);
@@ -115,11 +115,37 @@ function clearReminders(all) {
 
 function drawReminders(reminders, all) {
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
+  const longPressMs = 750;
+  let dataBox = document.getElementById("data-box");
+  let addButton = document.getElementById("add");
+  let editButton = document.getElementById("edit");
+  let removeButton = document.getElementById("remove");
+  let timer;
+
+  function editReminder() {
+    console.log("data " + this.getAttribute("data_time"));
+    addButton.style.display = "none";
+    editButton.style.display = "inline-block";
+    removeButton.style.display = "inline-block";
+    dataBox.style.display = "block";
+  }
+
+  function longPressStart(event) {
+    event.preventDefault();
+    //??? no long press if moving
+    timer = setTimeout(editReminder.bind(this), longPressMs);
+  }
+
+  function longPressEnd(event) {
+    event.preventDefault();
+    if(timer) clearTimeout(timer);
+  }
 
   clearReminders(all);
   reminders.forEach(function(reminder) {
     var reminderElem = document.createElement("div");
     reminderElem.setAttribute("class", "reminder");
+    reminderElem.setAttribute("data_time", reminder.date.getTime());
     var untilElem = document.createElement("div");
     untilElem.setAttribute("class", "until");
     untilElem.innerHTML = "2 w\n3 d";
@@ -134,6 +160,10 @@ function drawReminders(reminders, all) {
     reminderElem.appendChild(untilElem);
     reminderElem.appendChild(dateElem);
     reminderElem.appendChild(noteElem);
+    reminderElem.ondblclick = editReminder;
+    reminderElem.ontouchstart = longPressStart;
+    reminderElem.ontouchend = longPressEnd;
+    reminderElem.ontouchmove = longPressEnd;
   });
 }
 
@@ -141,9 +171,14 @@ function addDataEvents(reminders, all) {
   let dataBox = document.getElementById("data-box");
   let plusButton = document.getElementById("plus");
   let addButton = document.getElementById("add");
+  let editButton = document.getElementById("edit");
+  let removeButton = document.getElementById("remove");
   let cancelButton = document.getElementById("cancel");
 
   plusButton.onclick = function() {
+    addButton.style.display = "inline-block";
+    editButton.style.display = "none";
+    removeButton.style.display = "none";
     dataBox.style.display = "block";
   }
 
@@ -152,6 +187,17 @@ function addDataEvents(reminders, all) {
     data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
     reminders.push(createReminder(data));
     drawReminders(reminders, all);
+    dataBox.style.display = "none";
+  }
+
+  editButton.onclick = function() {
+    //??? remove current, create new and add
+    console.log("edit");
+    dataBox.style.display = "none";
+  }
+
+  removeButton.onclick = function() {
+    console.log("remove");
     dataBox.style.display = "none";
   }
 
