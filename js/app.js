@@ -13,7 +13,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.48;
+  const version = 0.49;
   const versionElem = document.getElementById("version");
   versionElem.innerHTML = "version " + version.toFixed(2);
 
@@ -40,26 +40,28 @@ function fixVerticalHeight() {
 }
 
 function saveLocalRemindersData(data) {
-  //??? save in local storage
+  window.localStorage.setItem("remindersData", data);
 }
 
 function loadLocalRemindersData() {
-  //??? load from local storage
-  let data = [];
-  data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
-  data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
-  data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
+  let data = window.localStorage.getItem("remindersData");
+  //??? remove fake data after text backup or app update added, make data const
+  if(!data) {
+    data = [];
+    data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
+    data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
+    data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
+  }
   return data;
 }
 
 function saveLocalReminders(reminders) {
-  console.log("save len=", reminders.length); 
-  //??? map reminders to remindersData
-  //saveLocalRemindersData(remindersData);
+  remindersData = JSON.stringify(reminders);
+  saveLocalRemindersData(remindersData);
 }
 
 function loadLocalReminders() {
-  const remindersData = loadLocalRemindersData();
+  const remindersData = JSON.parse(loadLocalRemindersData());
   return remindersData.map(function(data) { return createReminder(data) });
 }
 
@@ -213,18 +215,19 @@ function addReminderDataEvents(reminders, all) {
     //??? get data from dataBox
     const day = 1 + Math.floor(Math.random() * 31)
     data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
+    console.log("add " + data.note);
     reminders.push(createReminder(data));
-    //??? sort reminders
+    reminders.sort(reminderByDate);
     drawReminders(reminders, all);
-    console.log("add");
     saveLocalReminders(reminders);
   };
 
   saveButton.onclick = function() {
     dataBox.style.display = "none";
+    console.log(this);
     //??? remove current
     //??? create new from data and push
-    //??? sort reminders
+    reminders.sort(reminderByDate);
     console.log("save");
     saveLocalReminders(reminders);
   };
@@ -238,6 +241,7 @@ function addReminderDataEvents(reminders, all) {
 
   cancelButton.onclick = function() {
     dataBox.style.display = "none";
+    console.log(reminders);
   };
 }
 

@@ -1,19 +1,18 @@
 ## Reminder PWA
 ### To Do
-- [ ] Add toData() to reminder prototype, return json data
-- [ ] Implement saveLocalReminders()
-- [ ] Implement saveLocalRemindersData(), store in local storage 
-- [ ] Implement loadLocalRemindersData(), read from local storage 
-- [ ] Add sorting of reminders
-- [ ] Add simple insert(), remove(), and find() for reminders, hide sorting here
-- [ ] Create a text backup if local storage is cleared
-- [ ] Increase reminder font size and make 2.5em height
+- [ ] Display data from reminder on edit pane, set data_id attribute of dataBox
+- [ ] Implement delete: find reminder by data_id of dataBox, remove with splice
+- [ ] Implement save: find reminder by data_id of dataBox, remove with splice, create new from data, re-render
+- [ ] Implement add: create new from data, re-render
 - [ ] Add data controls to enter and change data
+- [ ] Add update button for app, clear cache
+- [ ] Increase reminder font size and make 2.5em height
 - [ ] Store hasTime as seconds > 0, store duration minutes as milliseconds
 - [ ] Fix 2-line reminder until (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)
 - [ ] Fix 2-line reminder date/time on two lines, note on two lines
 - [ ] Fix 2-line reminder note
 - [ ] Set background color of reminders according to until
+- [ ] Add simple insert(), remove(), and find() for reminders, hide sorting here
 - [ ] Add factory with createReminderFactory()
 - [ ] Add factory createReminder() and prototype with getData()
 - [ ] Make reminders immutable, add data id
@@ -24,6 +23,7 @@
 - [ ] Persist scroll velocity and decay slowly
 - [ ] Fix layout for landscape, moving header/footer/controls to left
 - [ ] Add better icons
+- [ ] Create a text backup if local storage is cleared
 ### Done
 - [x] Add basic html with reminders-box
 - [x] Add loadLocalRemindersData
@@ -43,3 +43,9 @@
 - [x] Connect long press to edit pane (w/ edit & remove buttons)
 - [x] Add an edit button to bring up data pane with update/remove/cancel buttons
 - [x] Connect double click to edit pane
+- [x] Add toData() to reminder prototype, return json data
+- [x] Implement saveLocalReminders()
+- [x] Implement saveLocalRemindersData(), store in local storage 
+- [x] Implement loadLocalRemindersData(), read from local storage 
+- [x] Add sorting of reminders
+- [x] Add an id property to reminder, count up in createReminder
