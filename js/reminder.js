@@ -1,3 +1,5 @@
+"use strict";
+
 function createReminderFactory() {
   console.log("createReminderFactory");
 }

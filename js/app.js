@@ -1,8 +1,10 @@
+"use strict";
+
 function captureConsoleLog(captureElem) {
   let oldConsoleLog = console.log;
 
   console.log = function() {
-    message = document.createElement("div");
+    let message = document.createElement("div");
     for(let i = 0; i < arguments.length; i++) {
       message.innerHTML += arguments[i];
     }
@@ -13,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.50;
+  const version = 0.51;
   const versionElem = document.getElementById("version");
   versionElem.innerHTML = "version " + version.toFixed(2);
 
@@ -45,13 +47,7 @@ function saveLocalRemindersData(data) {
 }
 
 function loadLocalRemindersData() {
-  let data = null;
-  if(window.localStorage) {
-    console.log(`OK, ls=${window.localStorage}`);
-    data = window.localStorage.getItem("remindersData");
-  } else {
-    console.log(`BAD, ls=${window.localStorage}`);
-  }
+  let data = window.localStorage && window.localStorage.getItem("remindersData");
   //??? remove fake data after text backup or app update added, make data const
   if(!data) {
     data = [];
@@ -64,7 +60,7 @@ function loadLocalRemindersData() {
 }
 
 function saveLocalReminders(reminders) {
-  remindersData = JSON.stringify(reminders);
+  const remindersData = JSON.stringify(reminders);
   saveLocalRemindersData(remindersData);
 }
 
@@ -151,7 +147,7 @@ function drawReminders(reminders, all) {
   let timer;
 
   function editReminder() {
-    dataTime = parseInt(this.getAttribute("data_time"));
+    let dataTime = parseInt(this.getAttribute("data_time"));
     console.log("open " + (new Date(dataTime)).toDateString());
     addButton.style.display = "none";
     saveButton.style.display = "inline-block";
@@ -223,7 +219,7 @@ function addReminderDataEvents(reminders, all) {
     dataBox.style.display = "none";
     //??? get data from dataBox
     const day = 1 + Math.floor(Math.random() * 31)
-    data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
+    const data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
     console.log(`add '${data.note}'`);
     reminders.push(createReminder(data));
     reminders.sort(reminderByDate);
@@ -261,14 +257,14 @@ function addDataEvents(reminders) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(true);
+  addDebug(false);
   fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
   const allReminders= document.getElementById("all-reminders");
   addScrollEvents(remindersBox, allReminders);
 
-  reminders = loadLocalReminders();
+  let reminders = loadLocalReminders();
   drawReminders(reminders, allReminders);
 
   addReminderDataEvents(reminders, allReminders);

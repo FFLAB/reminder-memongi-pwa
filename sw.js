@@ -1,3 +1,5 @@
+"use strict";
+
 const cacheName = "reminder-cache";
 const cacheFiles = [
   "/reminder-pwa/",
