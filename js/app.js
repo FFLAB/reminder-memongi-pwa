@@ -13,11 +13,12 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.49;
+  const version = 0.50;
   const versionElem = document.getElementById("version");
   versionElem.innerHTML = "version " + version.toFixed(2);
 
   if(showConsole) {
+    document.documentElement.style.setProperty("--footer-height", "6em");
     const footer = document.querySelector("footer");
     var consoleBox = document.createElement("div");
     consoleBox.setAttribute("id", "console-box");
@@ -44,13 +45,20 @@ function saveLocalRemindersData(data) {
 }
 
 function loadLocalRemindersData() {
-  let data = window.localStorage.getItem("remindersData");
+  let data = null;
+  if(window.localStorage) {
+    console.log(`OK, ls=${window.localStorage}`);
+    data = window.localStorage.getItem("remindersData");
+  } else {
+    console.log(`BAD, ls=${window.localStorage}`);
+  }
   //??? remove fake data after text backup or app update added, make data const
   if(!data) {
     data = [];
     data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
     data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
     data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
+    data = JSON.stringify(data);
   }
   return data;
 }
@@ -62,6 +70,7 @@ function saveLocalReminders(reminders) {
 
 function loadLocalReminders() {
   const remindersData = JSON.parse(loadLocalRemindersData());
+  console.log(`loaded ${remindersData.length} rems`);
   return remindersData.map(function(data) { return createReminder(data) });
 }
 
@@ -215,7 +224,7 @@ function addReminderDataEvents(reminders, all) {
     //??? get data from dataBox
     const day = 1 + Math.floor(Math.random() * 31)
     data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
-    console.log("add " + data.note);
+    console.log(`add '${data.note}'`);
     reminders.push(createReminder(data));
     reminders.sort(reminderByDate);
     drawReminders(reminders, all);
@@ -224,24 +233,23 @@ function addReminderDataEvents(reminders, all) {
 
   saveButton.onclick = function() {
     dataBox.style.display = "none";
-    console.log(this);
     //??? remove current
     //??? create new from data and push
     reminders.sort(reminderByDate);
-    console.log("save");
+    console.log(`save, ${reminders.length} rems`);
     saveLocalReminders(reminders);
   };
 
   removeButton.onclick = function() {
     dataBox.style.display = "none";
     //??? remove current
-    console.log("remove");
+    console.log(`remove, ${reminders.length} rems`);
     saveLocalReminders(reminders);
   };
 
   cancelButton.onclick = function() {
     dataBox.style.display = "none";
-    console.log(reminders);
+    console.log(`cancel, ${reminders.length} rems`);
   };
 }
 
@@ -253,7 +261,7 @@ function addDataEvents(reminders) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(false);
+  addDebug(true);
   fixVerticalHeight();
 
   const remindersBox = document.getElementById("reminders-box");
