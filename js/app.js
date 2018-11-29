@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.51;
+  const version = 0.52;
   const versionElem = document.getElementById("version");
   versionElem.innerHTML = "version " + version.toFixed(2);
 
@@ -139,6 +139,11 @@ function drawReminders(reminders, all) {
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
   const longPressMs = 750;
   const longPressMoveMax = 10;
+  let dataUi = {};
+  dataUi.month = document.getElementById("month");
+  dataUi.day = document.getElementById("day");
+  dataUi.day = document.getElementById("day");
+  dataUi.note = document.getElementById("note");
   let dataBox = document.getElementById("data-box");
   let addButton = document.getElementById("add");
   let saveButton = document.getElementById("save");
@@ -147,8 +152,15 @@ function drawReminders(reminders, all) {
   let timer;
 
   function editReminder() {
-    let dataTime = parseInt(this.getAttribute("data_time"));
-    console.log("open " + (new Date(dataTime)).toDateString());
+    dataBox.setAttribute("data_id", this.getAttribute("data_id"));
+    let date = new Date(parseInt(this.getAttribute("data_time")));
+    let note = this.querySelector(".note");
+    dataUi.note.value = note.innerHTML;
+    dataUi.month.value = date.getMonth() + 1;
+    dataUi.day.value = date.getDate();
+    //???? set data controls in dataBox
+    console.log("open " + date.toDateString());
+    console.log(` ${note.innerHTML}`);
     addButton.style.display = "none";
     saveButton.style.display = "inline-block";
     removeButton.style.display = "inline-block";
@@ -178,6 +190,7 @@ function drawReminders(reminders, all) {
   reminders.forEach(function(reminder) {
     var reminderElem = document.createElement("div");
     reminderElem.setAttribute("class", "reminder");
+    reminderElem.setAttribute("data_id", reminder.id);
     reminderElem.setAttribute("data_time", reminder.date.getTime());
     var untilElem = document.createElement("div");
     untilElem.setAttribute("class", "until");
@@ -217,7 +230,7 @@ function addReminderDataEvents(reminders, all) {
 
   addButton.onclick = function() {
     dataBox.style.display = "none";
-    //??? get data from dataBox
+    //??? create data object from dataBox inputs
     const day = 1 + Math.floor(Math.random() * 31)
     const data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
     console.log(`add '${data.note}'`);
@@ -229,17 +242,21 @@ function addReminderDataEvents(reminders, all) {
 
   saveButton.onclick = function() {
     dataBox.style.display = "none";
-    //??? remove current
-    //??? create new from data and push
+    let removeId = parseInt(dataBox.getAttribute("data_id"));
+    //??? create data object from dataBox inputs
+    //??? remove reminder with removeId
+    console.log(`save ${removeId}, ${reminders.length} rems`);
+    //reminders.push(createReminder(data));
     reminders.sort(reminderByDate);
-    console.log(`save, ${reminders.length} rems`);
+    //drawReminders(reminders, all);
     saveLocalReminders(reminders);
   };
 
   removeButton.onclick = function() {
     dataBox.style.display = "none";
-    //??? remove current
-    console.log(`remove, ${reminders.length} rems`);
+    let removeId = parseInt(dataBox.getAttribute("data_id"));
+    //??? remove reminder with removeId
+    console.log(`remove ${removeId}, ${reminders.length} rems`);
     saveLocalReminders(reminders);
   };
 

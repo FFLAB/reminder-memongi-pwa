@@ -18,6 +18,7 @@
       <header>
         <h1>Reminders</h1>
         <input id="plus" type="button" value="+">
+        <input id="update" type="button" value="Update">
       </header>
       <div id="reminders-box">
         <div id="all-reminders">
@@ -27,6 +28,29 @@
         <span id="version"></span>
       </footer>
       <div id="data-box">
+        <div class="data">
+          <div>
+            <input id="month" type="text" size="2" maxlength="2">/
+            <input id="day" type="text" size="2" maxlength="2">/
+            <input id="year" type="text" size="4" maxlength="4">
+          </div>
+          <div>
+            <input id="hours" type="text" size="2" maxlength="2">:
+            <input id="minutes" type="text" size="2" maxlength="2">
+            <input type="radio" id="am" class="am-pm" name="am-pm" value="am">
+            <label for="am" class="am-pm">AM</label>
+            <input type="radio" id="pm" class="am-pm" name="am-pm" value="pm">
+            <label for="pm" class="am-pm">PM</label>
+          </div>
+          <div>
+            <input id="duration" type="text" size="3" maxlength="3">
+            <label for="duration"> minutes</label>
+          </div>
+          <div>
+            <label for="note">Note</label>
+            <input id="note" type="text">
+          </div>
+        </div>
         <div id="data-buttons">
           <input id="add" type="button" value="Add">
           <input id="save" type="button" value="Save">

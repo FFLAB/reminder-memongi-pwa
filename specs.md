@@ -23,6 +23,7 @@
 - [ ] Persist scroll velocity and decay slowly
 - [ ] Fix layout for landscape, moving header/footer/controls to left
 - [ ] Add better icons
+- [ ] Switch save/load to use indexedDB
 - [ ] Create a text backup if local storage is cleared
 ### Done
 - [x] Add basic html with reminders-box
