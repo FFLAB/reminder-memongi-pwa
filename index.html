@@ -15,19 +15,20 @@
   </head>
   <body>
     <main>
-      <header>
+      <header id="top-box" class="base">
         <h1>Reminders</h1>
-        <input id="plus" type="button" value="+">
-        <input id="update" type="button" value="Update">
+        <div>
+          <input id="update" class="button" type="button" value="Update">
+          <input id="plus" class="button" type="button" value="+">
+        </div>
       </header>
-      <div id="reminders-box">
-        <div id="all-reminders">
+      <div id="reminder-box">
+        <div id="reminder-wrap">
         </div>
       </div>
-      <footer>
-        <span id="version"></span>
+      <footer id="bottom-box" class="base">
       </footer>
-      <div id="data-box">
+      <div id="edit-box">
         <div class="data">
           <div>
             <input id="month" type="text" size="2" maxlength="2">/
@@ -52,10 +53,10 @@
           </div>
         </div>
         <div id="data-buttons">
-          <input id="add" type="button" value="Add">
-          <input id="save" type="button" value="Save">
-          <input id="remove" type="button" value="Remove">
-          <input id="cancel" type="button" value="Cancel">
+          <input id="add" class="button" type="button" value="Add">
+          <input id="save" class="button" type="button" value="Save">
+          <input id="remove" class="button" type="button" value="Remove">
+          <input id="cancel" class="button" type="button" value="Cancel">
         </div>
       </div>
     </main>

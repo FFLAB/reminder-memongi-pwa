@@ -15,18 +15,21 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.52;
-  const versionElem = document.getElementById("version");
-  versionElem.innerHTML = "version " + version.toFixed(2);
+  const version = 0.53;
+  const footer = document.querySelector("footer");
 
   if(showConsole) {
-    document.documentElement.style.setProperty("--footer-height", "6em");
-    const footer = document.querySelector("footer");
+    document.documentElement.style.setProperty("--bottom-height", "6em");
     var consoleBox = document.createElement("div");
     consoleBox.setAttribute("id", "console-box");
     footer.appendChild(consoleBox);
     captureConsoleLog(consoleBox);
   }
+
+  var versionSpan = document.createElement("span");
+  versionSpan.setAttribute("class", "version");
+  versionSpan.innerHTML = "version " + version.toFixed(2);
+  footer.appendChild(versionSpan);
 }
 
 function fixVerticalHeight() {
@@ -70,7 +73,7 @@ function loadLocalReminders() {
   return remindersData.map(function(data) { return createReminder(data) });
 }
 
-function addScrollEvents(box, all) {
+function addScrollEvents(box, wrap) {
   let scrollEnabled = false;
   let scrollY = 0;
   let yOffset = 0;
@@ -90,51 +93,51 @@ function addScrollEvents(box, all) {
       } else if (yOffset < yOffsetMin) {
         yOffset = yOffsetMin;
       }
-      all.style.top = yOffset + "px";
+      wrap.style.top = yOffset + "px";
     }
   }
 
-  all.ontouchstart = function(event) {
+  wrap.ontouchstart = function(event) {
     event.preventDefault();
     enableScroll(true, event.touches[0] && event.touches[0].clientY);
   };
 
-  all.ontouchmove = function(event) {
+  wrap.ontouchmove = function(event) {
     event.preventDefault();
     moveScroll(event.touches[0] && event.touches[0].clientY);
   };
 
-  all.ontouchend = function(event) {
+  wrap.ontouchend = function(event) {
     event.preventDefault();
     enableScroll(false);
   };
 
-  all.onmousedown = function(event) {
+  wrap.onmousedown = function(event) {
     event.preventDefault();
     enableScroll(true, event.clientY);
   };
 
-  all.onmouseup = function(event) {
+  wrap.onmouseup = function(event) {
     event.preventDefault();
     enableScroll(false);
   };
 
-  all.onmouseleave = function(event) {
+  wrap.onmouseleave = function(event) {
     event.preventDefault();
     enableScroll(false);
   };
 
-  all.onmousemove = function(event) {
+  wrap.onmousemove = function(event) {
     event.preventDefault();
     moveScroll(event.clientY);
   };
 }
 
-function clearReminders(all) {
-  all.innerHTML = "";
+function clearReminders(wrap) {
+  wrap.innerHTML = "";
 }
 
-function drawReminders(reminders, all) {
+function drawReminders(reminders, wrap) {
   //??? refactor to separate draw from edit events
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
   const longPressMs = 750;
@@ -144,7 +147,7 @@ function drawReminders(reminders, all) {
   dataUi.day = document.getElementById("day");
   dataUi.day = document.getElementById("day");
   dataUi.note = document.getElementById("note");
-  let dataBox = document.getElementById("data-box");
+  let editBox = document.getElementById("edit-box");
   let addButton = document.getElementById("add");
   let saveButton = document.getElementById("save");
   let removeButton = document.getElementById("remove");
@@ -152,19 +155,19 @@ function drawReminders(reminders, all) {
   let timer;
 
   function editReminder() {
-    dataBox.setAttribute("data_id", this.getAttribute("data_id"));
+    editBox.setAttribute("data_id", this.getAttribute("data_id"));
     let date = new Date(parseInt(this.getAttribute("data_time")));
     let note = this.querySelector(".note");
     dataUi.note.value = note.innerHTML;
     dataUi.month.value = date.getMonth() + 1;
     dataUi.day.value = date.getDate();
-    //???? set data controls in dataBox
+    //???? set data controls in editBox
     console.log("open " + date.toDateString());
     console.log(` ${note.innerHTML}`);
     addButton.style.display = "none";
     saveButton.style.display = "inline-block";
     removeButton.style.display = "inline-block";
-    dataBox.style.display = "block";
+    editBox.style.display = "block";
   }
 
   function longPressStart(event) {
@@ -186,7 +189,7 @@ function drawReminders(reminders, all) {
     if(timer) clearTimeout(timer);
   }
 
-  clearReminders(all);
+  clearReminders(wrap);
   reminders.forEach(function(reminder) {
     var reminderElem = document.createElement("div");
     reminderElem.setAttribute("class", "reminder");
@@ -202,7 +205,7 @@ function drawReminders(reminders, all) {
     noteElem.setAttribute("class", "note");
     noteElem.innerHTML = reminder.note;
 
-    all.appendChild(reminderElem);
+    wrap.appendChild(reminderElem);
     reminderElem.appendChild(untilElem);
     reminderElem.appendChild(dateElem);
     reminderElem.appendChild(noteElem);
@@ -213,8 +216,8 @@ function drawReminders(reminders, all) {
   });
 }
 
-function addReminderDataEvents(reminders, all) {
-  let dataBox = document.getElementById("data-box");
+function addReminderDataEvents(reminders, wrap) {
+  let editBox = document.getElementById("edit-box");
   let plusButton = document.getElementById("plus");
   let addButton = document.getElementById("add");
   let saveButton = document.getElementById("save");
@@ -225,43 +228,43 @@ function addReminderDataEvents(reminders, all) {
     addButton.style.display = "inline-block";
     saveButton.style.display = "none";
     removeButton.style.display = "none";
-    dataBox.style.display = "block";
+    editBox.style.display = "block";
   };
 
   addButton.onclick = function() {
-    dataBox.style.display = "none";
-    //??? create data object from dataBox inputs
+    editBox.style.display = "none";
+    //??? create data object from editBox inputs
     const day = 1 + Math.floor(Math.random() * 31)
     const data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
     console.log(`add '${data.note}'`);
     reminders.push(createReminder(data));
     reminders.sort(reminderByDate);
-    drawReminders(reminders, all);
+    drawReminders(reminders, wrap);
     saveLocalReminders(reminders);
   };
 
   saveButton.onclick = function() {
-    dataBox.style.display = "none";
-    let removeId = parseInt(dataBox.getAttribute("data_id"));
-    //??? create data object from dataBox inputs
+    editBox.style.display = "none";
+    let removeId = parseInt(editBox.getAttribute("data_id"));
+    //??? create data object from editBox inputs
     //??? remove reminder with removeId
     console.log(`save ${removeId}, ${reminders.length} rems`);
     //reminders.push(createReminder(data));
     reminders.sort(reminderByDate);
-    //drawReminders(reminders, all);
+    //drawReminders(reminders, wrap);
     saveLocalReminders(reminders);
   };
 
   removeButton.onclick = function() {
-    dataBox.style.display = "none";
-    let removeId = parseInt(dataBox.getAttribute("data_id"));
+    editBox.style.display = "none";
+    let removeId = parseInt(editBox.getAttribute("data_id"));
     //??? remove reminder with removeId
     console.log(`remove ${removeId}, ${reminders.length} rems`);
     saveLocalReminders(reminders);
   };
 
   cancelButton.onclick = function() {
-    dataBox.style.display = "none";
+    editBox.style.display = "none";
     console.log(`cancel, ${reminders.length} rems`);
   };
 }
@@ -274,16 +277,16 @@ function addDataEvents(reminders) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(false);
+  addDebug(true);
   fixVerticalHeight();
 
-  const remindersBox = document.getElementById("reminders-box");
-  const allReminders= document.getElementById("all-reminders");
-  addScrollEvents(remindersBox, allReminders);
+  const reminderBox = document.getElementById("reminder-box");
+  const reminderWrap= document.getElementById("reminder-wrap");
+  addScrollEvents(reminderBox, reminderWrap);
 
   let reminders = loadLocalReminders();
-  drawReminders(reminders, allReminders);
+  drawReminders(reminders, reminderWrap);
 
-  addReminderDataEvents(reminders, allReminders);
+  addReminderDataEvents(reminders, reminderWrap);
   addDataEvents(reminders);
 });

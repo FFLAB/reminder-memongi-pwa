@@ -1,11 +1,11 @@
 ## Reminder PWA
 ### To Do
+- [ ] Add update button for app, clear cache
 - [ ] Display data from reminder on edit pane, set data_id attribute of dataBox
 - [ ] Implement delete: find reminder by data_id of dataBox, remove with splice
 - [ ] Implement save: find reminder by data_id of dataBox, remove with splice, create new from data, re-render
 - [ ] Implement add: create new from data, re-render
 - [ ] Add data controls to enter and change data
-- [ ] Add update button for app, clear cache
 - [ ] Increase reminder font size and make 2.5em height
 - [ ] Store hasTime as seconds > 0, store duration minutes as milliseconds
 - [ ] Fix 2-line reminder until (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)

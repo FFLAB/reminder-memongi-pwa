@@ -1,19 +1,17 @@
 :root {
   --vh: vh;
-  --footer-height: 2em;
+  --top-height: 4em;
+  --bottom-height: 2em;
 }
 
 html {
   font-family: Tahoma, sans-serif;
   font-size: 10px;
-  background-color: #f00;
 }
 
 body {
   margin: 0;
   font-size: 1.4rem;
-  color: #e8e8e8;
-  background-color: #a0a0a0;
 }
 
 main {
@@ -21,93 +19,121 @@ main {
   height: calc(var(--vh, 1vh) * 100);
 }
 
-input[type=button] {
+
+
+
+
+.button {
   border: 1px solid #808080;
-  border-radius: 2px;
-  background-color: #484848;
-  color: #f0f0f0;
-  font-size: 2em;
-}
-
-header {
-  box-sizing: border-box;
-  height: 4em;
-  padding: 0.5em;
-  background-color: #585858;
-}
-
-header h1 {
-  display: inline-block;
-  margin: 0;
-  font-size: 2em;
-}
-
-header #plus,#update {
-  margin: 0 0.1em;
-  float: right;
-  background-color: #e8e8e8;
-  color: #303030;
-  font-size: 2.0em;
-}
-
-#reminders-box {
-  height: calc(100% - 4em - var(--footer-height));
-  overflow: hidden;
+  border-radius: 3px;
+  background-color: #ffffff;
   color: #000000;
 }
 
-#all-reminders {
-  position: relative;
+.base {
+  background-color: #004080;
+  color: #b0e0ff;
+}
+
+.base .button {
+  background-color: #b0e0ff;
 }
 
 .reminder {
   display: grid;
   grid-template-columns: 1fr 2fr 3fr;
   align-items: center;
-  height: 8em;
-  padding: 0.5em;
-  background-color: #ffffff;
-  border-bottom: 1px solid #686868;
+  height: 6em;
+  border-bottom: 1px solid #808080;
+  background-color: #c0ffe0;
+}
+
+.reminder > *{
+  padding: 0.3em;
 }
 
 .reminder .until {
-  color: #585858;
+  color: #801010;
 }
 
 .reminder .date {
-  color: #202020;
+  color: #108010;
 }
 
 .reminder .note {
-  color: #585858;
+  color: #101080;
 }
 
-footer {
-  box-sizing: border-box;
-  height: var(--footer-height);
-  padding: 0.5em;
-  background-color: #585858;
-}
-
-#version {
-  float: right;
+.version {
   color: #808080;
 }
 
-#console-box {
+
+
+
+
+#top-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
-  height: calc(100% - 1em);
-  padding: 0.5em 1em;
-  border: 1px solid #686868;
-  border-radius: 4px;
-  margin: 0.5em;
+  height: var(--top-height);
+  padding: 0.5em;
+}
+
+#top-box > * {
+  display: inline-block;
+}
+
+#top-box h1 {
+  margin: 0
+}
+
+#top-box .button {
+  font-size: 2.0em;
+}
+
+#reminder-box {
+  height: calc(100% - var(--top-height) - var(--bottom-height));
+  overflow: hidden;
+}
+
+#reminder-wrap {
+  position: relative;
+}
+
+#bottom-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  height: var(--bottom-height);
+  padding: 0.5em;
+}
+
+#bottom-box > * {
+  display: inline-block;
+}
+
+#console-box {
+  flex-grow: 1;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0 0.5em;
+  border: 1px solid #808080;
+  border-radius: 3px;
+  margin-right: 0.5em;
   background-color: #e8e8e8;
   color: #303030;
   font-family: monosspace;
   overflow-y: scroll;
 }
 
-#data-box {
+
+
+
+/* ???? to do below */
+#edit-box {
   box-sizing: border-box;
   display: none;
   position: absolute;
@@ -122,16 +148,16 @@ footer {
   color: #222;
 }
 
-#data-box .data {
+#edit-box .data {
   margin: 0.5em;
   font-size: 2.0em;
 }
 
-#data-box .data input {
+#edit-box .data input {
   font-size: 0.9em;
 }
 
-#data-box .am-pm {
+#edit-box .am-pm {
   font-size: 0.6em;
 }
 
@@ -143,3 +169,4 @@ footer {
 #remove,#save {
   display: none;
 }
+
