@@ -1,5 +1,4 @@
 "use strict";
-const cacheName = "reminder-cache";
 
 function captureConsoleLog(captureElem) {
   let oldConsoleLog = console.log;
@@ -16,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.59;
+  const version = 0.60;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -293,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const updateButton = document.getElementById("update");
   updateButton.onclick = function() {
-    console.log("update");
-    caches.delete(cacheName);
+    navigator.serviceWorker.controller.postMessage("update-cache");
+    console.log("update sent message");
   };
 });

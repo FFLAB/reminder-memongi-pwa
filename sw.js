@@ -30,3 +30,7 @@ self.addEventListener("fetch", function(event) {
     })
   );
 });
+
+self.addEventListener("message", function(event) {
+  console.log("message: " + event.data);
+});
