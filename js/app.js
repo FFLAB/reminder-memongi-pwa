@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.61;
+  const version = 0.62;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -292,10 +292,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const updateButton = document.getElementById("update");
   updateButton.onclick = function() {
+    const cacheName = "reminder-cache";
     if(navigator.serviceWorker) {
       if(navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage("update-cache");
         console.log("update sent message");
+        window.caches.open(cacheName).then(function(cache) {
+          console.log("opened cache")
+        },
+          function(err) {
+            console.log("could NOT open cache");
+          });
       } else {
         console.log("no service worker controller");
       }
