@@ -28,35 +28,49 @@
       </div>
       <footer id="bottom-box" class="base">
       </footer>
-      <div id="edit-box">
-        <div class="data">
-          <div>
-            <input id="month" type="text" size="2" maxlength="2">/
-            <input id="day" type="text" size="2" maxlength="2">/
-            <input id="year" type="text" size="4" maxlength="4">
+      <div id="edit-box" class="edit">
+        <div id="edit-wrap">
+          <div id="edit-data">
+            <div>
+              <label>Date</label>
+            </div>
+            <div>
+              <input id="month" type="text" size="2" maxlength="2">
+              <label>/</label>
+              <input id="day" type="text" size="2" maxlength="2">
+              <label>/</label>
+              <input id="year" type="text" size="4" maxlength="4">
+            </div>
+            <div>
+              <label for="hours">Time</label>
+            </div>
+            <div>
+              <input id="hours" type="text" size="2" maxlength="2">
+              <label>:</label>
+              <input id="minutes" type="text" size="2" maxlength="2">
+              <input type="radio" id="am" class="am-pm" name="am-pm" value="am">
+              <label for="am" class="am-pm">AM</label>
+              <input type="radio" id="pm" class="am-pm" name="am-pm" value="pm">
+              <label for="pm" class="am-pm">PM</label>
+            </div>
+            <div>
+              <label>for</label>
+              <input id="duration" type="text" size="3" maxlength="3">
+              <label for="duration"> minutes</label>
+            </div>
+            <div>
+              <label for="note">Note</label>
+            </div>
+            <div>
+              <input id="note" type="text">
+            </div>
           </div>
-          <div>
-            <input id="hours" type="text" size="2" maxlength="2">:
-            <input id="minutes" type="text" size="2" maxlength="2">
-            <input type="radio" id="am" class="am-pm" name="am-pm" value="am">
-            <label for="am" class="am-pm">AM</label>
-            <input type="radio" id="pm" class="am-pm" name="am-pm" value="pm">
-            <label for="pm" class="am-pm">PM</label>
+          <div id="edit-buttons">
+            <input id="edit-add" class="button" type="button" value="Add">
+            <input id="edit-save" class="button" type="button" value="Save">
+            <input id="edit-remote" class="button" type="button" value="Remove">
+            <input id="edit-cancel" class="button" type="button" value="Cancel">
           </div>
-          <div>
-            <input id="duration" type="text" size="3" maxlength="3">
-            <label for="duration"> minutes</label>
-          </div>
-          <div>
-            <label for="note">Note</label>
-            <input id="note" type="text">
-          </div>
-        </div>
-        <div id="data-buttons">
-          <input id="add" class="button" type="button" value="Add">
-          <input id="save" class="button" type="button" value="Save">
-          <input id="remove" class="button" type="button" value="Remove">
-          <input id="cancel" class="button" type="button" value="Cancel">
         </div>
       </div>
     </main>

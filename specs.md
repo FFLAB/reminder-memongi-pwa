@@ -1,7 +1,8 @@
 ## Reminder PWA
 ### To Do
+- [ ] Layout edit box inputs
 - [ ] Add update button for app, clear cache
-- [ ] Display data from reminder on edit pane, set data_id attribute of dataBox
+- [ ] Display data from reminder in edit box, set data_id attribute of dataBox
 - [ ] Implement delete: find reminder by data_id of dataBox, remove with splice
 - [ ] Implement save: find reminder by data_id of dataBox, remove with splice, create new from data, re-render
 - [ ] Implement add: create new from data, re-render

@@ -148,9 +148,9 @@ function drawReminders(reminders, wrap) {
   dataUi.day = document.getElementById("day");
   dataUi.note = document.getElementById("note");
   let editBox = document.getElementById("edit-box");
-  let addButton = document.getElementById("add");
-  let saveButton = document.getElementById("save");
-  let removeButton = document.getElementById("remove");
+  let addButton = document.getElementById("edit-add");
+  let saveButton = document.getElementById("edit-save");
+  let removeButton = document.getElementById("edit-remote");
   let startY = 0;
   let timer;
 
@@ -219,10 +219,10 @@ function drawReminders(reminders, wrap) {
 function addReminderDataEvents(reminders, wrap) {
   let editBox = document.getElementById("edit-box");
   let plusButton = document.getElementById("plus");
-  let addButton = document.getElementById("add");
-  let saveButton = document.getElementById("save");
-  let removeButton = document.getElementById("remove");
-  let cancelButton = document.getElementById("cancel");
+  let addButton = document.getElementById("edit-add");
+  let saveButton = document.getElementById("edit-save");
+  let removeButton = document.getElementById("edit-remote");
+  let cancelButton = document.getElementById("edit-cancel");
 
   plusButton.onclick = function() {
     addButton.style.display = "inline-block";
