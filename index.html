@@ -30,38 +30,40 @@
       </footer>
       <div id="edit-box" class="edit">
         <div id="edit-wrap">
-          <div id="edit-data">
-            <div>
+          <div>
+            <div id="edit-date-label">
               <label>Date</label>
             </div>
-            <div>
+            <div id="edit-date">
               <input id="month" type="text" size="2" maxlength="2">
               <label>/</label>
               <input id="day" type="text" size="2" maxlength="2">
               <label>/</label>
               <input id="year" type="text" size="4" maxlength="4">
             </div>
-            <div>
+            <div id="edit-time-label">
               <label for="hours">Time</label>
             </div>
-            <div>
+            <div id="edit-time">
               <input id="hours" type="text" size="2" maxlength="2">
-              <label>:</label>
+              <label for="minutes">:</label>
               <input id="minutes" type="text" size="2" maxlength="2">
-              <input type="radio" id="am" class="am-pm" name="am-pm" value="am">
-              <label for="am" class="am-pm">AM</label>
-              <input type="radio" id="pm" class="am-pm" name="am-pm" value="pm">
-              <label for="pm" class="am-pm">PM</label>
-            </div>
-            <div>
-              <label>for</label>
+              <div id="edit-am-pm">
+                <input type="radio" id="am" class="am-pm" name="am-pm" value="am">
+                <label for="am" class="am-pm">AM</label>
+                <div></div>
+                <input type="radio" id="pm" class="am-pm" name="am-pm" value="pm">
+                <label for="pm" class="am-pm">PM</label>
+                <div></div>
+              </div>
+              <label id="edit-duration-label0">for</label>
               <input id="duration" type="text" size="3" maxlength="3">
-              <label for="duration"> minutes</label>
+              <label id="edit-duration-label1" for="duration"> minutes</label>
             </div>
-            <div>
+            <div id="edit-note-label">
               <label for="note">Note</label>
             </div>
-            <div>
+            <div id="edit-note">
               <input id="note" type="text">
             </div>
           </div>

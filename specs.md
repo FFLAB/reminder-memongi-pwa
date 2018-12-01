@@ -1,6 +1,5 @@
 ## Reminder PWA
 ### To Do
-- [ ] Layout edit box inputs
 - [ ] Add update button for app, clear cache
 - [ ] Display data from reminder in edit box, set data_id attribute of dataBox
 - [ ] Implement delete: find reminder by data_id of dataBox, remove with splice
@@ -51,3 +50,4 @@
 - [x] Implement loadLocalRemindersData(), read from local storage 
 - [x] Add sorting of reminders
 - [x] Add an id property to reminder, count up in createReminder
+- [x] Layout edit box inputs

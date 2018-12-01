@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.53;
+  const version = 0.54;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -277,7 +277,7 @@ function addDataEvents(reminders) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(true);
+  addDebug(false);
   fixVerticalHeight();
 
   const reminderBox = document.getElementById("reminder-box");
