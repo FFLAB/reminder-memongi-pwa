@@ -17,22 +17,23 @@ body {
 main {
   position: relative;
   height: calc(var(--vh, 1vh) * 100);
+  background-color: #d7d5d1;
 }
 
 .button {
-  border: 1px solid #808080;
+  border: 1px solid #939189;
   border-radius: 3px;
   background-color: #ffffff;
   color: #000000;
 }
 
 .base {
-  background-color: #004080;
-  color: #b0e0ff;
+  background-color: #52504f;
+  color: #faf9f8;
 }
 
 .base .button {
-  background-color: #b0e0ff;
+  background-color: #d7d5d1;
 }
 
 .reminder {
@@ -40,8 +41,8 @@ main {
   grid-template-columns: 1fr 2fr 3fr;
   align-items: center;
   height: 6em;
-  border-bottom: 1px solid #808080;
-  background-color: #c0ffe0;
+  border-bottom: 1px solid #939189;
+  background-color: #c6e4ff;
 }
 
 .reminder > *{
@@ -118,8 +119,8 @@ main {
 
 #bottom-box {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: top;
   box-sizing: border-box;
   height: var(--bottom-height);
   padding: 0.5em;
@@ -144,9 +145,7 @@ main {
 }
 
 #edit-box {
-  /*
   display: none;
-  */
   position: absolute;
   top: 2%;
   left: 2%;
