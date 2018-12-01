@@ -16,7 +16,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.56;
+  const version = 0.57;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -278,7 +278,7 @@ function addDataEvents(reminders) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  addDebug(false);
+  addDebug(true);
   fixVerticalHeight();
 
   const reminderBox = document.getElementById("reminder-box");
@@ -290,4 +290,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   addReminderDataEvents(reminders, reminderWrap);
   addDataEvents(reminders);
+
+  const updateButton = document.getElementById("update");
+  updateButton.onclick = function() {
+    console.log("update");
+    caches.delete(cacheName);
+  };
 });
