@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.60;
+  const version = 0.61;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -292,7 +292,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const updateButton = document.getElementById("update");
   updateButton.onclick = function() {
-    navigator.serviceWorker.controller.postMessage("update-cache");
-    console.log("update sent message");
+    if(navigator.serviceWorker) {
+      if(navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage("update-cache");
+        console.log("update sent message");
+      } else {
+        console.log("no service worker controller");
+      }
+    } else {
+      console.log("no service worker");
+    }
   };
 });
