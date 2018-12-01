@@ -1,6 +1,7 @@
 ## Reminder PWA
 ### To Do
 - [ ] Add update button for app, clear cache
+- [ ] Disable touch events for rest of screen
 - [ ] Display data from reminder in edit box, set data_id attribute of dataBox
 - [ ] Implement delete: find reminder by data_id of dataBox, remove with splice
 - [ ] Implement save: find reminder by data_id of dataBox, remove with splice, create new from data, re-render

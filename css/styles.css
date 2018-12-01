@@ -144,7 +144,9 @@ main {
 }
 
 #edit-box {
+  /*
   display: none;
+  */
   position: absolute;
   top: 2%;
   left: 2%;
@@ -171,9 +173,11 @@ main {
 }
 
 #edit-date {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2em 1em 2em 1em 4em;
+  justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 #edit-time-label {
@@ -184,15 +188,20 @@ main {
 
 #edit-time {
   display: grid;
-  grid-template-columns: 1fr auto 1fr auto;
+  grid-template-columns: 2em 1em 2em auto;
   grid-row-gap: 0.2em;
+  justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 #edit-duration-label0 {
-  grid-column: 1 / span 2;
   margin-right: 0.1em;
   text-align: right;
+}
+
+#duration {
+  grid-column: span 2;
 }
 
 #edit-duration-label1 {
@@ -211,13 +220,12 @@ main {
 }
 
 #edit-note {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 100%;
   align-items: center;
 }
 
 #note {
-  flex-grow: 1;
   text-align: left;
 }
 
