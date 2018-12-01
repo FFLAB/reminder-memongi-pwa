@@ -50,15 +50,15 @@ main {
 }
 
 .reminder .until {
-  color: #801010;
+  color: #484848;
 }
 
 .reminder .date {
-  color: #108010;
+  color: #484848;
 }
 
 .reminder .note {
-  color: #101080;
+  color: #000000;
 }
 
 .edit {
