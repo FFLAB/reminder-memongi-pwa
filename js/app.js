@@ -1,4 +1,5 @@
 "use strict";
+const cacheName = "reminder-cache";
 
 function captureConsoleLog(captureElem) {
   let oldConsoleLog = console.log;

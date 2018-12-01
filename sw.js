@@ -1,6 +1,5 @@
 "use strict";
 
-const cacheName = "reminder-cache";
 const cacheFiles = [
   "/reminder-pwa/",
   "/reminder-pwa/manifest.webmanifest",
