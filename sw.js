@@ -22,7 +22,7 @@ self.addEventListener("install", function(event) {
 });
 
 self.addEventListener("fetch", function(event) {
-  const fileName = event.request.url.slice(event.request.url.lastIndexOf("/"));
+  const fileName = event.request.url.slice(event.request.url.lastIndexOf("/") + 1);
 
   event.respondWith(
     caches.match(event.request)
@@ -59,4 +59,8 @@ self.addEventListener("fetch", function(event) {
 
 self.addEventListener("message", function(event) {
   console.log("message: " + event.data);
+  console.log(`c-delete ${cacheName}`);
+  event.waitUntil(
+    caches.delete(cacheName);
+  );
 });
