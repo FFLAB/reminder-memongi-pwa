@@ -59,8 +59,6 @@ self.addEventListener("fetch", function(event) {
 
 self.addEventListener("message", function(event) {
   console.log("message: " + event.data);
-  console.log(`c-delete ${cacheName}`);
-  event.waitUntil(
-    caches.delete(cacheName);
-  );
+  //console.log(`c-delete ${cacheName}`);
+  caches.delete(cacheName);
 });
