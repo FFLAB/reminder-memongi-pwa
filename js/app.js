@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.71;
+  const version = 0.72;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
