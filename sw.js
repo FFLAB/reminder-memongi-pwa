@@ -35,7 +35,7 @@ self.addEventListener("fetch", function(event) {
       let fetchRequest = event.request.clone();
 
       return fetch(fetchRequest)
-        .then(function(respone) {
+        .then(function(response) {
           if(response && (response.status === 200)) {
 
             console.log(`fetch-ok ${fileName}`);
@@ -57,6 +57,5 @@ self.addEventListener("fetch", function(event) {
 
 self.addEventListener("message", function(event) {
   console.log("message: " + event.data);
-  //console.log(`c-delete ${cacheName}`);
   caches.delete(cacheName);
 });
