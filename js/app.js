@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.62;
+  const version = 0.63;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -225,6 +225,7 @@ function addReminderDataEvents(reminders, wrap) {
   let cancelButton = document.getElementById("edit-cancel");
 
   plusButton.onclick = function() {
+    //??? fill box with date a week from now, change save button to edit
     addButton.style.display = "inline-block";
     saveButton.style.display = "none";
     removeButton.style.display = "none";

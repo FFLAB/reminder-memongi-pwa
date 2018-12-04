@@ -22,11 +22,37 @@ self.addEventListener("install", function(event) {
 });
 
 self.addEventListener("fetch", function(event) {
+  const fileName = event.request.url.slice(event.request.url.lastIndexOf("/"));
+
   event.respondWith(
-    caches.match(event.request).then(function(response) {
-      let found = (response ? "found" : "MISSING");
-      console.log("cache-get," + found + ":", event.request.url);
-      return response || fetch(event.request);
+    caches.match(event.request)
+    .then(function(response) {
+      if(response) {
+        console.log(`c-match ${fileName}`);
+        return response;
+      }
+
+      let fetchRequest = event.request.clone();
+
+      return fetch(fetchRequest)
+        .then(function(respone) {
+          if(!response || response.status !== 200 || response.type !== 'basic') {
+            console.log(`fetch-bad ${fileName}`);
+            return response;
+          }
+
+          console.log(`fetch-ok ${fileName}`);
+          //??? cache only files in cacheFiles
+          cacheResponse = response.clone();
+
+          caches.open(cacheName)
+            .then(function(cache) {
+              console.log(`c-put ${fileName}`);
+              cache.put(event.request, cacheResponse);
+            });
+
+          return response;
+        });
     })
   );
 });
