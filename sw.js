@@ -40,7 +40,7 @@ self.addEventListener("fetch", function(event) {
 
             console.log(`fetch-ok ${fileName}`);
             //??? cache only files in cacheFiles
-            cacheResponse = response.clone();
+            let cacheResponse = response.clone();
 
             caches.open(cacheName)
               .then(function(cache) {
@@ -58,4 +58,10 @@ self.addEventListener("fetch", function(event) {
 self.addEventListener("message", function(event) {
   console.log("message: " + event.data);
   caches.delete(cacheName);
+  event.waitUntil(
+    caches.open(cacheName).then(function(cache) {
+      console.log("c-add-all");
+      return cache.addAll(cacheFiles);
+    })
+  );
 });
