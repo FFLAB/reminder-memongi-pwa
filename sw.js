@@ -58,10 +58,4 @@ self.addEventListener("fetch", function(event) {
 self.addEventListener("message", function(event) {
   console.log("message: " + event.data);
   caches.delete(cacheName);
-  event.waitUntil(
-    caches.open(cacheName).then(function(cache) {
-      console.log("c-add-all");
-      return cache.addAll(cacheFiles);
-    })
-  );
 });
