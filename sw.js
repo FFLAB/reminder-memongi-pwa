@@ -22,7 +22,7 @@ self.addEventListener("install", function(event) {
 });
 
 self.addEventListener("fetch", function(event) {
-  const fileName = event.request.url.slice(event.request.url.lastIndexOf("/") + 1);
+  const fileName = event.request.url.slice(event.request.url.lastIndexOf("/"));
 
   event.respondWith(
     caches.match(event.request)

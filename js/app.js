@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.69;
+  const version = 0.70;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -50,7 +50,7 @@ function saveLocalRemindersData(data) {
 }
 
 function loadLocalRemindersData() {
-  let data = null;//window.localStorage && window.localStorage.getItem("remindersData");
+  let data = window.localStorage && window.localStorage.getItem("remindersData");
   //??? remove fake data after text backup or app update added, make data const
   if(!data) {
     data = [];
