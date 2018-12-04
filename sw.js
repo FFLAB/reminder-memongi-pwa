@@ -15,7 +15,7 @@ const cacheFiles = [
 self.addEventListener("install", function(event) {
   event.waitUntil(
     caches.open(cacheName).then(function(cache) {
-      console.log("add to cache");
+      console.log("c-add-all");
       return cache.addAll(cacheFiles);
     })
   );
@@ -36,20 +36,18 @@ self.addEventListener("fetch", function(event) {
 
       return fetch(fetchRequest)
         .then(function(respone) {
-          if(!response || response.status !== 200 || response.type !== 'basic') {
-            console.log(`fetch-bad ${fileName}`);
-            return response;
+          if(response && (response.status === 200)) {
+
+            console.log(`fetch-ok ${fileName}`);
+            //??? cache only files in cacheFiles
+            cacheResponse = response.clone();
+
+            caches.open(cacheName)
+              .then(function(cache) {
+                console.log(`c-put ${fileName}`);
+                cache.put(event.request, cacheResponse);
+              });
           }
-
-          console.log(`fetch-ok ${fileName}`);
-          //??? cache only files in cacheFiles
-          cacheResponse = response.clone();
-
-          caches.open(cacheName)
-            .then(function(cache) {
-              console.log(`c-put ${fileName}`);
-              cache.put(event.request, cacheResponse);
-            });
 
           return response;
         });
