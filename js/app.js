@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.74;
+  const version = 0.75;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -54,9 +54,10 @@ function loadLocalRemindersData() {
   //??? remove fake data after text backup or app update added, make data const
   if(!data) {
     data = [];
-    data.push({date: new Date(2018, 11, 1, 9, 30), note: "Scouting for food"});
-    data.push({date: new Date(2018, 11, 8, 9, 0), note: "Gingerbread party"});
-    data.push({date: new Date(2018, 11, 9, 17, 0), note: "Holiday express"});
+    data.push({date: new Date(2018, 11, 1, 9, 30, 1, 120), note: "Scouting for food"});
+    data.push({date: new Date(2018, 11, 8, 9, 0, 1, 180), note: "Gingerbread party"});
+    data.push({date: new Date(2018, 11, 9, 17, 0, 1), note: "Holiday express"});
+    data.push({date: new Date(2018, 11, 10), note: "Group project"});
     data = JSON.stringify(data);
   }
   return data;
@@ -143,13 +144,18 @@ function drawReminders(reminders, wrap) {
   const longPressMs = 750;
   const longPressMoveMax = 10;
   let dataUi = {};
+  dataUi.year = document.getElementById("year");
   dataUi.month = document.getElementById("month");
   dataUi.day = document.getElementById("day");
-  dataUi.day = document.getElementById("day");
+  dataUi.hours = document.getElementById("hours");
+  dataUi.minutes = document.getElementById("minutes");
+  dataUi.am = document.getElementById("am");
+  dataUi.pm = document.getElementById("pm");
+  dataUi.duration = document.getElementById("duration");
   dataUi.note = document.getElementById("note");
   let editBox = document.getElementById("edit-box");
   let addButton = document.getElementById("edit-add");
-  let saveButton = document.getElementById("edit-save");
+  let editButton = document.getElementById("edit-save");
   let removeButton = document.getElementById("edit-remote");
   let startY = 0;
   let timer;
@@ -157,15 +163,24 @@ function drawReminders(reminders, wrap) {
   function editReminder() {
     editBox.setAttribute("data_id", this.getAttribute("data_id"));
     let date = new Date(parseInt(this.getAttribute("data_time")));
-    let note = this.querySelector(".note");
-    dataUi.note.value = note.innerHTML;
+    dataUi.year.value = date.getFullYear();
     dataUi.month.value = date.getMonth() + 1;
     dataUi.day.value = date.getDate();
-    //???? set data controls in editBox
-    console.log("open " + date.toDateString());
-    console.log(` ${note.innerHTML}`);
+    const useTime = (date.getSeconds() > 0);
+    const useDuration = (date.getMilliseconds() > 0);
+    const hours = date.getHours() % 12 || 12;
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+    const isPm = date.getHours() > 11;
+    dataUi.hours.value = (useTime ? hours : "");
+    dataUi.minutes.value = (useTime ? minutes : "");
+    dataUi.am.checked = useTime && !isPm;
+    dataUi.pm.checked = useTime && isPm;
+    dataUi.duration.value = (useDuration && useTime ? date.getMilliseconds() : "");
+    let note = this.querySelector(".note");
+    dataUi.note.value = note.innerHTML;
+    console.log(`open, ${date.toDateString()}, ${note.innerHTML}`);
     addButton.style.display = "none";
-    saveButton.style.display = "inline-block";
+    editButton.style.display = "inline-block";
     removeButton.style.display = "inline-block";
     editBox.style.display = "block";
   }
@@ -220,21 +235,21 @@ function addReminderDataEvents(reminders, wrap) {
   let editBox = document.getElementById("edit-box");
   let plusButton = document.getElementById("plus");
   let addButton = document.getElementById("edit-add");
-  let saveButton = document.getElementById("edit-save");
+  let editButton = document.getElementById("edit-save");
   let removeButton = document.getElementById("edit-remote");
   let cancelButton = document.getElementById("edit-cancel");
 
   plusButton.onclick = function() {
     //??? fill box with date a week from now, change save button to edit
     addButton.style.display = "inline-block";
-    saveButton.style.display = "none";
+    editButton.style.display = "none";
     removeButton.style.display = "none";
     editBox.style.display = "block";
   };
 
   addButton.onclick = function() {
     editBox.style.display = "none";
-    //??? create data object from editBox inputs
+    //???? create data object from editBox inputs
     const day = 1 + Math.floor(Math.random() * 31)
     const data = {date: new Date(2018, 11, day), note: `Event for Dec ${day}`};
     console.log(`add '${data.note}'`);
@@ -244,7 +259,7 @@ function addReminderDataEvents(reminders, wrap) {
     saveLocalReminders(reminders);
   };
 
-  saveButton.onclick = function() {
+  editButton.onclick = function() {
     editBox.style.display = "none";
     let removeId = parseInt(editBox.getAttribute("data_id"));
     //??? create data object from editBox inputs
