@@ -21,6 +21,7 @@
 - [ ] Add tree with insert(), remove(), find(), and increment()
 - [ ] Add removeReminder(), iterate through tree, remove any missing from all
 - [ ] Add addReminder(), iterate through tree, add any missing to all
+- [ ] Create better fake data for initial install with notes as instructions and future dates
 - [ ] Prevent default scroll for header/footer
 - [ ] Persist scroll velocity and decay slowly
 - [ ] Fix layout for landscape, moving header/footer/controls to left
