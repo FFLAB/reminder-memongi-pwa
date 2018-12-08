@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.83;
+  const version = 0.85;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -155,16 +155,7 @@ function drawReminders(reminders, wrap) {
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
   const longPressMs = 750;
   const longPressMoveMax = 10;
-  let dataUi = {};
-  dataUi.year = document.getElementById("year");
-  dataUi.month = document.getElementById("month");
-  dataUi.day = document.getElementById("day");
-  dataUi.hours = document.getElementById("hours");
-  dataUi.minutes = document.getElementById("minutes");
-  dataUi.am = document.getElementById("am");
-  dataUi.pm = document.getElementById("pm");
-  dataUi.duration = document.getElementById("duration");
-  dataUi.note = document.getElementById("note");
+  let editUi = getEditUi();
   let editBox = document.getElementById("edit-box");
   let addButton = document.getElementById("edit-add");
   let editButton = document.getElementById("edit-save");
@@ -175,21 +166,22 @@ function drawReminders(reminders, wrap) {
   function editReminder() {
     editBox.setAttribute("data_id", this.getAttribute("data_id"));
     let date = new Date(parseInt(this.getAttribute("data_time")));
-    dataUi.year.value = date.getFullYear();
-    dataUi.month.value = date.getMonth() + 1;
-    dataUi.day.value = date.getDate();
+    //???? functionalize, writeEditUi
+    editUi.year.value = date.getFullYear();
+    editUi.month.value = date.getMonth() + 1;
+    editUi.day.value = date.getDate();
     const useTime = (date.getSeconds() > 0);
     const useDuration = (date.getMilliseconds() > 0);
     const hours = date.getHours() % 12 || 12;
     const minutes = ("0" + date.getMinutes()).slice(-2);
     const isPm = date.getHours() > 11;
-    dataUi.hours.value = (useTime ? hours : "");
-    dataUi.minutes.value = (useTime ? minutes : "");
-    dataUi.am.checked = useTime && !isPm;
-    dataUi.pm.checked = useTime && isPm;
-    dataUi.duration.value = (useDuration && useTime ? date.getMilliseconds() : "");
+    editUi.hours.value = (useTime ? hours : "");
+    editUi.minutes.value = (useTime ? minutes : "");
+    editUi.am.checked = useTime && !isPm;
+    editUi.pm.checked = useTime && isPm;
+    editUi.duration.value = (useDuration && useTime ? date.getMilliseconds() : "");
     let note = this.querySelector(".note");
-    dataUi.note.value = note.innerHTML;
+    editUi.note.value = note.innerHTML;
     console.log(`open, ${date.toDateString()}, ${note.innerHTML}`);
     addButton.style.display = "none";
     editButton.style.display = "inline-block";
@@ -243,36 +235,49 @@ function drawReminders(reminders, wrap) {
   });
 }
 
-//????
 function getEditUi() {
-  let ui = {};
-  ui.year = document.getElementById("year");
-  ui.month = document.getElementById("month");
-  ui.day = document.getElementById("day");
-  ui.hours = document.getElementById("hours");
-  ui.minutes = document.getElementById("minutes");
-  ui.am = document.getElementById("am");
-  ui.pm = document.getElementById("pm");
-  ui.duration = document.getElementById("duration");
-  ui.note = document.getElementById("note");
-  return ui;
+  return {
+    year: document.getElementById("year"),
+    month: document.getElementById("month"),
+    day: document.getElementById("day"),
+    hours: document.getElementById("hours"),
+    minutes: document.getElementById("minutes"),
+    am: document.getElementById("am"),
+    pm: document.getElementById("pm"),
+    duration: document.getElementById("duration"),
+    note: document.getElementById("note")
+  };
 }
 
-function readEditUi(editUi) {
+function readEditUi(ui) {
   let date = new Date();
-  date.setFullYear(parseInt(editUi.year.value));
-  date.setMonth(parseInt(editUi.month.value - 1));
-  date.setDate(parseInt(editUi.day.value));
-  const hasTime = !!editUi.hours.value;
-  const isPm = editUi.pm.checked;
-  date.setHours(hasTime ? (parseInt(editUi.hours.value) + (isPm ? 12 : 0)) : 0);
-  date.setMinutes((hasTime && editUi.minutes.value) ? parseInt(editUi.minutes.value) : 0);
+  date.setFullYear(parseInt(ui.year.value));
+  date.setMonth(parseInt(ui.month.value - 1));
+  date.setDate(parseInt(ui.day.value));
+  const hasTime = !!ui.hours.value;
+  const isPm = ui.pm.checked;
+  date.setHours(hasTime ? (parseInt(ui.hours.value) + (isPm ? 12 : 0)) : 0);
+  date.setMinutes((hasTime && ui.minutes.value) ? parseInt(ui.minutes.value) : 0);
   date.setSeconds(hasTime ? 1 : 0);
-  date.setMilliseconds((hasTime && editUi.duration.value) ? parseInt(editUi.duration.value) : 0);
-  return {date: date, note: editUi.note.value};
+  date.setMilliseconds((hasTime && ui.duration.value) ? parseInt(ui.duration.value) : 0);
+  return {date: date, note: ui.note.value};
 }
 
-function writeEditUi(editUi, data) {
+//????
+function writeEditUi(ui, data) {
+}
+
+function clearEditUi(ui) {
+  ui.year.value = "";
+  ui.month.value = "";
+  ui.day.value = "";
+  ui.hours.value = "";
+  ui.minutes.value = "";
+  ui.am.checked = false;
+  ui.pm.checked = false;
+  ui.duration.value = "";
+  ui.note.value = "";
+  return ui;
 }
 
 function addReminderDataEvents(reminders, wrap) {
@@ -284,18 +289,12 @@ function addReminderDataEvents(reminders, wrap) {
   let cancelButton = document.getElementById("edit-cancel");
   let editUi = getEditUi();
 
+  //???? clean out comments, functionalize
   plusButton.onclick = function() {
-    let date = new Date();
-    date.setDate(date.getDate() + 7);
-    editUi.year.value = date.getFullYear();
-    editUi.month.value = date.getMonth() + 1;
-    editUi.day.value = date.getDate();
-    editUi.hours.value = "";
-    editUi.minutes.value = "";
-    editUi.am.checked = false;
-    editUi.pm.checked = false;
-    editUi.duration.value = "";
-    editUi.note.value = "";
+    editUi = clearEditUi(editUi);
+    const now = new Date();
+    editUi.year.value = now.getFullYear();
+    editUi.month.value = now.getMonth() + 1;
     addButton.style.display = "inline-block";
     editButton.style.display = "none";
     removeButton.style.display = "none";
@@ -336,13 +335,6 @@ function addReminderDataEvents(reminders, wrap) {
   };
 }
 
-function addDataEvents(reminders) {
-  window.onbeforeunload = function(event) {
-    event.preventDefault();
-    console.log("bye len=", reminders.length);
-  }
-}
-
 document.addEventListener("DOMContentLoaded", function() {
   addDebug(false);
   fixVerticalHeight();
@@ -355,7 +347,6 @@ document.addEventListener("DOMContentLoaded", function() {
   drawReminders(reminders, reminderWrap);
 
   addReminderDataEvents(reminders, reminderWrap);
-  addDataEvents(reminders);
 
   const updateButton = document.getElementById("update");
   updateButton.onclick = function() {
