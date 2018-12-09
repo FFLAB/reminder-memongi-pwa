@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.85;
+  const version = 0.87;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -82,7 +82,7 @@ function saveLocalReminders(reminders) {
 
 function loadLocalReminders() {
   const remindersData = JSON.parse(loadLocalRemindersData());
-  console.log(`loaded ${remindersData.length} rems`);
+  console.log(`loaded ${remindersData.length} reminders`);
   return remindersData.map(function(data) { return createReminder(data) });
 }
 
@@ -150,9 +150,30 @@ function clearReminders(wrap) {
   wrap.innerHTML = "";
 }
 
+function createReminderUi(reminder) {
+  const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
+  var reminderElem = document.createElement("div");
+  reminderElem.setAttribute("class", "reminder");
+  reminderElem.setAttribute("data_id", reminder.id);
+  reminderElem.setAttribute("data_time", reminder.date.getTime());
+  var untilElem = document.createElement("div");
+  untilElem.setAttribute("class", "until");
+  untilElem.innerHTML = "2 w\n3 d";
+  var dateElem = document.createElement("div");
+  dateElem.setAttribute("class", "date");
+  dateElem.innerHTML = reminder.date.toLocaleString("en-us", options);
+  var noteElem = document.createElement("div");
+  noteElem.setAttribute("class", "note");
+  noteElem.innerHTML = reminder.note;
+
+  reminderElem.appendChild(untilElem);
+  reminderElem.appendChild(dateElem);
+  reminderElem.appendChild(noteElem);
+  return reminderElem;
+}
+
 function drawReminders(reminders, wrap) {
   //???? refactor to separate draw from edit events
-  const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
   const longPressMs = 750;
   const longPressMoveMax = 10;
   let editUi = getEditUi();
@@ -166,23 +187,8 @@ function drawReminders(reminders, wrap) {
   function editReminder() {
     editBox.setAttribute("data_id", this.getAttribute("data_id"));
     let date = new Date(parseInt(this.getAttribute("data_time")));
-    //???? functionalize, writeEditUi
-    editUi.year.value = date.getFullYear();
-    editUi.month.value = date.getMonth() + 1;
-    editUi.day.value = date.getDate();
-    const useTime = (date.getSeconds() > 0);
-    const useDuration = (date.getMilliseconds() > 0);
-    const hours = date.getHours() % 12 || 12;
-    const minutes = ("0" + date.getMinutes()).slice(-2);
-    const isPm = date.getHours() > 11;
-    editUi.hours.value = (useTime ? hours : "");
-    editUi.minutes.value = (useTime ? minutes : "");
-    editUi.am.checked = useTime && !isPm;
-    editUi.pm.checked = useTime && isPm;
-    editUi.duration.value = (useDuration && useTime ? date.getMilliseconds() : "");
     let note = this.querySelector(".note");
-    editUi.note.value = note.innerHTML;
-    console.log(`open, ${date.toDateString()}, ${note.innerHTML}`);
+    editUi = writeEditUi(editUi, {date: date, note: note.innerHTML});
     addButton.style.display = "none";
     editButton.style.display = "inline-block";
     removeButton.style.display = "inline-block";
@@ -210,28 +216,12 @@ function drawReminders(reminders, wrap) {
 
   clearReminders(wrap);
   reminders.forEach(function(reminder) {
-    var reminderElem = document.createElement("div");
-    reminderElem.setAttribute("class", "reminder");
-    reminderElem.setAttribute("data_id", reminder.id);
-    reminderElem.setAttribute("data_time", reminder.date.getTime());
-    var untilElem = document.createElement("div");
-    untilElem.setAttribute("class", "until");
-    untilElem.innerHTML = "2 w\n3 d";
-    var dateElem = document.createElement("div");
-    dateElem.setAttribute("class", "date");
-    dateElem.innerHTML = reminder.date.toLocaleString("en-us", options);
-    var noteElem = document.createElement("div");
-    noteElem.setAttribute("class", "note");
-    noteElem.innerHTML = reminder.note;
-
-    wrap.appendChild(reminderElem);
-    reminderElem.appendChild(untilElem);
-    reminderElem.appendChild(dateElem);
-    reminderElem.appendChild(noteElem);
-    reminderElem.ondblclick = editReminder;
-    reminderElem.ontouchstart = longPressStart;
-    reminderElem.ontouchend = longPressEnd;
-    reminderElem.ontouchmove = longPressMove;
+    let reminderUi = createReminderUi(reminder);
+    reminderUi.ondblclick = editReminder;
+    reminderUi.ontouchstart = longPressStart;
+    reminderUi.ontouchend = longPressEnd;
+    reminderUi.ontouchmove = longPressMove;
+    wrap.appendChild(reminderUi);
   });
 }
 
@@ -263,8 +253,22 @@ function readEditUi(ui) {
   return {date: date, note: ui.note.value};
 }
 
-//????
 function writeEditUi(ui, data) {
+  const useTime = (data.date.getSeconds() > 0);
+  const useDuration = (data.date.getMilliseconds() > 0);
+  const hours = data.date.getHours() % 12 || 12;
+  const minutes = ("0" + data.date.getMinutes()).slice(-2);
+  const isPm = data.date.getHours() > 11;
+  ui.year.value = data.date.getFullYear();
+  ui.month.value = data.date.getMonth() + 1;
+  ui.day.value = data.date.getDate();
+  ui.hours.value = (useTime ? hours : "");
+  ui.minutes.value = (useTime ? minutes : "");
+  ui.am.checked = useTime && !isPm;
+  ui.pm.checked = useTime && isPm;
+  ui.duration.value = (useDuration && useTime ? data.date.getMilliseconds() : "");
+  ui.note.value = data.note;
+  return ui;
 }
 
 function clearEditUi(ui) {
@@ -313,7 +317,6 @@ function addReminderDataEvents(reminders, wrap) {
     editBox.style.display = "none";
     const removeId = parseInt(editBox.getAttribute("data_id"));
     reminders = reminders.filter(reminder => reminder.id != removeId);
-    console.log(`save ${removeId}, ${reminders.length} rems`);
     reminders.push(createReminder(readEditUi(editUi)));
     reminders.sort(reminderByDate);
     drawReminders(reminders, wrap);
@@ -324,14 +327,12 @@ function addReminderDataEvents(reminders, wrap) {
     editBox.style.display = "none";
     let removeId = parseInt(editBox.getAttribute("data_id"));
     reminders = reminders.filter(reminder => reminder.id != removeId);
-    console.log(`remove, ${reminders.length} rems`);
     saveLocalReminders(reminders);
     drawReminders(reminders, wrap);
   };
 
   cancelButton.onclick = function() {
     editBox.style.display = "none";
-    console.log(`cancel, ${reminders.length} rems`);
   };
 }
 
@@ -353,9 +354,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const cacheName = "reminder-cache";
     if(navigator.serviceWorker && navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage("update-cache");
-        console.log("update sent message");
+        console.log("sent update message");
       } else {
-        console.log("no service worker");
+        console.log("could not send message: no service worker");
       }
   };
 });

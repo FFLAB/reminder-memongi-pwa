@@ -1,18 +1,14 @@
 ## Reminder PWA
 ### To Do
-- [ ] Add update button for app, clear cache
+- [ ] Save backup as text file
 - [ ] Disable touch events for rest of screen
-- [ ] Display data from reminder in edit box, set data_id attribute of dataBox
-- [ ] Implement delete: find reminder by data_id of dataBox, remove with splice
-- [ ] Implement save: find reminder by data_id of dataBox, remove with splice, create new from data, re-render
-- [ ] Implement add: create new from data, re-render
-- [ ] Add data controls to enter and change data
+- [ ] Set button size for ios
+- [ ] Set background color of reminders according to until
 - [ ] Increase reminder font size and make 2.5em height
 - [ ] Store hasTime as seconds > 0, store duration minutes as milliseconds
 - [ ] Fix 2-line reminder until (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)
 - [ ] Fix 2-line reminder date/time on two lines, note on two lines
 - [ ] Fix 2-line reminder note
-- [ ] Set background color of reminders according to until
 - [ ] Add simple insert(), remove(), and find() for reminders, hide sorting here
 - [ ] Add factory with createReminderFactory()
 - [ ] Add factory createReminder() and prototype with getData()
@@ -25,6 +21,7 @@
 - [ ] Prevent default scroll for header/footer
 - [ ] Persist scroll velocity and decay slowly
 - [ ] Fix layout for landscape, moving header/footer/controls to left
+- [ ] Improve edit controls with calendar, month buttons, etc.
 - [ ] Add better icons
 - [ ] Switch save/load to use indexedDB
 - [ ] Create a text backup if local storage is cleared
@@ -54,3 +51,9 @@
 - [x] Add sorting of reminders
 - [x] Add an id property to reminder, count up in createReminder
 - [x] Layout edit box inputs
+- [x] Add update button for app, clear cache
+- [x] Display data from reminder in edit box, set data_id attribute of dataBox
+- [x] Implement delete: find reminder by data_id of dataBox, remove with splice
+- [x] Implement save: find reminder by data_id of dataBox, remove with splice, create new from data, re-render
+- [x] Implement add: create new from data, re-render
+- [x] Add data controls to enter and change data
