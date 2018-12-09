@@ -44,26 +44,6 @@ main {
   border-bottom: 1px solid #939189;
 }
 
-.until-past {
-  background-color: #808080;
-}
-
-.until-day {
-  background-color: #ffbb77;
-}
-
-.until-week {
-  background-color: #c6e4ff;
-}
-
-.until-month {
-  background-color: #f4f0ff;
-}
-
-.until-future {
-  background-color: #ffffff;
-}
-
 .reminder > *{
   padding: 0.3em;
 }
@@ -78,6 +58,26 @@ main {
 
 .reminder .note {
   color: #000000;
+}
+
+.until-past {
+  background-color: #808080;
+}
+
+.until-day {
+  background-color: #ffd077;
+}
+
+.until-week {
+  background-color: #d8e8ff;
+}
+
+.until-month {
+  background-color: #f4f0ff;
+}
+
+.until-future {
+  background-color: #ffffff;
 }
 
 .edit {
