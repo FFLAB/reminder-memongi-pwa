@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.87;
+  const version = 0.88;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -150,12 +150,34 @@ function clearReminders(wrap) {
   wrap.innerHTML = "";
 }
 
+function getUntilClass(date) {
+  const oneDay = 1000 * 60 * 60 * 24;
+  const oneWeek = 7 * oneDay;
+  const oneMonth = 30 * oneDay;
+  let diff = (date - new Date());
+  let text = "";
+  if(diff > oneMonth) {
+    text = "until-future";
+  } else if(diff > oneWeek) {
+    text = "until-month";
+  } else if(diff > oneDay) {
+    text = "until-week";
+  } else if(diff > 0) {
+    text = "until-day";
+  } else {
+    text = "until-past";
+  }
+  return text;
+}
+
 function createReminderUi(reminder) {
   const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
-  var reminderElem = document.createElement("div");
-  reminderElem.setAttribute("class", "reminder");
-  reminderElem.setAttribute("data_id", reminder.id);
-  reminderElem.setAttribute("data_time", reminder.date.getTime());
+  var ui = document.createElement("div");
+  ui.classList.add("reminder");
+  ui.classList.add(getUntilClass(reminder.date));
+  //ui.setAttribute("class", "reminder");
+  ui.setAttribute("data_id", reminder.id);
+  ui.setAttribute("data_time", reminder.date.getTime());
   var untilElem = document.createElement("div");
   untilElem.setAttribute("class", "until");
   untilElem.innerHTML = "2 w\n3 d";
@@ -166,14 +188,14 @@ function createReminderUi(reminder) {
   noteElem.setAttribute("class", "note");
   noteElem.innerHTML = reminder.note;
 
-  reminderElem.appendChild(untilElem);
-  reminderElem.appendChild(dateElem);
-  reminderElem.appendChild(noteElem);
-  return reminderElem;
+  ui.appendChild(untilElem);
+  ui.appendChild(dateElem);
+  ui.appendChild(noteElem);
+  return ui;
 }
 
 function drawReminders(reminders, wrap) {
-  //???? refactor to separate draw from edit events
+  //???? refactor to separate draw from edit events, add createReminderUi factory
   const longPressMs = 750;
   const longPressMoveMax = 10;
   let editUi = getEditUi();

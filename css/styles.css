@@ -42,7 +42,26 @@ main {
   align-items: center;
   height: 6em;
   border-bottom: 1px solid #939189;
+}
+
+.until-past {
+  background-color: #808080;
+}
+
+.until-day {
+  background-color: #ffbb77;
+}
+
+.until-week {
   background-color: #c6e4ff;
+}
+
+.until-month {
+  background-color: #f4f0ff;
+}
+
+.until-future {
+  background-color: #ffffff;
 }
 
 .reminder > *{
