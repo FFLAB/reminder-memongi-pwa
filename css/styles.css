@@ -44,6 +44,10 @@ main {
   border-bottom: 1px solid #939189;
 }
 
+.reminder span {
+  display: block;
+}
+
 .reminder > *{
   padding: 0.3em;
 }

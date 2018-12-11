@@ -72,7 +72,7 @@
           </div>
           <div id="edit-buttons">
             <input id="edit-add" class="button" type="button" value="Add">
-            <input id="edit-save" class="button" type="button" value="Edit">
+            <input id="edit-save" class="button" type="button" value="Save">
             <input id="edit-remote" class="button" type="button" value="Remove">
             <input id="edit-cancel" class="button" type="button" value="Cancel">
           </div>
@@ -82,7 +82,8 @@
     <script>
       if("serviceWorker" in navigator) {
         navigator.serviceWorker.register("/reminder-pwa/sw.js")
-          .then(function() { console.log("registered service worker"); });
+          .then(function() { console.log("registered service worker"); })
+          .catch(function() { console.log("could not register service worker"); });
       }
     </script>
   </body>

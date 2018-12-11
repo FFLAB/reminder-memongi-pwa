@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.89;
+  const version = 0.90;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -53,18 +53,23 @@ function loadStartupRemindersData() {
   let dayAgo = new Date();
   dayAgo.setDate(dayAgo.getDate() - 1);
   let today = new Date();
-  today.setHours(today.getHours() - 18);
+  today.setHours(today.getHours() + 18);
   let thisWeek = new Date();
   thisWeek.setDate(thisWeek.getDate() + 3);
   let thisMonth = new Date();
   thisMonth.setDate(thisMonth.getDate() + 14);
+  let later0 = new Date();
+  later0.setDate(thisMonth.getDate() + 60);
+  let later1 = new Date();
+  later1.setDate(thisMonth.getDate() + 90);
 
   let data = [];
-  data.push({date: dayAgo, note: "This is already past. Long press to delete"});
-  data.push({date: today, note: "This is in the next day"});
-  data.push({date: thisWeek, note: "This is in the next week"});
-  data.push({date: thisMonth, note: "Press the plus button to add a reminder"});
-  data.push({date: thisMonth, note: "Long press a reminder to edit or remove it"});
+  data.push({date: dayAgo, note: "This is already past"});
+  data.push({date: today, note: "This is within the next day"});
+  data.push({date: thisWeek, note: "This is within the next week"});
+  data.push({date: thisMonth, note: "This is within the next month"});
+  data.push({date: later0, note: "Press the plus button to add a reminder"});
+  data.push({date: later1, note: "Long press a reminder to edit or remove it"});
   return JSON.stringify(data);
 }
 
@@ -170,20 +175,79 @@ function getUntilClass(date) {
   return text;
 }
 
+function getUntilText(date) {
+  const now = new Date();
+  let s0 = document.createElement("span");
+  let s1 = document.createElement("span");
+
+  if(date - now > 0) {
+
+    let dmonth = 12 * (date.getFullYear() - now.getFullYear());
+    dmonth += date.getMonth() - now.getMonth();
+    if(dmonth >= 12) {
+      let dyear = parseInt(dmonth / 12);
+      s0.innerHTML = dyear + " year" + (dyear > 1 ? "s" : "");
+      if(dmonth % 12 > 0) {
+        s1.innerHTML = (dmonth % 12) + " month" + (dmonth % 12 > 1 ? "s" : "");
+      }
+    } else if(dmonth >= 3) {
+      s0.innerHTML = dmonth + " month" + (dmonth > 1 ? "s" : "");
+    } else {
+
+      let dday = date.getDate() - now.getDate();
+      if(dday < 0) {
+        dmonth -= 1;
+        dday += new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+      }
+
+      let dweek = parseInt(dday / 7);
+      if(dmonth >= 1) {
+        s0.innerHTML = dmonth + " month" + (dmonth > 1 ? "s" : "");
+        if(dweek > 0) {
+          s1.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
+        } else {
+          if(dday > 0) {
+            s1.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
+          }
+        }
+      } else {
+        if(dweek >= 1) {
+          s0.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
+          if(dday % 7 > 0) {
+            s1.innerHTML = (dday % 7) + " day" + (dday % 7 > 1 ? "s" : "");
+          }
+        } else if(dday > 0) {
+          s0.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
+        } else {
+          s0.innerHTML = "less";
+        }
+      }
+    }
+  } else {
+    s0.innerHTML = "past"
+  }
+
+  return s0.outerHTML + s1.outerHTML;
+}
+
 function createReminderUi(reminder) {
-  const options = {weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit"};
+  const options0 = {weekday:"short", day:"numeric", month:"short", year:"numeric"};
+  const options1 = {hour:"numeric", minute:"2-digit"};
   var ui = document.createElement("div");
   ui.classList.add("reminder");
   ui.classList.add(getUntilClass(reminder.date));
-  //ui.setAttribute("class", "reminder");
   ui.setAttribute("data_id", reminder.id);
   ui.setAttribute("data_time", reminder.date.getTime());
   var untilElem = document.createElement("div");
   untilElem.setAttribute("class", "until");
-  untilElem.innerHTML = "2 w\n3 d";
+  untilElem.innerHTML = getUntilText(reminder.date);
   var dateElem = document.createElement("div");
   dateElem.setAttribute("class", "date");
-  dateElem.innerHTML = reminder.date.toLocaleString("en-us", options);
+  let dateSpan0 = document.createElement("span");
+  dateSpan0.innerHTML = reminder.date.toLocaleString("en-us", options0);
+  let dateSpan1 = document.createElement("span");
+  dateSpan1.innerHTML = reminder.date.toLocaleString("en-us", options1);
+  dateElem.innerHTML = dateSpan0.outerHTML + dateSpan1.outerHTML;
   var noteElem = document.createElement("div");
   noteElem.setAttribute("class", "note");
   noteElem.innerHTML = reminder.note;
@@ -201,7 +265,7 @@ function drawReminders(reminders, wrap) {
   let editUi = getEditUi();
   let editBox = document.getElementById("edit-box");
   let addButton = document.getElementById("edit-add");
-  let editButton = document.getElementById("edit-save");
+  let saveButton = document.getElementById("edit-save");
   let removeButton = document.getElementById("edit-remote");
   let startY = 0;
   let timer;
@@ -212,7 +276,7 @@ function drawReminders(reminders, wrap) {
     let note = this.querySelector(".note");
     editUi = writeEditUi(editUi, {date: date, note: note.innerHTML});
     addButton.style.display = "none";
-    editButton.style.display = "inline-block";
+    saveButton.style.display = "inline-block";
     removeButton.style.display = "inline-block";
     editBox.style.display = "block";
   }
@@ -310,7 +374,7 @@ function addReminderDataEvents(reminders, wrap) {
   let editBox = document.getElementById("edit-box");
   let plusButton = document.getElementById("plus");
   let addButton = document.getElementById("edit-add");
-  let editButton = document.getElementById("edit-save");
+  let saveButton = document.getElementById("edit-save");
   let removeButton = document.getElementById("edit-remote");
   let cancelButton = document.getElementById("edit-cancel");
   let editUi = getEditUi();
@@ -322,7 +386,7 @@ function addReminderDataEvents(reminders, wrap) {
     editUi.year.value = now.getFullYear();
     editUi.month.value = now.getMonth() + 1;
     addButton.style.display = "inline-block";
-    editButton.style.display = "none";
+    saveButton.style.display = "none";
     removeButton.style.display = "none";
     editBox.style.display = "block";
   };
@@ -335,7 +399,7 @@ function addReminderDataEvents(reminders, wrap) {
     saveLocalReminders(reminders);
   };
 
-  editButton.onclick = function() {
+  saveButton.onclick = function() {
     editBox.style.display = "none";
     const removeId = parseInt(editBox.getAttribute("data_id"));
     reminders = reminders.filter(reminder => reminder.id != removeId);
