@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.90;
+  const version = 0.91;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -177,10 +177,11 @@ function getUntilClass(date) {
 
 function getUntilText(date) {
   const now = new Date();
-  let s0 = document.createElement("span");
-  let s1 = document.createElement("span");
+  let rows = [];
 
-  if(date - now > 0) {
+  if(now - date > 0) {
+    rows.push("past");
+  } else {
     let dyear = date.getFullYear() - now.getFullYear();
     let dmonth = date.getMonth() - now.getMonth();
     if(dmonth < 0) {
@@ -195,33 +196,27 @@ function getUntilText(date) {
     let dweek = parseInt(dday / 7);
     dday = dday % 7;
 
-    if(dyear > 0) {
-      s0.innerHTML = dyear + " year" + (dyear > 1 ? "s" : "");
-      if(dmonth > 0) {
-        s1.innerHTML = dmonth + " month" + (dmonth > 1 ? "s" : "");
-      }
-    } else if(dmonth > 0) {
-      s0.innerHTML = dmonth + " month" + (dmonth > 1 ? "s" : "");
-      if(dweek > 0) {
-        s1.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
-      } else if(dday > 0) {
-        s1.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
-      }
-    } else if(dweek > 0) {
-      s0.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
-      if(dday > 0) {
-        s1.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
-      }
-    } else if(dday > 0) {
-      s0.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
-    } else {
-      s0.innerHTML = "today";
+    if(rows.length < 2 && dyear > 0) {
+      rows.push(dyear + " year" + (dyear > 1 ? "s" : ""));
     }
-  } else {
-    s0.innerHTML = "past"
+    if(rows.length < 2 && dmonth > 0) {
+      rows.push(dmonth + " month" + (dmonth > 1 ? "s" : ""));
+    }
+    if(rows.length < 2 && dweek > 0) {
+      rows.push(dweek + " week" + (dweek > 1 ? "s" : ""));
+    }
+    if(rows.length < 2 && dday > 0) {
+      rows.push(dday + " day" + (dday > 1 ? "s" : ""));
+    }
+    if(rows.length == 0 && dday == 0) {
+      rows.push("today");
+    }
   }
 
-  return s0.outerHTML + s1.outerHTML;
+  while(rows.length < 2) {
+    rows.push("");
+  }
+  return `<span>${rows[0]}</span><span>${rows[1]}</span>`;
 }
 
 function createReminderUi(reminder) {
