@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.91;
+  const version = 0.92;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -155,81 +155,79 @@ function clearReminders(wrap) {
   wrap.innerHTML = "";
 }
 
-function getUntilClass(date) {
+function untilClass(from, to) {
   const oneDay = 1000 * 60 * 60 * 24;
   const oneWeek = 7 * oneDay;
   const oneMonth = 30 * oneDay;
-  let diff = (date - new Date());
-  let text = "";
+
+  let diff = (to - from);
   if(diff > oneMonth) {
-    text = "until-future";
+    return "until-future";
   } else if(diff > oneWeek) {
-    text = "until-month";
+    return "until-month";
   } else if(diff > oneDay) {
-    text = "until-week";
+    return "until-week";
   } else if(diff > 0) {
-    text = "until-day";
+    return "until-day";
   } else {
-    text = "until-past";
+    return "until-past";
   }
-  return text;
 }
 
-function getUntilText(date) {
-  const now = new Date();
+function untilText(from , to) {
   let rows = [];
-
-  if(now - date > 0) {
-    rows.push("past");
-  } else {
-    let dyear = date.getFullYear() - now.getFullYear();
-    let dmonth = date.getMonth() - now.getMonth();
+  if(to - from > 0) {
+    let dyear = to.getFullYear() - from.getFullYear();
+    let dmonth = to.getMonth() - from.getMonth();
     if(dmonth < 0) {
       dyear -= 1;
       dmonth += 12
     }
-    let dday = date.getDate() - now.getDate();
+    let dday = to.getDate() - from.getDate();
     if(dday < 0) {
       dmonth -= 1;
-      dday += new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+      dday += new Date(to.getFullYear(), to.getMonth() + 1, 0).getDate();
     }
     let dweek = parseInt(dday / 7);
     dday = dday % 7;
 
-    if(rows.length < 2 && dyear > 0) {
+    if(dyear > 0) {
       rows.push(dyear + " year" + (dyear > 1 ? "s" : ""));
     }
-    if(rows.length < 2 && dmonth > 0) {
+    if(dmonth > 0) {
       rows.push(dmonth + " month" + (dmonth > 1 ? "s" : ""));
     }
-    if(rows.length < 2 && dweek > 0) {
+    if(dweek > 0) {
       rows.push(dweek + " week" + (dweek > 1 ? "s" : ""));
     }
-    if(rows.length < 2 && dday > 0) {
+    if(dday > 0) {
       rows.push(dday + " day" + (dday > 1 ? "s" : ""));
-    }
-    if(rows.length == 0 && dday == 0) {
+    } else if(rows.length == 0) {
       rows.push("today");
     }
+  } else {
+    rows.push("past");
   }
 
-  while(rows.length < 2) {
+  const rowCount = 2;
+  while(rows.length < rowCount) {
     rows.push("");
   }
   return `<span>${rows[0]}</span><span>${rows[1]}</span>`;
 }
 
 function createReminderUi(reminder) {
+  const now = new Date();
   const options0 = {weekday:"short", day:"numeric", month:"short", year:"numeric"};
   const options1 = {hour:"numeric", minute:"2-digit"};
   var ui = document.createElement("div");
   ui.classList.add("reminder");
-  ui.classList.add(getUntilClass(reminder.date));
+  ui.classList.add(untilClass(now, reminder.date));
   ui.setAttribute("data_id", reminder.id);
   ui.setAttribute("data_time", reminder.date.getTime());
   var untilElem = document.createElement("div");
   untilElem.setAttribute("class", "until");
-  untilElem.innerHTML = getUntilText(reminder.date);
+  untilElem.innerHTML = untilText(now, reminder.date);
   var dateElem = document.createElement("div");
   dateElem.setAttribute("class", "date");
   let dateSpan0 = document.createElement("span");

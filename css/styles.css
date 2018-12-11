@@ -40,8 +40,9 @@ main {
   display: grid;
   grid-template-columns: 1fr 2fr 3fr;
   align-items: center;
-  height: 6em;
+  height: 5em;
   border-bottom: 1px solid #939189;
+  font-size: 1.0em;
 }
 
 .reminder span {
@@ -53,15 +54,17 @@ main {
 }
 
 .reminder .until {
-  color: #484848;
+  color: #707090;
+  font-size: 0.9em;
 }
 
 .reminder .date {
-  color: #484848;
+  color: #404040;
 }
 
 .reminder .note {
   color: #000000;
+  font-size: 1.1em;
 }
 
 .until-past {
