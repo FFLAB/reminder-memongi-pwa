@@ -65,6 +65,7 @@ main {
 .reminder .note {
   color: #000000;
   font-size: 1.1em;
+  overflow: hidden;
 }
 
 .until-past {

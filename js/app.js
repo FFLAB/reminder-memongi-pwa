@@ -15,7 +15,7 @@ function captureConsoleLog(captureElem) {
 }
 
 function addDebug(showConsole) {
-  const version = 0.92;
+  const version = 0.93;
   const footer = document.querySelector("footer");
 
   if(showConsole) {
@@ -195,7 +195,7 @@ function untilText(from , to) {
       rows.push(dyear + " year" + (dyear > 1 ? "s" : ""));
     }
     if(dmonth > 0) {
-      rows.push(dmonth + " month" + (dmonth > 1 ? "s" : ""));
+      rows.push(dmonth + " mo" + (dmonth > 1 ? "s." : "."));
     }
     if(dweek > 0) {
       rows.push(dweek + " week" + (dweek > 1 ? "s" : ""));
