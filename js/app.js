@@ -181,47 +181,41 @@ function getUntilText(date) {
   let s1 = document.createElement("span");
 
   if(date - now > 0) {
+    let dyear = date.getFullYear() - now.getFullYear();
+    let dmonth = date.getMonth() - now.getMonth();
+    if(dmonth < 0) {
+      dyear -= 1;
+      dmonth += 12
+    }
+    let dday = date.getDate() - now.getDate();
+    if(dday < 0) {
+      dmonth -= 1;
+      dday += new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    }
+    let dweek = parseInt(dday / 7);
+    dday = dday % 7;
 
-    let dmonth = 12 * (date.getFullYear() - now.getFullYear());
-    dmonth += date.getMonth() - now.getMonth();
-    if(dmonth >= 12) {
-      let dyear = parseInt(dmonth / 12);
+    if(dyear > 0) {
       s0.innerHTML = dyear + " year" + (dyear > 1 ? "s" : "");
-      if(dmonth % 12 > 0) {
-        s1.innerHTML = (dmonth % 12) + " month" + (dmonth % 12 > 1 ? "s" : "");
+      if(dmonth > 0) {
+        s1.innerHTML = dmonth + " month" + (dmonth > 1 ? "s" : "");
       }
-    } else if(dmonth >= 3) {
+    } else if(dmonth > 0) {
       s0.innerHTML = dmonth + " month" + (dmonth > 1 ? "s" : "");
+      if(dweek > 0) {
+        s1.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
+      } else if(dday > 0) {
+        s1.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
+      }
+    } else if(dweek > 0) {
+      s0.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
+      if(dday > 0) {
+        s1.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
+      }
+    } else if(dday > 0) {
+      s0.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
     } else {
-
-      let dday = date.getDate() - now.getDate();
-      if(dday < 0) {
-        dmonth -= 1;
-        dday += new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-      }
-
-      let dweek = parseInt(dday / 7);
-      if(dmonth >= 1) {
-        s0.innerHTML = dmonth + " month" + (dmonth > 1 ? "s" : "");
-        if(dweek > 0) {
-          s1.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
-        } else {
-          if(dday > 0) {
-            s1.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
-          }
-        }
-      } else {
-        if(dweek >= 1) {
-          s0.innerHTML = dweek + " week" + (dweek > 1 ? "s" : "");
-          if(dday % 7 > 0) {
-            s1.innerHTML = (dday % 7) + " day" + (dday % 7 > 1 ? "s" : "");
-          }
-        } else if(dday > 0) {
-          s0.innerHTML = dday + " day" + (dday > 1 ? "s" : "");
-        } else {
-          s0.innerHTML = "less";
-        }
-      }
+      s0.innerHTML = "today";
     }
   } else {
     s0.innerHTML = "past"
