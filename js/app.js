@@ -45,43 +45,6 @@ function fixVerticalHeight() {
   setVerticalHeight();
 }
 
-function saveEventsData(data) {
-  window.localStorage.setItem("eventsData", data);
-}
-
-/*
-function loadStartupRemindersData() {
-  let dayAgo = new Date();
-  dayAgo.setDate(dayAgo.getDate() - 1);
-  let today = new Date();
-  today.setHours(today.getHours() + 18);
-  let thisWeek = new Date();
-  thisWeek.setDate(thisWeek.getDate() + 3);
-  let thisMonth = new Date();
-  thisMonth.setDate(thisMonth.getDate() + 14);
-  let later0 = new Date();
-  later0.setDate(thisMonth.getDate() + 60);
-  let later1 = new Date();
-  later1.setDate(thisMonth.getDate() + 90);
-
-  let data = [];
-  data.push({date: dayAgo, note: "This is already past"});
-  data.push({date: today, note: "This is within the next day"});
-  data.push({date: thisWeek, note: "This is within the next week"});
-  data.push({date: thisMonth, note: "This is within the next month"});
-  data.push({date: later0, note: "Press the plus button to add a reminder"});
-  data.push({date: later1, note: "Long press a reminder to edit or remove it"});
-  return JSON.stringify(data);
-}
-
-*/
-function loadEventsData() {
-  let data = window.localStorage && window.localStorage.getItem("eventsData");
-  //if(!data)
-  //  data = loadStartupRemindersData();
-  return data;
-}
-
 function saveLocalRemindersData(data) {
   window.localStorage.setItem("remindersData", data);
 }
@@ -123,13 +86,11 @@ function saveLocalReminders(reminders) {
   saveLocalRemindersData(remindersData);
 }
 
-  /*
 function loadLocalReminders() {
   const remindersData = JSON.parse(loadLocalRemindersData());
   console.log(`loaded ${remindersData.length} reminders`);
   return remindersData.map(function(data) { return createReminder(data) });
 }
-*/
 
 function addScrollEvents(box, wrap) {
   let scrollEnabled = false;
@@ -460,13 +421,11 @@ document.addEventListener("DOMContentLoaded", function() {
   addDebug(false);
   fixVerticalHeight();
 
-  const remindersData = JSON.parse(loadLocalRemindersData());
   const reminderBox = document.getElementById("reminder-box");
   const reminderWrap= document.getElementById("reminder-wrap");
   addScrollEvents(reminderBox, reminderWrap);
 
-  console.log(`loaded ${remindersData.length} reminders`);
-  let reminders = remindersData.map(function(data) { return createReminder(data) });
+  let reminders = loadLocalReminders();
   drawReminders(reminders, reminderWrap);
 
   addReminderDataEvents(reminders, reminderWrap);

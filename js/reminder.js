@@ -93,6 +93,7 @@ function Events() {
 
   function save() {
     //??? clear remindersData once events are saved correctly
+    //window.localStorage.setItem("eventsData", data);
   }
 
   return {
