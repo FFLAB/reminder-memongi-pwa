@@ -1,8 +1,8 @@
 ## Reminder PWA
 ### To Do
+- [ ] Set button size for ios
 - [ ] Save backup as text file
 - [ ] Disable touch events for rest of screen
-- [ ] Set button size for ios
 - [ ] Set background color of reminders according to until
 - [ ] Increase reminder font size and make 2.5em height
 - [ ] Store hasTime as seconds > 0, store duration minutes as milliseconds
