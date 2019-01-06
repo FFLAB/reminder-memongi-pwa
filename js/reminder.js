@@ -15,7 +15,7 @@ reminderPrototype.toData = function() {
   return JSON.stringify(this);
 }
 
-function createReminder(data) {
+function createOld(data) {
   let reminder = Object.create(reminderPrototype)
   reminder.date = new Date(data.date);
   reminder.note = data.note;

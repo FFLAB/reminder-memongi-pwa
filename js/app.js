@@ -89,7 +89,7 @@ function saveLocalReminders(reminders) {
 function loadLocalReminders() {
   const remindersData = JSON.parse(loadLocalRemindersData());
   console.log(`loaded ${remindersData.length} reminders`);
-  return remindersData.map(function(data) { return createReminder(data) });
+  return remindersData.map(function(data) { return createOld(data) });
 }
 
 function addScrollEvents(box, wrap) {
@@ -381,7 +381,7 @@ function addReminderDataEvents(reminders, wrap) {
 
   addButton.onclick = function() {
     editBox.style.display = "none";
-    reminders.push(createReminder(readEditUi(editUi)));
+    reminders.push(createOld(readEditUi(editUi)));
     reminders.sort(reminderByDate);
     drawReminders(reminders, wrap);
     saveLocalReminders(reminders);
@@ -391,7 +391,7 @@ function addReminderDataEvents(reminders, wrap) {
     editBox.style.display = "none";
     const removeId = parseInt(editBox.getAttribute("data_id"));
     reminders = reminders.filter(reminder => reminder.id != removeId);
-    reminders.push(createReminder(readEditUi(editUi)));
+    reminders.push(createOld(readEditUi(editUi)));
     reminders.sort(reminderByDate);
     drawReminders(reminders, wrap);
     saveLocalReminders(reminders);
@@ -411,22 +411,27 @@ function addReminderDataEvents(reminders, wrap) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+  fixVerticalHeight();
+  addDebug(false);
+
   let events = Events();
   events.load();
   console.log(`loaded ${events.all().length} events`);
-
-
-
-  //???? replace below
-  addDebug(false);
-  fixVerticalHeight();
 
   const reminderBox = document.getElementById("reminder-box");
   const reminderWrap= document.getElementById("reminder-wrap");
   addScrollEvents(reminderBox, reminderWrap);
 
+  addReminders(events.all(), reminderWrap);
+
+
+  //???? replace below
+  //const reminderBox = document.getElementById("reminder-box");
+  //const reminderWrap= document.getElementById("reminder-wrap");
+  //addScrollEvents(reminderBox, reminderWrap);
+
   let reminders = loadLocalReminders();
-  drawReminders(reminders, reminderWrap);
+  //drawReminders(reminders, reminderWrap);
 
   addReminderDataEvents(reminders, reminderWrap);
 

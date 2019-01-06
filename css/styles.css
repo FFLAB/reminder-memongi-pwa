@@ -40,7 +40,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 2fr 3fr;
   align-items: center;
-  height: 5em;
+  height: 12em;
   border-bottom: 1px solid #939189;
   font-size: 1.0em;
 }
