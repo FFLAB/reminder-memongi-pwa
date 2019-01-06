@@ -50,8 +50,8 @@ function Events() {
     let stored = window.localStorage && window.localStorage.getItem("remindersData");
     let data = [];
     if(stored) {
-      console.log("CONVERTED OLD REMINDERS");
       const remindersData = JSON.parse(stored);
+      console.log(`CONVERTED ${remindersData.length} OLD REMINDERS`);
       data = remindersData.map((value) => { return { time: new Date(value.date).getTime(), note: value.note }; });
     }
     //???? restore default data, convert to time

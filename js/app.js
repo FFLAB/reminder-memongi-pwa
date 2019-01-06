@@ -49,30 +49,6 @@ function saveLocalRemindersData(data) {
   window.localStorage.setItem("remindersData", data);
 }
 
-function loadStartupRemindersData() {
-  let dayAgo = new Date();
-  dayAgo.setDate(dayAgo.getDate() - 1);
-  let today = new Date();
-  today.setHours(today.getHours() + 18);
-  let thisWeek = new Date();
-  thisWeek.setDate(thisWeek.getDate() + 3);
-  let thisMonth = new Date();
-  thisMonth.setDate(thisMonth.getDate() + 14);
-  let later0 = new Date();
-  later0.setDate(thisMonth.getDate() + 60);
-  let later1 = new Date();
-  later1.setDate(thisMonth.getDate() + 90);
-
-  let data = [];
-  data.push({date: dayAgo, note: "This is already past"});
-  data.push({date: today, note: "This is within the next day"});
-  data.push({date: thisWeek, note: "This is within the next week"});
-  data.push({date: thisMonth, note: "This is within the next month"});
-  data.push({date: later0, note: "Press the plus button to add a reminder"});
-  data.push({date: later1, note: "Long press a reminder to edit or remove it"});
-  return JSON.stringify(data);
-}
-
 //??? rename to events
 function loadLocalRemindersData() {
   let data = window.localStorage && window.localStorage.getItem("remindersData");
@@ -92,129 +68,8 @@ function loadLocalReminders() {
   return remindersData.map(function(data) { return createOld(data) });
 }
 
-function addScrollEvents(box, wrap) {
-  let scrollEnabled = false;
-  let scrollY = 0;
-  let yOffset = 0;
-
-  function enableScroll(enabled, y = 0) {
-    scrollEnabled = enabled;
-    scrollY = y;
-  }
-
-  function moveScroll(y) {
-    if(scrollEnabled) {
-      yOffset += (y - scrollY);
-      scrollY = y;
-      const yOffsetMin = box.clientHeight - box.scrollHeight;
-      if((yOffsetMin > 0) || (yOffset > 0)) {
-        yOffset = 0;
-      } else if (yOffset < yOffsetMin) {
-        yOffset = yOffsetMin;
-      }
-      wrap.style.top = yOffset + "px";
-    }
-  }
-
-  wrap.ontouchstart = function(event) {
-    event.preventDefault();
-    enableScroll(true, event.touches[0] && event.touches[0].clientY);
-  };
-
-  wrap.ontouchmove = function(event) {
-    event.preventDefault();
-    moveScroll(event.touches[0] && event.touches[0].clientY);
-  };
-
-  wrap.ontouchend = function(event) {
-    event.preventDefault();
-    enableScroll(false);
-  };
-
-  wrap.onmousedown = function(event) {
-    event.preventDefault();
-    enableScroll(true, event.clientY);
-  };
-
-  wrap.onmouseup = function(event) {
-    event.preventDefault();
-    enableScroll(false);
-  };
-
-  wrap.onmouseleave = function(event) {
-    event.preventDefault();
-    enableScroll(false);
-  };
-
-  wrap.onmousemove = function(event) {
-    event.preventDefault();
-    moveScroll(event.clientY);
-  };
-}
-
 function clearReminders(wrap) {
   wrap.innerHTML = "";
-}
-
-function untilClass(from, to) {
-  const oneDay = 1000 * 60 * 60 * 24;
-  const oneWeek = 7 * oneDay;
-  const oneMonth = 30 * oneDay;
-
-  let diff = (to - from);
-  if(diff > oneMonth) {
-    return "until-future";
-  } else if(diff > oneWeek) {
-    return "until-month";
-  } else if(diff > oneDay) {
-    return "until-week";
-  } else if(diff > 0) {
-    return "until-day";
-  } else {
-    return "until-past";
-  }
-}
-
-function untilText(from , to) {
-  let rows = [];
-  if(to - from > 0) {
-    let dyear = to.getFullYear() - from.getFullYear();
-    let dmonth = to.getMonth() - from.getMonth();
-    if(dmonth < 0) {
-      dyear -= 1;
-      dmonth += 12
-    }
-    let dday = to.getDate() - from.getDate();
-    if(dday < 0) {
-      dmonth -= 1;
-      dday += new Date(to.getFullYear(), to.getMonth() + 1, 0).getDate();
-    }
-    let dweek = parseInt(dday / 7);
-    dday = dday % 7;
-
-    if(dyear > 0) {
-      rows.push(dyear + " year" + (dyear > 1 ? "s" : ""));
-    }
-    if(dmonth > 0) {
-      rows.push(dmonth + " mo" + (dmonth > 1 ? "s." : "."));
-    }
-    if(dweek > 0) {
-      rows.push(dweek + " week" + (dweek > 1 ? "s" : ""));
-    }
-    if(dday > 0) {
-      rows.push(dday + " day" + (dday > 1 ? "s" : ""));
-    } else if(rows.length == 0) {
-      rows.push("today");
-    }
-  } else {
-    rows.push("past");
-  }
-
-  const rowCount = 2;
-  while(rows.length < rowCount) {
-    rows.push("");
-  }
-  return `<span>${rows[0]}</span><span>${rows[1]}</span>`;
 }
 
 function createReminderUi(reminder) {
@@ -251,22 +106,20 @@ function drawReminders(reminders, wrap) {
   const longPressMs = 750;
   const longPressMoveMax = 10;
   let editUi = getEditUi();
-  let editBox = document.getElementById("edit-box");
-  let addButton = document.getElementById("edit-add");
   let saveButton = document.getElementById("edit-save");
-  let removeButton = document.getElementById("edit-remote");
+  let removeButton = document.getElementById("edit-remove");
   let startY = 0;
   let timer;
 
   function editReminder() {
-    editBox.setAttribute("data_id", this.getAttribute("data_id"));
     let date = new Date(parseInt(this.getAttribute("data_time")));
     let note = this.querySelector(".note");
     editUi = writeEditUi(editUi, {date: date, note: note.innerHTML});
-    addButton.style.display = "none";
     saveButton.style.display = "inline-block";
     removeButton.style.display = "inline-block";
-    editBox.style.display = "block";
+    //??? move data id to dataUi prop
+    editUi.box.setAttribute("data_id", this.getAttribute("data_id"));
+    editUi.box.style.display = "block";
   }
 
   function longPressStart(event) {
@@ -297,20 +150,6 @@ function drawReminders(reminders, wrap) {
     reminderUi.ontouchmove = longPressMove;
     wrap.appendChild(reminderUi);
   });
-}
-
-function getEditUi() {
-  return {
-    year: document.getElementById("year"),
-    month: document.getElementById("month"),
-    day: document.getElementById("day"),
-    hours: document.getElementById("hours"),
-    minutes: document.getElementById("minutes"),
-    am: document.getElementById("am"),
-    pm: document.getElementById("pm"),
-    duration: document.getElementById("duration"),
-    note: document.getElementById("note")
-  };
 }
 
 function readEditUi(ui) {
@@ -345,52 +184,21 @@ function writeEditUi(ui, data) {
   return ui;
 }
 
-function clearEditUi(ui) {
-  ui.year.value = "";
-  ui.month.value = "";
-  ui.day.value = "";
-  ui.hours.value = "";
-  ui.minutes.value = "";
-  ui.am.checked = false;
-  ui.pm.checked = false;
-  ui.duration.value = "";
-  ui.note.value = "";
-  return ui;
-}
-
 function addReminderDataEvents(reminders, wrap) {
-  let editBox = document.getElementById("edit-box");
-  let plusButton = document.getElementById("plus");
-  let addButton = document.getElementById("edit-add");
+  //???? move box into editUi
+  //???? add remove id to editUi
   let saveButton = document.getElementById("edit-save");
-  let removeButton = document.getElementById("edit-remote");
+  let removeButton = document.getElementById("edit-remove");
   let cancelButton = document.getElementById("edit-cancel");
   let editUi = getEditUi();
 
-  //???? clean out comments, functionalize
-  plusButton.onclick = function() {
-    editUi = clearEditUi(editUi);
-    const now = new Date();
-    editUi.year.value = now.getFullYear();
-    editUi.month.value = now.getMonth() + 1;
-    addButton.style.display = "inline-block";
-    saveButton.style.display = "none";
-    removeButton.style.display = "none";
-    editBox.style.display = "block";
-  };
-
-  addButton.onclick = function() {
-    editBox.style.display = "none";
-    reminders.push(createOld(readEditUi(editUi)));
-    reminders.sort(reminderByDate);
-    drawReminders(reminders, wrap);
-    saveLocalReminders(reminders);
-  };
-
   saveButton.onclick = function() {
-    editBox.style.display = "none";
-    const removeId = parseInt(editBox.getAttribute("data_id"));
-    reminders = reminders.filter(reminder => reminder.id != removeId);
+    removeButton.style.display = "none";
+    editUi.box.style.display = "none";
+    const removeId = parseInt(editUi.box.getAttribute("data_id"));
+    if(removeId >= 0) {
+      reminders = reminders.filter(reminder => reminder.id != removeId);
+    }
     reminders.push(createOld(readEditUi(editUi)));
     reminders.sort(reminderByDate);
     drawReminders(reminders, wrap);
@@ -398,15 +206,19 @@ function addReminderDataEvents(reminders, wrap) {
   };
 
   removeButton.onclick = function() {
-    editBox.style.display = "none";
-    let removeId = parseInt(editBox.getAttribute("data_id"));
-    reminders = reminders.filter(reminder => reminder.id != removeId);
+    removeButton.style.display = "none";
+    editUi.box.style.display = "none";
+    let removeId = parseInt(editUi.box.getAttribute("data_id"));
+    if(removeId >= 0) {
+      reminders = reminders.filter(reminder => reminder.id != removeId);
+    }
     saveLocalReminders(reminders);
     drawReminders(reminders, wrap);
   };
 
   cancelButton.onclick = function() {
-    editBox.style.display = "none";
+    removeButton.style.display = "none";
+    editUi.box.style.display = "none";
   };
 }
 
@@ -418,8 +230,13 @@ document.addEventListener("DOMContentLoaded", function() {
   events.load();
   console.log(`loaded ${events.all().length} events`);
 
+  const updateButton = document.getElementById("update");
+  let plusButton = document.getElementById("plus");
+  let editUi = getEditUi();
   const reminderBox = document.getElementById("reminder-box");
   const reminderWrap= document.getElementById("reminder-wrap");
+  addUpdateEvent(updateButton);
+  addPlusEvent(plusButton, editUi);
   addScrollEvents(reminderBox, reminderWrap);
 
   addReminders(events.all(), reminderWrap);
@@ -430,19 +247,8 @@ document.addEventListener("DOMContentLoaded", function() {
   //const reminderWrap= document.getElementById("reminder-wrap");
   //addScrollEvents(reminderBox, reminderWrap);
 
-  let reminders = loadLocalReminders();
+  //let reminders = loadLocalReminders();
   //drawReminders(reminders, reminderWrap);
 
-  addReminderDataEvents(reminders, reminderWrap);
-
-  const updateButton = document.getElementById("update");
-  updateButton.onclick = function() {
-    const cacheName = "reminder-cache";
-    if(navigator.serviceWorker && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage("update-cache");
-        console.log("sent update message");
-      } else {
-        console.log("could not send message: no service worker");
-      }
-  };
+  //addReminderDataEvents(reminders, reminderWrap);
 });

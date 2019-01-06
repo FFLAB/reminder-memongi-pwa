@@ -261,6 +261,6 @@ main {
   align-items: center;
 }
 
-#edit-remote,#edit-save {
+#edit-remove {
   display: none;
 }
