@@ -1,4 +1,5 @@
 "use strict";
+//??? rename to events.js
 
 function createReminderFactory() {
   console.log("createReminderFactory");
@@ -28,18 +29,24 @@ function Events() {
   let events = []
   let nextId = 0;
 
+  function reminderByDate(a, b) {
+    return a.date.getTime() - b.date.getTime();
+  }
+
   function add(time, note) {
     let event = Object.create(null);
-    console.log(`add t=${time} n=${note}`);
     event.time = time;
     event.note = note;
     event.id = nextId++;
-    //??? sort
     events.push(event);
+    //??? sort
+    //reminders.sort((a, b) => { return a.time - b.time; });
   }
 
-  function remove(time, id) {
-    console.log(`rem d=${time} n=${note}`);
+  function remove(id) {
+    events = events.filter(event => event.id != id);
+    //???? remove log
+    console.log(`rem id=${id}`);
   }
 
   function all() {
@@ -54,7 +61,7 @@ function Events() {
       console.log(`CONVERTED ${remindersData.length} OLD REMINDERS`);
       data = remindersData.map((value) => { return { time: new Date(value.date).getTime(), note: value.note }; });
     }
-    //???? restore default data, convert to time
+    //??? restore default data after update, convert to times
     /*
     let dayAgo = new Date();
     dayAgo.setDate(dayAgo.getDate() - 1);
@@ -92,8 +99,11 @@ function Events() {
   }
 
   function save() {
-    //??? clear remindersData once events are saved correctly
-    //window.localStorage.setItem("eventsData", data);
+    if(window.localStorage) {
+      const data = JSON.stringify(events);
+      window.localStorage.setItem("eventsData", data);
+      console.log(`save (${events.length})`);
+    }
   }
 
   return {

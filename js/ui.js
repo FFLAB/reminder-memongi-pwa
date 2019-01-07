@@ -13,6 +13,9 @@ function addUpdateEvent(updateButton) {
 function getEditUi() {
   return {
     box: document.getElementById("edit-box"),
+    save: document.getElementById("edit-save"),
+    remove: document.getElementById("edit-remove"),
+    cancel: document.getElementById("edit-cancel"),
     year: document.getElementById("year"),
     month: document.getElementById("month"),
     day: document.getElementById("day"),
@@ -21,7 +24,8 @@ function getEditUi() {
     am: document.getElementById("am"),
     pm: document.getElementById("pm"),
     duration: document.getElementById("duration"),
-    note: document.getElementById("note")
+    note: document.getElementById("note"),
+    id: -1
   };
 }
 
@@ -35,6 +39,39 @@ function clearEditUi(ui) {
   ui.pm.checked = false;
   ui.duration.value = "";
   ui.note.value = "";
+  ui.id = -1
+  return ui;
+}
+
+function readEditUi(ui) {
+  let date = new Date();
+  date.setFullYear(parseInt(ui.year.value));
+  date.setMonth(parseInt(ui.month.value - 1));
+  date.setDate(parseInt(ui.day.value));
+  const hasTime = !!ui.hours.value;
+  const isPm = ui.pm.checked;
+  date.setHours(hasTime ? (parseInt(ui.hours.value) + (isPm ? 12 : 0)) : 0);
+  date.setMinutes((hasTime && ui.minutes.value) ? parseInt(ui.minutes.value) : 0);
+  date.setSeconds(hasTime ? 1 : 0);
+  date.setMilliseconds((hasTime && ui.duration.value) ? parseInt(ui.duration.value) : 0);
+  return [date.getTime(), ui.note.value];
+}
+
+function writeEditUi(ui, data) {
+  const useTime = (data.date.getSeconds() > 0);
+  const useDuration = (data.date.getMilliseconds() > 0);
+  const hours = data.date.getHours() % 12 || 12;
+  const minutes = ("0" + data.date.getMinutes()).slice(-2);
+  const isPm = data.date.getHours() > 11;
+  ui.year.value = data.date.getFullYear();
+  ui.month.value = data.date.getMonth() + 1;
+  ui.day.value = data.date.getDate();
+  ui.hours.value = (useTime ? hours : "");
+  ui.minutes.value = (useTime ? minutes : "");
+  ui.am.checked = useTime && !isPm;
+  ui.pm.checked = useTime && isPm;
+  ui.duration.value = (useDuration && useTime ? data.date.getMilliseconds() : "");
+  ui.note.value = data.note;
   return ui;
 }
 
@@ -43,9 +80,29 @@ function addPlusEvent(plusButton, editUi) {
     const now = new Date();
     editUi = clearEditUi(editUi);
     editUi.box.setAttribute("data_id", -1);
+    editUi.remove.style.display = "none";
     editUi.year.value = now.getFullYear();
     editUi.month.value = now.getMonth() + 1;
+    editUi.day.value = now.getDate();
     editUi.box.style.display = "block";
+  };
+}
+
+function addEditEvents(ui, events, wrap) {
+  ui.save.onclick = function() {
+    ui.box.style.display = "none";
+    if(ui.id >= 0) {
+      events.remove(ui.id);
+    }
+    events.add(...readEditUi(ui));
+    addReminders(events.all(), wrap);
+    events.save();
+    //???? remove log
+    console.log(`save id=${ui.id} (${events.all().length})`);
+  };
+
+  ui.cancel.onclick = function() {
+    ui.box.style.display = "none";
   };
 }
 
@@ -203,7 +260,7 @@ function createReminder(event) {
 
 function addReminders(events, wrap) {
   let index = 0;
-  events.forEach(function(event) {
+  events.forEach((event) => {
     if(wrap.children.length > index) {
       if(event.id != parseInt(wrap.children[index].getAttribute("data_id"))) {
         wrap.appendChild(createReminder(event));
