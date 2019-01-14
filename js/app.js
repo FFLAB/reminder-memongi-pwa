@@ -149,12 +149,12 @@ function drawReminders(reminders, wrap) {
 }
 
 function addReminderDataEvents(reminders, wrap) {
+  /*
   let saveButton = document.getElementById("edit-save");
   let removeButton = document.getElementById("edit-remove");
   let cancelButton = document.getElementById("edit-cancel");
   let editUi = getEditUi();
 
-  /*
   saveButton.onclick = function() {
     removeButton.style.display = "none";
     editUi.box.style.display = "none";
@@ -168,7 +168,6 @@ function addReminderDataEvents(reminders, wrap) {
     saveLocalReminders(reminders);
   };
 
-*/
   removeButton.onclick = function() {
     removeButton.style.display = "none";
     editUi.box.style.display = "none";
@@ -179,7 +178,6 @@ function addReminderDataEvents(reminders, wrap) {
     saveLocalReminders(reminders);
     drawReminders(reminders, wrap);
   };
-  /*
 
   cancelButton.onclick = function() {
     removeButton.style.display = "none";
@@ -201,8 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   let events = Events();
   events.load();
-  console.log(`loaded ${events.all().length} events`);
-  addReminders(events.all(), reminderWrap);
+  updateReminders(events.all(), reminderWrap);
 
   let editUi = getEditUi();
   let plusButton = document.getElementById("plus");

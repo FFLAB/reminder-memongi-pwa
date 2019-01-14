@@ -1,5 +1,5 @@
 "use strict";
-//??? rename to events.js
+//???? rename to event(s).js
 
 function createReminderFactory() {
   console.log("createReminderFactory");
@@ -38,15 +38,14 @@ function Events() {
     event.time = time;
     event.note = note;
     event.id = nextId++;
+    //??? remove sort, insert event or place at end
     events.push(event);
-    //??? sort
-    //reminders.sort((a, b) => { return a.time - b.time; });
+    events.sort((a, b) => { return a.time - b.time; });
+    //???? check order here
   }
 
   function remove(id) {
     events = events.filter(event => event.id != id);
-    //???? remove log
-    console.log(`rem id=${id}`);
   }
 
   function all() {

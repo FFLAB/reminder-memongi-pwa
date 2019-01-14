@@ -135,7 +135,16 @@ main {
 }
 
 #top-box .button {
+  height: 1.4em;
   font-size: 2.0em;
+}
+
+#top-box .button#update {
+  width: 3.8em;
+}
+
+#top-box .button#plus {
+  width: 1.1em;
 }
 
 #reminder-box {

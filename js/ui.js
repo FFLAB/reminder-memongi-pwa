@@ -3,7 +3,6 @@ function addUpdateEvent(updateButton) {
     const cacheName = "reminder-cache";
     if(navigator.serviceWorker && navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage("update-cache");
-        console.log("sent update message");
       } else {
         console.log("could not send message: no service worker");
       }
@@ -77,6 +76,7 @@ function writeEditUi(ui, data) {
 
 function addPlusEvent(plusButton, editUi) {
   plusButton.onclick = function() {
+    //??? change to writeEditUi with 1 week in the future
     const now = new Date();
     editUi = clearEditUi(editUi);
     editUi.box.setAttribute("data_id", -1);
@@ -95,10 +95,17 @@ function addEditEvents(ui, events, wrap) {
       events.remove(ui.id);
     }
     events.add(...readEditUi(ui));
-    addReminders(events.all(), wrap);
+    updateReminders(events.all(), wrap);
     events.save();
-    //???? remove log
-    console.log(`save id=${ui.id} (${events.all().length})`);
+  };
+
+  ui.remove.onclick = function() {
+    ui.box.style.display = "none";
+    if(ui.id >= 0) {
+      events.remove(ui.id);
+    }
+    updateReminders(events.all(), wrap);
+    events.save();
   };
 
   ui.cancel.onclick = function() {
@@ -258,16 +265,11 @@ function createReminder(event) {
   return ui;
 }
 
-function addReminders(events, wrap) {
-  let index = 0;
+function updateReminders(events, wrap) {
+  while(wrap.firstChild) {
+    wrap.removeChild(wrap.firstChild);
+  }
   events.forEach((event) => {
-    if(wrap.children.length > index) {
-      if(event.id != parseInt(wrap.children[index].getAttribute("data_id"))) {
-        wrap.appendChild(createReminder(event));
-      }
-      index++;
-    } else {
-      wrap.appendChild(createReminder(event));
-    }
+    wrap.appendChild(createReminder(event));
   });
 }
