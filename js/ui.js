@@ -9,6 +9,7 @@ function addUpdateEvent(updateButton) {
   };
 }
 
+//??? move edit ui into a separate file
 function getEditUi() {
   return {
     box: document.getElementById("edit-box"),
@@ -76,7 +77,7 @@ function writeEditUi(ui, data) {
 
 function addPlusEvent(plusButton, editUi) {
   plusButton.onclick = function() {
-    //??? change to writeEditUi with 1 week in the future
+    //???? change to writeEditUi with 1 week in the future
     const now = new Date();
     editUi = clearEditUi(editUi);
     editUi.box.setAttribute("data_id", -1);
@@ -192,35 +193,41 @@ function addLongPressEvent(wrap, editUi) {
     editUi.box.setAttribute("data_id", this.getAttribute("data_id"));
     editUi.box.style.display = "block";
   }
+  */
 
   function longPressStart(event) {
+    /*
     event.preventDefault();
     startY = event.touches[0] && event.touches[0].clientY;
     timer = setTimeout(editReminder.bind(this), longPressMs);
+    */
+    console.log("start", event);
   }
 
   function longPressMove(event) {
+    /*
     event.preventDefault();
     let move = Math.abs((event.touches[0] && event.touches[0].clientY) - startY);
     if(move > longPressMoveMax) {
       if(timer) clearTimeout(timer);
     }
+    */
+    console.log("move", event);
   }
 
   function longPressEnd(event) {
+    /*
     event.preventDefault();
     if(timer) clearTimeout(timer);
+    */
+    console.log("end", event);
   }
 
-  clearReminders(wrap);
-  reminders.forEach(function(reminder) {
-    let reminderUi = createReminderUi(reminder);
-    reminderUi.ondblclick = editReminder;
-    reminderUi.ontouchstart = longPressStart;
-    reminderUi.ontouchend = longPressEnd;
-    reminderUi.ontouchmove = longPressMove;
-    wrap.appendChild(reminderUi);
-  });
+    /*
+    wrap.ondblclick = editReminder;
+    wrap.ontouchstart = longPressStart;
+    wrap.ontouchend = longPressEnd;
+    wrap.ontouchmove = longPressMove;
   */
 }
 
