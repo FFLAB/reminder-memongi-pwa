@@ -1,5 +1,4 @@
 "use strict";
-//???? rename to event(s).js
 
 function createReminderFactory() {
   console.log("createReminderFactory");
@@ -38,10 +37,10 @@ function Events() {
     event.time = time;
     event.note = note;
     event.id = nextId++;
-    //??? remove sort, insert event or place at end
+
+    //???? remove sort, insert event or place at end
     events.push(event);
     events.sort((a, b) => { return a.time - b.time; });
-    //???? check order here
   }
 
   function remove(id) {
@@ -60,7 +59,7 @@ function Events() {
       console.log(`CONVERTED ${remindersData.length} OLD REMINDERS`);
       data = remindersData.map((value) => { return { time: new Date(value.date).getTime(), note: value.note }; });
     }
-    //??? restore default data after update, convert to times
+    //???? restore default data, convert to times
     /*
     let dayAgo = new Date();
     dayAgo.setDate(dayAgo.getDate() - 1);

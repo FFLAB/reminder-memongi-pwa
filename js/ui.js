@@ -113,7 +113,7 @@ function addEditEvents(ui, events, wrap) {
   };
 }
 
-function addScrollEvents(outer, inner) {
+function addScrollEvents(inner, outer) {
   let scrollEnabled = false;
   let scrollY = 0;
   let yOffset = 0;
@@ -171,6 +171,57 @@ function addScrollEvents(outer, inner) {
     event.preventDefault();
     moveScroll(event.clientY);
   };
+}
+
+function addLongPressEvent(wrap, editUi) {
+  console.log(`longPress ${wrap} ${editUi}`);
+  //????? reimplement this
+  /*
+  const longPressMs = 750;
+  const longPressMoveMax = 10;
+  let editUi = getEditUi();
+  let removeButton = document.getElementById("edit-remove");
+  let startY = 0;
+  let timer;
+
+  function editReminder() {
+    let date = new Date(parseInt(this.getAttribute("data_time")));
+    let note = this.querySelector(".note");
+    editUi = writeEditUi(editUi, {date: date, note: note.innerHTML});
+    removeButton.style.display = "inline-block";
+    editUi.box.setAttribute("data_id", this.getAttribute("data_id"));
+    editUi.box.style.display = "block";
+  }
+
+  function longPressStart(event) {
+    event.preventDefault();
+    startY = event.touches[0] && event.touches[0].clientY;
+    timer = setTimeout(editReminder.bind(this), longPressMs);
+  }
+
+  function longPressMove(event) {
+    event.preventDefault();
+    let move = Math.abs((event.touches[0] && event.touches[0].clientY) - startY);
+    if(move > longPressMoveMax) {
+      if(timer) clearTimeout(timer);
+    }
+  }
+
+  function longPressEnd(event) {
+    event.preventDefault();
+    if(timer) clearTimeout(timer);
+  }
+
+  clearReminders(wrap);
+  reminders.forEach(function(reminder) {
+    let reminderUi = createReminderUi(reminder);
+    reminderUi.ondblclick = editReminder;
+    reminderUi.ontouchstart = longPressStart;
+    reminderUi.ontouchend = longPressEnd;
+    reminderUi.ontouchmove = longPressMove;
+    wrap.appendChild(reminderUi);
+  });
+  */
 }
 
 function untilClass(from, to) {

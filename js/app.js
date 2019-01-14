@@ -1,5 +1,18 @@
 "use strict";
 
+function fixVerticalHeight() {
+  function setVerticalHeight() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+
+  window.onresize = function() {
+    setVerticalHeight();
+  };
+
+  setVerticalHeight();
+}
+
 function captureConsoleLog(captureElem) {
   let oldConsoleLog = console.log;
 
@@ -32,19 +45,7 @@ function addDebug(showConsole) {
   footer.appendChild(versionSpan);
 }
 
-function fixVerticalHeight() {
-  function setVerticalHeight() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }
-
-  window.onresize = function() {
-    setVerticalHeight();
-  };
-
-  setVerticalHeight();
-}
-
+  /*
 function saveLocalRemindersData(data) {
   window.localStorage.setItem("remindersData", data);
 }
@@ -71,6 +72,8 @@ function clearReminders(wrap) {
   wrap.innerHTML = "";
 }
 
+  */
+  /*
 function createReminderUi(reminder) {
   const now = new Date();
   const options0 = {weekday:"short", day:"numeric", month:"short", year:"numeric"};
@@ -100,7 +103,8 @@ function createReminderUi(reminder) {
   return ui;
 }
 
-//??? redo to detect presses only
+*/
+  /*
 function drawReminders(reminders, wrap) {
   const longPressMs = 750;
   const longPressMoveMax = 10;
@@ -147,9 +151,10 @@ function drawReminders(reminders, wrap) {
     wrap.appendChild(reminderUi);
   });
 }
+*/
+  /*
 
 function addReminderDataEvents(reminders, wrap) {
-  /*
   let saveButton = document.getElementById("edit-save");
   let removeButton = document.getElementById("edit-remove");
   let cancelButton = document.getElementById("edit-cancel");
@@ -183,9 +188,9 @@ function addReminderDataEvents(reminders, wrap) {
     removeButton.style.display = "none";
     editUi.box.style.display = "none";
   };
-  */
 }
 
+  */
 document.addEventListener("DOMContentLoaded", function() {
   fixVerticalHeight();
   addDebug(false);
@@ -195,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const reminderBox = document.getElementById("reminder-box");
   const reminderWrap= document.getElementById("reminder-wrap");
-  addScrollEvents(reminderBox, reminderWrap);
+  addScrollEvents(reminderWrap, reminderBox);
 
   let events = Events();
   events.load();
@@ -204,6 +209,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let editUi = getEditUi();
   let plusButton = document.getElementById("plus");
   addPlusEvent(plusButton, editUi);
+  addLongPressEvent(reminderWrap, editUi);
   addEditEvents(editUi, events, reminderWrap);
 
   //???? remove below
