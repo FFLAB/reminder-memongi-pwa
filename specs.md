@@ -1,30 +1,19 @@
 ## Reminder PWA
 ### To Do
+- [ ] Update writeEditUi to take ui, time, and note
+- [ ] Update plus to insert event one week in the future
+- [ ] Update insert() to not need sorting
+- [ ] Remove console capture and debug, set verison only
+- [ ] Move update button to bottom, next to version
+- [ ] Fix 12pm bug
+- [ ] Restore default data
 - [ ] Set button size for ios
-- [ ] Save backup as text file
-- [ ] Disable touch events for rest of screen
-- [ ] Set background color of reminders according to until
-- [ ] Increase reminder font size and make 2.5em height
-- [ ] Store hasTime as seconds > 0, store duration minutes as milliseconds
-- [ ] Fix 2-line reminder until (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)
-- [ ] Fix 2-line reminder date/time on two lines, note on two lines
-- [ ] Fix 2-line reminder note
-- [ ] Add simple insert(), remove(), and find() for reminders, hide sorting here
-- [ ] Add factory with createReminderFactory()
-- [ ] Add factory createReminder() and prototype with getData()
-- [ ] Make reminders immutable, add data id
-- [ ] Update reminders to be tree nodes
-- [ ] Add tree with insert(), remove(), find(), and increment()
-- [ ] Add removeReminder(), iterate through tree, remove any missing from all
-- [ ] Add addReminder(), iterate through tree, add any missing to all
-- [ ] Create better fake data for initial install with notes as instructions and future dates
-- [ ] Prevent default scroll for header/footer
+- [ ] Add better icon
+- [ ] Disable default touch events for rest of screen
 - [ ] Persist scroll velocity and decay slowly
-- [ ] Fix layout for landscape, moving header/footer/controls to left
 - [ ] Improve edit controls with calendar, month buttons, etc.
-- [ ] Add better icons
+- [ ] Fix layout for landscape, moving header/footer/controls to left
 - [ ] Switch save/load to use indexedDB
-- [ ] Create a text backup if local storage is cleared
 ### Done
 - [x] Add basic html with reminders-box
 - [x] Add loadLocalRemindersData
@@ -57,3 +46,12 @@
 - [x] Implement save: find reminder by data_id of dataBox, remove with splice, create new from data, re-render
 - [x] Implement add: create new from data, re-render
 - [x] Add data controls to enter and change data
+- [x] Set background color of reminders according to until
+- [x] Increase reminder font size and make 2.5em height
+- [x] Store hasTime as seconds > 0, store duration minutes as milliseconds
+- [x] Fix 2-line reminder until (years/mos, mos, [< 2mos] weeks/days, days, [< day]  hours, less than hour)
+- [x] Fix 2-line reminder date/time on two lines, note on two lines
+- [x] Fix 2-line reminder note
+- [x] Make reminders immutable, add data id
+- [x] Create better fake data for initial install with notes as instructions and future dates
+- [x] Restore long press in touch events

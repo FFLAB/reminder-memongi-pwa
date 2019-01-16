@@ -9,83 +9,14 @@ function addUpdateEvent(updateButton) {
   };
 }
 
-//??? move edit ui into a separate file
-function getEditUi() {
-  return {
-    box: document.getElementById("edit-box"),
-    save: document.getElementById("edit-save"),
-    remove: document.getElementById("edit-remove"),
-    cancel: document.getElementById("edit-cancel"),
-    year: document.getElementById("year"),
-    month: document.getElementById("month"),
-    day: document.getElementById("day"),
-    hours: document.getElementById("hours"),
-    minutes: document.getElementById("minutes"),
-    am: document.getElementById("am"),
-    pm: document.getElementById("pm"),
-    duration: document.getElementById("duration"),
-    note: document.getElementById("note"),
-    id: -1
-  };
-}
-
-function clearEditUi(ui) {
-  ui.year.value = "";
-  ui.month.value = "";
-  ui.day.value = "";
-  ui.hours.value = "";
-  ui.minutes.value = "";
-  ui.am.checked = false;
-  ui.pm.checked = false;
-  ui.duration.value = "";
-  ui.note.value = "";
-  ui.id = -1
-  return ui;
-}
-
-function readEditUi(ui) {
-  let date = new Date();
-  date.setFullYear(parseInt(ui.year.value));
-  date.setMonth(parseInt(ui.month.value - 1));
-  date.setDate(parseInt(ui.day.value));
-  const hasTime = !!ui.hours.value;
-  const isPm = ui.pm.checked;
-  date.setHours(hasTime ? (parseInt(ui.hours.value) + (isPm ? 12 : 0)) : 0);
-  date.setMinutes((hasTime && ui.minutes.value) ? parseInt(ui.minutes.value) : 0);
-  date.setSeconds(hasTime ? 1 : 0);
-  date.setMilliseconds((hasTime && ui.duration.value) ? parseInt(ui.duration.value) : 0);
-  return [date.getTime(), ui.note.value];
-}
-
-function writeEditUi(ui, data) {
-  const useTime = (data.date.getSeconds() > 0);
-  const useDuration = (data.date.getMilliseconds() > 0);
-  const hours = data.date.getHours() % 12 || 12;
-  const minutes = ("0" + data.date.getMinutes()).slice(-2);
-  const isPm = data.date.getHours() > 11;
-  ui.year.value = data.date.getFullYear();
-  ui.month.value = data.date.getMonth() + 1;
-  ui.day.value = data.date.getDate();
-  ui.hours.value = (useTime ? hours : "");
-  ui.minutes.value = (useTime ? minutes : "");
-  ui.am.checked = useTime && !isPm;
-  ui.pm.checked = useTime && isPm;
-  ui.duration.value = (useDuration && useTime ? data.date.getMilliseconds() : "");
-  ui.note.value = data.note;
-  return ui;
-}
-
-function addPlusEvent(plusButton, editUi) {
-  plusButton.onclick = function() {
-    //???? change to writeEditUi with 1 week in the future
-    const now = new Date();
-    editUi = clearEditUi(editUi);
-    editUi.box.setAttribute("data_id", -1);
-    editUi.remove.style.display = "none";
-    editUi.year.value = now.getFullYear();
-    editUi.month.value = now.getMonth() + 1;
-    editUi.day.value = now.getDate();
-    editUi.box.style.display = "block";
+function addPlusEvent(button, ui) {
+  button.onclick = function() {
+    //???? get time one week in the future, call writeEditUi
+    //const time = new Date().getTime();
+    ui.i = -1;
+    //ui = writeEditUi(ui, time, "");
+    ui.remove.style.display = "none";
+    ui.box.style.display = "block";
   };
 }
 
@@ -114,10 +45,15 @@ function addEditEvents(ui, events, wrap) {
   };
 }
 
-function addScrollEvents(inner, outer) {
+function addTouchEvents(wrap, box, ui) {
   let scrollEnabled = false;
   let scrollY = 0;
   let yOffset = 0;
+  const longPressMs = 750;
+  const longPressMoveMax = 10;
+  let longPressTimer;
+  let longPressTarget = null;
+  let longPressY = 0;
 
   function enableScroll(enabled, y = 0) {
     scrollEnabled = enabled;
@@ -128,107 +64,93 @@ function addScrollEvents(inner, outer) {
     if(scrollEnabled) {
       yOffset += (y - scrollY);
       scrollY = y;
-      const yOffsetMin = outer.clientHeight - outer.scrollHeight;
+      const yOffsetMin = box.clientHeight - box.scrollHeight;
       if((yOffsetMin > 0) || (yOffset > 0)) {
         yOffset = 0;
       } else if (yOffset < yOffsetMin) {
         yOffset = yOffsetMin;
       }
-      inner.style.top = yOffset + "px";
+      wrap.style.top = yOffset + "px";
     }
   }
 
-  inner.ontouchstart = function(event) {
+  function enableLongPress(target, y) {
+    longPressTarget = target && target.closest(".reminder");
+    longPressY = y;
+    if(longPressTarget) {
+      longPressTimer = setTimeout(editReminder.bind(longPressTarget), longPressMs);
+    }
+  }
+
+  function disableLongPress() {
+    if(longPressTimer) {
+      clearTimeout(longPressTimer);
+    }
+  }
+
+  function moveLongPress(y) {
+    if(Math.abs(y - longPressY) > longPressMoveMax) {
+      disableLongPress();
+    }
+  }
+
+  function editReminder() {
+    console.log("EDIT this=", this);
+    let id = parseInt(this.getAttribute("data_id"));
+    let time = parseInt(this.getAttribute("data_time"));
+    let note = this.querySelector(".note");
+    ui.id = id;
+    //???? add this back
+    //ui = writeEditUi(ui, time, note);
+    ui.remove.style.display = "block";
+    ui.box.style.display = "block";
+  }
+
+  wrap.ontouchstart = function(event) {
     event.preventDefault();
-    enableScroll(true, event.touches[0] && event.touches[0].clientY);
+    const eventY = event.touches[0] && event.touches[0].clientY;
+    enableScroll(true, eventY);
+    enableLongPress(event.target, eventY);
   };
 
-  inner.ontouchmove = function(event) {
+  wrap.ontouchmove = function(event) {
     event.preventDefault();
-    moveScroll(event.touches[0] && event.touches[0].clientY);
+    const eventY = event.touches[0] && event.touches[0].clientY;
+    moveScroll(eventY);
+    moveLongPress(eventY);
   };
 
-  inner.ontouchend = function(event) {
+  wrap.ontouchend = function(event) {
     event.preventDefault();
     enableScroll(false);
+    disableLongPress();
   };
 
-  inner.onmousedown = function(event) {
+  wrap.onmousedown = function(event) {
     event.preventDefault();
     enableScroll(true, event.clientY);
   };
 
-  inner.onmouseup = function(event) {
+  wrap.onmouseup = function(event) {
     event.preventDefault();
     enableScroll(false);
   };
 
-  inner.onmouseleave = function(event) {
+  wrap.onmouseleave = function(event) {
     event.preventDefault();
     enableScroll(false);
   };
 
-  inner.onmousemove = function(event) {
+  wrap.onmousemove = function(event) {
     event.preventDefault();
     moveScroll(event.clientY);
   };
-}
 
-function addLongPressEvent(wrap, editUi) {
-  console.log(`longPress ${wrap} ${editUi}`);
-  //????? reimplement this
-  /*
-  const longPressMs = 750;
-  const longPressMoveMax = 10;
-  let editUi = getEditUi();
-  let removeButton = document.getElementById("edit-remove");
-  let startY = 0;
-  let timer;
-
-  function editReminder() {
-    let date = new Date(parseInt(this.getAttribute("data_time")));
-    let note = this.querySelector(".note");
-    editUi = writeEditUi(editUi, {date: date, note: note.innerHTML});
-    removeButton.style.display = "inline-block";
-    editUi.box.setAttribute("data_id", this.getAttribute("data_id"));
-    editUi.box.style.display = "block";
-  }
-  */
-
-  function longPressStart(event) {
-    /*
+  wrap.ondblclick = function(event) {
     event.preventDefault();
-    startY = event.touches[0] && event.touches[0].clientY;
-    timer = setTimeout(editReminder.bind(this), longPressMs);
-    */
-    console.log("start", event);
+    let reminder = event.target && event.target.closest(".reminder");
+    (editReminder.bind(reminder))();
   }
-
-  function longPressMove(event) {
-    /*
-    event.preventDefault();
-    let move = Math.abs((event.touches[0] && event.touches[0].clientY) - startY);
-    if(move > longPressMoveMax) {
-      if(timer) clearTimeout(timer);
-    }
-    */
-    console.log("move", event);
-  }
-
-  function longPressEnd(event) {
-    /*
-    event.preventDefault();
-    if(timer) clearTimeout(timer);
-    */
-    console.log("end", event);
-  }
-
-    /*
-    wrap.ondblclick = editReminder;
-    wrap.ontouchstart = longPressStart;
-    wrap.ontouchend = longPressEnd;
-    wrap.ontouchmove = longPressMove;
-  */
 }
 
 function untilClass(from, to) {

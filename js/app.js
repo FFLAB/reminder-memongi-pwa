@@ -11,7 +11,7 @@ function fixVerticalHeight() {
   setVerticalHeight();
 }
 
-//??? capture console log
+//??? remove console log capture
 function captureConsoleLog(captureElem) {
   let oldConsoleLog = console.log;
 
@@ -52,17 +52,15 @@ document.addEventListener("DOMContentLoaded", function() {
   const updateButton = document.getElementById("update");
   addUpdateEvent(updateButton);
 
-  const reminderBox = document.getElementById("reminder-box");
   const reminderWrap= document.getElementById("reminder-wrap");
-  addScrollEvents(reminderWrap, reminderBox);
-
+  const reminderBox = document.getElementById("reminder-box");
+  let plusButton = document.getElementById("plus");
+  let editUi = getEditUi();
   let events = Events();
   events.load();
-  updateReminders(events.all(), reminderWrap);
 
-  let editUi = getEditUi();
-  let plusButton = document.getElementById("plus");
   addPlusEvent(plusButton, editUi);
-  addLongPressEvent(reminderWrap, editUi);
+  addTouchEvents(reminderWrap, reminderBox, editUi);
   addEditEvents(editUi, events, reminderWrap);
+  updateReminders(events.all(), reminderWrap);
 });
