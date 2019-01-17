@@ -1,7 +1,7 @@
 :root {
   --vh: vh;
   --top-height: 4em;
-  --bottom-height: 2em;
+  --bottom-height: 3em;
 }
 
 html {
@@ -40,10 +40,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 2fr 3fr;
   align-items: center;
-  height: 12em;
-  /*
   height: 5em;
-   */
   border-bottom: 1px solid #939189;
   font-size: 1.0em;
 }
@@ -139,10 +136,6 @@ main {
   font-size: 2.0em;
 }
 
-#top-box .button#update {
-  width: 3.8em;
-}
-
 #top-box .button#plus {
   width: 1.1em;
 }
@@ -163,6 +156,19 @@ main {
   box-sizing: border-box;
   height: var(--bottom-height);
   padding: 0.5em;
+}
+
+#bottom-box .button {
+  height: 1.3em;
+  font-size: 1.6em;
+  background-color: #808080;
+  border-color: #404040;
+  color: #000000;
+  margin-right: 0.5em;
+}
+
+#bottom-box .button#update {
+  width: 3.8em;
 }
 
 #bottom-box > * {

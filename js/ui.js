@@ -11,10 +11,11 @@ function addUpdateEvent(updateButton) {
 
 function addPlusEvent(button, ui) {
   button.onclick = function() {
-    //???? get time one week in the future, call writeEditUi
-    //const time = new Date().getTime();
+    const msPerDay= 1000 * 60 * 60 * 24;
+    let time = new Date().getTime() + (7 * msPerDay);
+    time -= (time % msPerDay);
     ui.i = -1;
-    //ui = writeEditUi(ui, time, "");
+    ui = writeEditUi(ui, time, "");
     ui.remove.style.display = "none";
     ui.box.style.display = "block";
   };
@@ -95,13 +96,11 @@ function addTouchEvents(wrap, box, ui) {
   }
 
   function editReminder() {
-    console.log("EDIT this=", this);
     let id = parseInt(this.getAttribute("data_id"));
     let time = parseInt(this.getAttribute("data_time"));
-    let note = this.querySelector(".note");
+    let note = this.querySelector(".note").textContent;
     ui.id = id;
-    //???? add this back
-    //ui = writeEditUi(ui, time, note);
+    ui = writeEditUi(ui, time, note);
     ui.remove.style.display = "block";
     ui.box.style.display = "block";
   }

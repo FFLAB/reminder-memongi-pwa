@@ -13,8 +13,6 @@ function Events() {
     event.time = time;
     event.note = note;
     event.id = nextId++;
-
-    //???? remove sort, insert event or place at end
     events.push(event);
     events.sort((a, b) => { return a.time - b.time; });
   }
@@ -27,37 +25,34 @@ function Events() {
     return events;
   }
 
+  function clearMs(time) {
+    return (time - (time % 1000));
+  }
+
   function defaultData() {
     let stored = window.localStorage && window.localStorage.getItem("remindersData");
     let data = [];
+    //??? remove old reminder data lookup
     if(stored) {
       const remindersData = JSON.parse(stored);
       console.log(`CONVERTED ${remindersData.length} OLD REMINDERS`);
       data = remindersData.map((value) => { return { time: new Date(value.date).getTime(), note: value.note }; });
-    }
-    //???? restore default data, convert to times
-    /*
-    let dayAgo = new Date();
-    dayAgo.setDate(dayAgo.getDate() - 1);
-    let today = new Date();
-    today.setHours(today.getHours() + 18);
-    let thisWeek = new Date();
-    thisWeek.setDate(thisWeek.getDate() + 3);
-    let thisMonth = new Date();
-    thisMonth.setDate(thisMonth.getDate() + 14);
-    let later0 = new Date();
-    later0.setDate(thisMonth.getDate() + 60);
-    let later1 = new Date();
-    later1.setDate(thisMonth.getDate() + 90);
+    } else {
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const today = clearMs(new Date().getTime() + 1000);
+      const dayAgo = today - msPerDay;
+      const thisWeek = today + (3 * msPerDay);
+      const thisMonth = today + (14 * msPerDay);
+      const later0 = today + (60 * msPerDay);
+      const later1 = today + (90 * msPerDay);
 
-    let data = [];
-    data.push({date: dayAgo, note: "This is already past"});
-    data.push({date: today, note: "This is within the next day"});
-    data.push({date: thisWeek, note: "This is within the next week"});
-    data.push({date: thisMonth, note: "This is within the next month"});
-    data.push({date: later0, note: "Press the plus button to add a reminder"});
-    data.push({date: later1, note: "Long press a reminder to edit or remove it"});
-    */
+      data.push({time: dayAgo, note: "This is already past"});
+      data.push({time: today, note: "This is within the next day"});
+      data.push({time: thisWeek, note: "This is within the next week"});
+      data.push({time: thisMonth, note: "This is within the next month"});
+      data.push({time: later0, note: "Press the plus button to add a reminder"});
+      data.push({time: later1, note: "Long press a reminder to edit or remove it"});
+    }
     return data;
   }
 

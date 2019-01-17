@@ -1,15 +1,9 @@
 ## Reminder PWA
 ### To Do
-- [ ] Update writeEditUi to take ui, time, and note
-- [ ] Update plus to insert event one week in the future
-- [ ] Update insert() to not need sorting
-- [ ] Remove console capture and debug, set verison only
-- [ ] Move update button to bottom, next to version
-- [ ] Fix 12pm bug
-- [ ] Restore default data
-- [ ] Set button size for ios
 - [ ] Add better icon
+- [ ] Fix scroll after reminder remove
 - [ ] Disable default touch events for rest of screen
+- [ ] Remove old reminder data
 - [ ] Persist scroll velocity and decay slowly
 - [ ] Improve edit controls with calendar, month buttons, etc.
 - [ ] Fix layout for landscape, moving header/footer/controls to left
@@ -55,3 +49,10 @@
 - [x] Make reminders immutable, add data id
 - [x] Create better fake data for initial install with notes as instructions and future dates
 - [x] Restore long press in touch events
+- [x] Update writeEditUi to take ui, time, and note
+- [x] Update plus to insert event one week in the future
+- [x] Fix 12pm bug
+- [x] Remove console capture and debug, set verison only
+- [x] Move update button to bottom, next to version
+- [x] Set button size for ios
+- [x] Restore default data
