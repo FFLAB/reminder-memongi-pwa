@@ -1,6 +1,6 @@
-# Reminder PWA
+# Reminder "MEMONGI" PWA
 
-#### By **Phil Mass**
+#### By **Phil Mass** version Memongi by FFLAB
 
 ## Description
 
