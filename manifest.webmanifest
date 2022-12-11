@@ -1,6 +1,6 @@
 {
-  "name": "Reminder PWA",
-  "short_name": "Reminder PWA",
+  "name": "Reminder MEMONGI",
+  "short_name": "MEMONGI",
   "start_url": "/reminder-pwa/index.html",
   "scope": "/reminder-pwa/",
   "display": "standalone",
