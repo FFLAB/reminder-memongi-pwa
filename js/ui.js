@@ -189,21 +189,21 @@ function untilText(from , to) {
     dday = dday % 7;
 
     if(dyear > 0) {
-      rows.push(dyear + " year" + (dyear > 1 ? "s" : ""));
+      rows.push(dyear + " anno" + (dyear > 1 ? "s" : ""));
     }
     if(dmonth > 0) {
-      rows.push(dmonth + " mo" + (dmonth > 1 ? "s." : "."));
+      rows.push(dmonth + " mese" + (dmonth > 1 ? "s." : "."));
     }
     if(dweek > 0) {
-      rows.push(dweek + " week" + (dweek > 1 ? "s" : ""));
+      rows.push(dweek + " settimana" + (dweek > 1 ? "s" : ""));
     }
     if(dday > 0) {
-      rows.push(dday + " day" + (dday > 1 ? "s" : ""));
+      rows.push(dday + " giorno" + (dday > 1 ? "s" : ""));
     } else if(rows.length == 0) {
-      rows.push("today");
+      rows.push("oggi");
     }
   } else {
-    rows.push("past");
+    rows.push("passato");
   }
 
   const rowCount = 2;

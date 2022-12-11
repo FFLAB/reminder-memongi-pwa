@@ -46,12 +46,12 @@ function Events() {
       const later0 = today + (60 * msPerDay);
       const later1 = today + (90 * msPerDay);
 
-      data.push({time: dayAgo, note: "This is already past"});
-      data.push({time: today, note: "This is within the next day"});
-      data.push({time: thisWeek, note: "This is within the next week"});
-      data.push({time: thisMonth, note: "This is within the next month"});
-      data.push({time: later0, note: "Press the plus button to add a reminder"});
-      data.push({time: later1, note: "Long press a reminder to edit or remove it"});
+      data.push({time: dayAgo, note: "Memongi già passato!"});
+      data.push({time: today, note: "Questo Memongi è per domani"});
+      data.push({time: thisWeek, note: "Questo Memongi è per la prossima settimana"});
+      data.push({time: thisMonth, note: "Questo Memongi è per il prossimo mese"});
+      data.push({time: later0, note: "Premi + per aggiungere un Memongi"});
+      data.push({time: later1, note: "Premi a lungo per modificare o eliminare un Memongi"});
     }
     return data;
   }
