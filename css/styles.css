@@ -68,20 +68,21 @@ main {
   overflow: hidden;
 }
 
+
 .until-past {
-  background-color: #808080;
+  background-color: #feb377;
 }
 
 .until-day {
-  background-color: #ffd077;
+  background-color: #f7e8f0;
 }
 
 .until-week {
-  background-color: #d8e8ff;
+  background-color: #f1c6de;
 }
 
 .until-month {
-  background-color: #f4f0ff;
+  background-color: #eab0d9;
 }
 
 .until-future {
@@ -282,3 +283,23 @@ main {
 #edit-remove {
   display: none;
 }
+
+/* Pink palette
+
+.first-color { 
+	background: #eab0d9; 
+}
+	
+.second-color { 
+	background: #f1c6de; 
+}
+
+.third-color { 
+	background: #f7e8f0; 
+}
+
+.fourth-color { 
+	background: #feb377; 
+}
+
+*/
