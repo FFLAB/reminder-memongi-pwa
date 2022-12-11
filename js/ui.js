@@ -189,16 +189,16 @@ function untilText(from , to) {
     dday = dday % 7;
 
     if(dyear > 0) {
-      rows.push(dyear + " anno" + (dyear > 1 ? "s" : ""));
+      rows.push(dyear + " anno" + (dyear > 1 ? "" : ""));
     }
     if(dmonth > 0) {
-      rows.push(dmonth + " mese" + (dmonth > 1 ? "s." : "."));
+      rows.push(dmonth + " mese" + (dmonth > 1 ? "" : "."));
     }
     if(dweek > 0) {
-      rows.push(dweek + " settimana" + (dweek > 1 ? "s" : ""));
+      rows.push(dweek + " settimana" + (dweek > 1 ? "" : ""));
     }
     if(dday > 0) {
-      rows.push(dday + " giorno" + (dday > 1 ? "s" : ""));
+      rows.push(dday + " giorno" + (dday > 1 ? "" : ""));
     } else if(rows.length == 0) {
       rows.push("oggi");
     }
