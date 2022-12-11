@@ -284,22 +284,6 @@ main {
   display: none;
 }
 
-/* Pink palette
-
-.first-color { 
-	background: #eab0d9; 
+h1 span{
+  font-size: 0.6em;
 }
-	
-.second-color { 
-	background: #f1c6de; 
-}
-
-.third-color { 
-	background: #f7e8f0; 
-}
-
-.fourth-color { 
-	background: #feb377; 
-}
-
-*/
